@@ -1,0 +1,52 @@
+.ModalHeading {
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--color-black-dark);
+}
+
+.Form {
+    padding: 4rem 0 0 0;
+}
+
+.Form > *:not(:last-child) {
+    padding-bottom: 3rem;
+}
+
+.TextInput input {
+    width: 100%;
+    font-family: inherit;
+    outline: none;
+    border: none;
+    background-color: #eee;
+    padding: 1px 1rem;
+    font-size: 1.6rem;
+    border-radius: 3px;
+    height: 4rem;
+}
+
+.TextInput input:focus {
+    border-bottom: 3px solid var(--color-primary-dark);
+    box-shadow: 0 0.5rem .5rem rgba(68, 68, 68, 0.5);
+}
+
+/*.TextInput input:focus:invalid {*/
+/*    */
+/*}*/
+
+.TextInput label {
+    font-size: 1.6rem;
+    font-weight: 600;
+    padding-bottom: 3px;
+    color: var(--color-black-dark);
+}
+
+.SubmitBtn {
+    display: flex;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.Invalid input{
+    border-bottom: 3px solid var(--color-sec-dark) !important;
+    box-shadow: 0 0.5rem .5rem rgba(68, 68, 68, 0.5);
+}

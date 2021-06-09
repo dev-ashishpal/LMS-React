@@ -1,13 +1,220 @@
-body {
+*,
+*::before,
+*::after {
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  box-sizing: inherit;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+*::selection {
+  background-color: #00ced1;
+  color: #fff;
+}
+
+html {
+  font-size: 62.5%;
+}
+@media screen and (max-width: 1200px) {
+  html {
+    font-size: 60%;
+  }
+}
+@media screen and (max-width: 900px) {
+  html {
+    font-size: 56.25%;
+  }
+}
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 50%;
+  }
+}
+
+body {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 1.4rem;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  /*color: #444444;*/
+  color: var(--color-black);
+  background-color: var(--color-pure-white);
+}
+
+:root {
+  /* ----------  PRIMARY COLORS  ------------ */
+  --color-primary-light: hsl(180, 65%, 81%);
+  --color-primary: hsl(181, 69%, 61%);
+  --color-primary-dark: hsl(181, 100%, 41%);
+
+  /* ----------  SECONDARY COLORS  ------------ */
+  --color-secondary-light: hsl(146, 35%, 40%);
+  --color-secondary: hsl(146, 43%, 30%);
+  --color-secondary-dark: hsl(146, 59%, 20%);
+
+  --color-sec-light: hsl(16, 90%, 63%);
+  --color-sec: hsl(16, 95%, 55%);
+  --color-sec-dark: hsl(16, 100%, 50%);
+
+  /* ----------  TERTIARY COLORS  ------------ */
+  --color-tertiary1: #eee;
+  --color-tertiary2: #babac0;
+  --color-tertiary3: #7f7f7f;
+  --color-tertiary4: #666666;
+
+  /* ----------  ESSENTIAL COLORS  ------------ */
+  --color-white: rgb(241, 241, 241);
+  --color-pure-white: rgb(255, 255, 255);
+
+  --color-black: rgb(51, 51, 51);
+  --color-black-dark: rgb(34, 34, 34);
+
+  --text-font: "Open Sans", sans-serif;
+}
+
+.whiteMode {
+  /* ----------  PRIMARY COLORS  ------------ */
+  --color-primary-light: hsl(180, 65%, 81%);
+  --color-primary: hsl(181, 69%, 61%);
+  --color-primary-dark: hsl(181, 100%, 41%);
+
+  /* ----------  SECONDARY COLORS  ------------ */
+  --color-secondary-light: hsl(146, 35%, 40%);
+  --color-secondary: hsl(146, 43%, 30%);
+  --color-secondary-dark: hsl(146, 59%, 20%);
+
+  --color-sec-light: hsl(16, 90%, 63%);
+  --color-sec: hsl(16, 95%, 55%);
+  --color-sec-dark: hsl(16, 100%, 50%);
+
+  /* ----------  TERTIARY COLORS  ------------ */
+  /*--color-tertiary1: #e1e1e1;*/
+  --color-tertiary1: #eee;
+  --color-tertiary2: #babac0;
+  --color-tertiary3: #7f7f7f;
+  --color-tertiary4: #666666;
+
+  /* ----------  ESSENTIAL COLORS  ------------ */
+  --color-white: rgb(241, 241, 241);
+  --color-pure-white: rgb(255, 255, 255);
+
+  --color-black: rgb(51, 51, 51);
+  --color-black-dark: rgb(34, 34, 34);
+}
+
+.greenMode {
+  /* ----------  PRIMARY COLORS  ------------ */
+  /*--color-primary-light: hsl(180, 65%, 81%);*/
+  /*--color-primary: hsl(181, 69%, 61%);*/
+  /*--color-primary-dark: hsl(181, 100%, 41%);*/
+
+  --color-primary-light: hsl(29, 55%, 60%);
+  --color-primary: hsl(29, 64%, 55%);
+  --color-primary-dark: hsl(29, 74%, 50%);
+
+  /* ----------  SECONDARY COLORS  ------------ */
+  --color-secondary-light: hsl(146, 35%, 40%);
+  --color-secondary: hsl(146, 43%, 30%);
+  --color-secondary-dark: hsl(146, 59%, 20%);
+
+  --color-sec-light: hsl(16, 90%, 63%);
+  --color-sec: hsl(16, 95%, 55%);
+  --color-sec-dark: hsl(16, 100%, 50%);
+
+  /* ----------  TERTIARY COLORS  ------------ */
+  /*--color-tertiary1: #e1e1e1;*/
+  /*--color-tertiary1: #eee;*/
+  /*--color-tertiary2: #babac0;*/
+  /*--color-tertiary3: #7f7f7f;*/
+  /*--color-tertiary4: #666666;*/
+
+  /*--color-tertiary4: #eee;*/
+  /*--color-tertiary3: #babac0 ;*/
+  /*--color-tertiary2: #7f7f7f;*/
+  /*--color-tertiary1: #666666;*/
+
+  /*--color-tertiary1: hsl(29, 55%, 60%);*/
+  /*--color-tertiary2: hsl(29, 64%, 55%);*/
+  /*--color-tertiary3: hsl(29, 74%, 50%);*/
+  /*--color-tertiary4: hsl(29, 80%, 47%);*/
+
+  --color-tertiary1: hsl(51, 35%, 100%);
+  --color-tertiary2: hsl(51, 40%, 92%);
+  --color-tertiary3: hsl(51, 45%, 82%);
+  --color-tertiary4: hsl(51, 50%, 72%);
+
+  /* ----------  ESSENTIAL COLORS  ------------ */
+  /*--color-white: rgb(241, 241, 241);*/
+  /*--color-pure-white: rgb(255, 255, 255);*/
+
+  /*--color-black: rgb(51, 51, 51);*/
+  /*--color-black-dark: rgb(34, 34, 34);*/
+
+  --color-white: hsl(146, 35%, 40%);
+  --color-pure-white: hsl(146, 43%, 30%);
+
+  --color-black: rgb(241, 241, 241);
+  --color-black-dark: rgb(255, 255, 255);
+}
+
+.blackMode {
+  /* ----------  PRIMARY COLORS  ------------ */
+  --color-primary-light: hsl(180, 65%, 81%);
+  --color-primary: hsl(181, 69%, 61%);
+  --color-primary-dark: hsl(181, 100%, 41%);
+
+  /* ----------  SECONDARY COLORS  ------------ */
+  --color-secondary-light: hsl(146, 35%, 40%);
+  --color-secondary: hsl(146, 43%, 30%);
+  --color-secondary-dark: hsl(146, 59%, 20%);
+
+  --color-sec-light: hsl(16, 90%, 63%);
+  --color-sec: hsl(16, 95%, 55%);
+  --color-sec-dark: hsl(16, 100%, 50%);
+
+  /* ----------  TERTIARY COLORS  ------------ */
+
+  --color-tertiary1: #666666;
+  --color-tertiary2: #7f7f7f;
+  --color-tertiary3: #babac0;
+  --color-tertiary4: #e1e1e1;
+
+  /* ----------  ESSENTIAL COLORS  ------------ */
+
+  --color-white: rgb(51, 51, 51);
+  --color-pure-white: rgb(34, 34, 34);
+
+  --color-black: rgb(241, 241, 241);
+  --color-black-dark: rgb(255, 255, 255);
+}
+
+.blueMode {
+  /* ----------  PRIMARY COLORS  ------------ */
+  --color-primary-light: hsl(328, 65%, 60%);
+  --color-primary: hsl(328, 75%, 50%);
+  --color-primary-dark: hsl(328, 85%, 45%);
+
+  /* ----------  SECONDARY COLORS  ------------ */
+  --color-secondary-light: hsl(146, 35%, 40%);
+  --color-secondary: hsl(146, 43%, 30%);
+  --color-secondary-dark: hsl(146, 59%, 20%);
+
+  --color-sec-light: hsl(16, 90%, 63%);
+  --color-sec: hsl(16, 95%, 55%);
+  --color-sec-dark: hsl(16, 100%, 50%);
+
+  /* ----------  TERTIARY COLORS  ------------ */
+  --color-tertiary1: hsl(51, 35%, 100%);
+  --color-tertiary2: hsl(51, 40%, 92%);
+  --color-tertiary3: hsl(51, 45%, 82%);
+  --color-tertiary4: hsl(51, 50%, 72%);
+
+  /* ----------  ESSENTIAL COLORS  ------------ */
+  --color-white: hsl(201, 100%, 20%);
+  --color-pure-white: hsl(201, 100%, 14%);
+
+  --color-black: rgb(241, 241, 241);
+  --color-black-dark: rgb(255, 255, 255);
 }

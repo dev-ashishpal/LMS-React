@@ -1,0 +1,99 @@
+/*.Lecture {*/
+/*  grid-column: main-start / main-end;*/
+/*  grid-row: 2/9;*/
+/*  background-color: #f9f9f9;*/
+/*  width: auto;*/
+/*  height: 100%;*/
+/*  display: grid;*/
+/*  grid-template-columns: minmax(max-content, 30rem) 1fr;*/
+/*}*/
+
+/*@media (max-width: 600px) {*/
+/*  .Lecture {*/
+/*    max-height: calc(100vh - 5rem);*/
+/*    overflow-y: scroll;*/
+/*  }*/
+/*}*/
+
+/*@media (max-width:470px) {*/
+/*  .Lecture{*/
+/*    grid-column: sidebar-start / main-end;*/
+/*    grid-row: 2 / 8;*/
+/*  }*/
+/*}*/
+
+
+/*@media (max-width: 600px) {*/
+/*  .Lecture {*/
+/*    max-height: calc(100vh - 5rem);*/
+/*    overflow-y: scroll;*/
+/*  }*/
+/*}*/
+
+.LectureContainer {
+  /*background-color: #fff;*/
+  background-color: var(--color-pure-white);
+}
+
+.LectureContainer section {
+  height: 100%;
+  display: grid;
+  grid-template-rows: minmax(min-content, 7rem) 1fr;
+  grid-column: 1/ -1;
+}
+
+@media (max-width: 600px) {
+  .LectureContainer {
+    grid-column: 1/-1;
+  }
+}
+
+.StudentLectureContainer {
+  max-height: calc(100vh - 5rem);
+  overflow-y: scroll;
+}
+
+.StudentLectureContainer::-webkit-scrollbar {
+  width: 0.8rem;
+  background-color: transparent;
+}
+.StudentLectureContainer::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 2px;
+  width: 0.8rem;
+  transition: background-color 0.2s;
+}
+
+
+.VideoLecturesDiv {
+  background-color: var(--color-pure-white);
+  margin: 3rem 0;
+  display: grid;
+  grid-row-gap: 3rem;
+  grid-column-gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  padding: 0 2rem;
+  /*background-color: orangered;*/
+}
+
+
+@media (max-width: 470px) {
+  .VideoLecturesDiv {
+    grid-column-gap: unset;
+    justify-items: center;
+    grid-template-columns: 1fr;
+  }
+}
+
+.StudentLectureHeading {
+  padding: 0 2rem;
+  font-size: 3rem;
+  font-weight: 300;
+  text-transform: capitalize;
+}
+
+/*@media screen and (max-width: 600px) {*/
+/*  .main-lecture--container {*/
+/*    display: none;*/
+/*  }*/
+/*}*/

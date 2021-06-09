@@ -1,0 +1,53 @@
+.VideoLectures {
+  overflow-y: scroll;
+  max-height: 68rem;
+  padding-bottom: 2rem;
+  position: relative;
+}
+
+@media (max-width: 600px) {
+  .VideoLectures {
+    overflow-y: unset;
+    max-height: unset;
+  }
+}
+
+/*@media (max-width: 470px) {*/
+/*  .VideoLectures {*/
+/*    width: 95%;*/
+/*    margin: 0 auto;*/
+/*  }*/
+/*}*/
+.VideoLectures::-webkit-scrollbar {
+  width: 0.8rem;
+  background-color: transparent;
+}
+.VideoLectures::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 2px;
+  width: 0.8rem;
+  transition: background-color 0.2s;
+}
+.main-lecture--container__body-subject {
+  padding: 0 2rem;
+}
+.VideoLecturesDiv {
+  background-color: var(--color-pure-white);
+  margin-top: 2rem;
+  display: grid;
+  grid-row-gap: 3rem;
+  grid-column-gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  padding: 0 2rem;
+  /*background-color: orangered;*/
+}
+
+@media (max-width: 470px) {
+  .VideoLecturesDiv {
+   grid-column-gap: unset;
+    justify-items: center;
+    grid-template-columns: 1fr;
+  }
+}
+
+/*----------------------------------*/

@@ -1,0 +1,97 @@
+.Dashboard {
+    grid-column: 1 / -1;
+    margin: 0 auto;
+    width: 90%;
+    padding-top: 6rem;
+}
+
+.Boxes {
+    /*background-color: orangered;*/
+    display: flex;
+    gap: 3rem 3rem;
+    width: 100%;
+}
+
+.Box {
+    height: 18rem;
+    color: var(--color-pure-white);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    width: 100%;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Box:nth-of-type(1) {
+    background-color: var(--color-primary);
+}
+
+.Box:nth-of-type(2) {
+    background-color: var(--color-sec-dark);
+}
+
+.Box:nth-of-type(3) {
+    background-color: var(--color-secondary);
+}
+
+.Box:nth-of-type(4) {
+    background-color: var(--color-tertiary4);
+}
+
+.Box h1 {
+    font-weight: 300;
+    font-size: 7rem;
+}
+
+.Box span {
+    font-size: 1.6rem;
+}
+
+.Chart {
+    display: flex;
+    gap: 3rem;
+    margin:6rem 0;
+    width: 100%;
+}
+
+.LineChart {
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    padding: 2rem;
+    height: 30rem;
+    background-color: var(--color-pure-white);
+    /*width: 55rem;*/
+    flex: 1 0 40%;
+}
+
+.LineChart p {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-left: 5rem;
+}
+
+.DonutChart {
+    flex: 1 0 55%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    padding: 2rem;
+    background-color: var(--color-pure-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.DonutChartSingle {
+    /*border-radius: 5px;*/
+    /*box-shadow: 0 0 10px rgba(0,0,0,0.2);*/
+    /*background-color: var(--color-pure-white);*/
+}
+
+.DonutChartSingle p {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.6rem;
+    padding-right: 1.5rem;
+}

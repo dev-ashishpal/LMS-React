@@ -1,0 +1,61 @@
+.SidebarContainerBox {
+    background-color: var(--color-pure-white);
+    display: flex;
+    padding: 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    align-items: center;
+    cursor: pointer;
+    color: inherit;
+}
+
+.SidebarContainerBox:not(:last-of-type) {
+    margin-bottom: 1.5rem;
+}
+
+.SidebarImg {
+    width: 4.5rem;
+    height: 4.5rem;
+}
+.SidebarImg img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.SidebarHeading {
+    margin-right: auto;
+    padding-left: 2rem;
+}
+.SidebarHeading h5 {
+    font-family: inherit;
+    font-size: 1.8rem;
+    text-transform: capitalize;
+    font-weight: 600;
+    letter-spacing: 0.7px;
+}
+
+@media (max-width: 1000px) {
+    .SidebarHeading h5 {
+        font-size: 1.5rem;
+    }
+}
+
+.SidebarNotificationIcon {
+    display: grid;
+    grid-row-gap: 0.5rem;
+    grid-column-gap: 0;
+    grid-template-rows: 1fr;
+}
+.SidebarNotificationIcon {
+    background-color: var(--color-primary-dark);
+    border-radius: 100%;
+    width: 1.8rem;
+    height: 1.8rem;
+    justify-self: center;
+    text-align: center;
+}
+
+.SidebarContainerBox.active {
+    border-left: 3px solid #ff6932;
+}

@@ -1,0 +1,310 @@
+.Stream {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 0.75fr 0.35fr;
+  height: 100%;
+  overflow-y: scroll;
+  max-height: calc(100vh - 5rem);
+}
+
+.Stream::-webkit-scrollbar {
+  opacity: 0;
+}
+
+@media (max-width: 900px) {
+  .Stream {
+    grid-template-columns: 1fr;
+    grid-template-rows: max-content max-content;
+  }
+}
+.StreamContainer {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-rows: max-content max-content;
+  margin: 0 auto;
+  width: 95%;
+  margin-top: 3rem;
+  /*max-height: 94vh;*/
+  /*overflow-y: scroll;*/
+}
+.StreamContainer::-webkit-scrollbar {
+  display: none;
+}
+@media (max-width: 900px) {
+  .StreamContainer {
+    overflow-y: unset;
+    max-height: unset;
+    grid-template-rows: max-content max-content;
+  }
+}
+.StreamContainerHeader {
+  display: grid;
+  grid-template-columns: 1fr 10rem auto;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--color-tertiary2);
+}
+.StreamContainerHeader h3 {
+  color: var(--color-black);
+}
+.StreamContainerIcon svg {
+  width: 3rem;
+  height: 3rem;
+  fill: var(--color-black);
+}
+.StreamContainerIcon svg:hover {
+  fill: var(--color-tertiary3);
+  cursor: pointer;
+}
+.StreamContainerDesc {
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--color-tertiary2);
+}
+.StreamContainerDesc p {
+  font-family: inherit;
+  padding-left: 1.5rem;
+  font-size: 1.5rem;
+  line-height: 1.7;
+}
+/*.user-stream--container__details-description--para-btn {*/
+/*  font-weight: 700;*/
+/*  font-size: 1.6rem;*/
+/*  font-family: inherit;*/
+/*  color: #58dee0;*/
+/*  cursor: pointer;*/
+/*}*/
+/*.user-stream--container__details-description--para-btn:hover {*/
+/*  text-decoration: underline;*/
+/*}*/
+
+.CommentBox {
+  padding: 2rem 0;
+}
+.CommentBox * {
+  margin: 0 auto;
+  width: 95%;
+}
+
+.CommentBoxHeading {
+  /*color: #444444;*/
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--color-primary);
+  margin: 0 auto;
+  width: 80%;
+  /*text-transform: uppercase;*/
+  text-transform: capitalize;
+}
+@media (max-width: 600px) {
+  .CommentBoxHeading {
+    width: 90%;
+  }
+}
+.CommentBoxUser {
+  margin: 0 auto;
+  width: 80%;
+  padding-top: 2rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+/*@media (max-width: 900px) {*/
+/*  .CommentBoxUser {*/
+/*    grid-column-gap: 1rem;*/
+/*  }*/
+/*}*/
+@media (max-width: 600px) {
+  .CommentBoxUser {
+    width: 90%;
+  }
+}
+.CommentBoxUser figure {
+  height: 5rem;
+  width: 5rem;
+}
+.CommentBoxUser figure img {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+.CommentForm {
+  margin-top: 5px;
+  grid-template-rows: 1fr auto;
+  grid-row-gap: 2rem;
+}
+.CommentForm textarea {
+  resize: none;
+  outline: none;
+  height: 10rem;
+  /*row-span: 5;*/
+  font-family: inherit;
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--color-pure-white);
+  color: inherit;
+}
+@media (max-width: 470px) {
+  .CommentForm textarea {
+  height: 7rem;
+  }
+}
+.CommentFormSubmit {
+  text-align: right;
+  width: 100%;
+  padding-top: 1rem;
+}
+.CommentFormSubmit button {
+  width: 10rem;
+  height: auto;
+  background-color: var(--color-primary);
+  padding: 1rem 2rem;
+  font-weight: 600;
+  font-size: 1.6rem;
+  font-family: inherit;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.UsersCommentContainer {
+  margin: 0 auto;
+  width: 80%;
+  padding-top: 4rem;
+}
+@media (max-width: 600px) {
+  .UsersCommentContainer {
+    width: 90%;
+  }
+}
+.UsersComment {
+  display: grid;
+  margin: 3rem 0;
+  grid-template-columns: 5.3rem 1fr;
+  padding-bottom: 2rem;
+}
+.UsersComment:not(:last-of-type) {
+  border-bottom: 1px solid var(--color-tertiary2);
+}
+.UsersCommentImg {
+  height: 5rem;
+}
+
+.UsersCommentImg img{
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+.UsersCommentDetail {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-row-gap: 1.5rem;
+  padding: 0;
+  margin: 0;
+}
+.UsersCommentHeading {
+  display: grid;
+  align-items: center;
+  grid-template-columns: minmax(auto, 20rem) 1fr;
+}
+.UsersCommentHeading h4 {
+  max-width: 50rem;
+  font-size: 1.5rem;
+}
+.UsersCommentHeading span {
+  color: var(--color-tertiary3);
+}
+.UsersCommentPara {
+  margin-left: -1px;
+}
+.StreamSidebar {
+  /*max-height: 94vh;*/
+  /*overflow: scroll;*/
+}
+.StreamSidebar::-webkit-scrollbar {
+  width: 0.8rem;
+  background-color: transparent;
+}
+.StreamSidebar::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 2px;
+  width: 0.8rem;
+  transition: background-color 0.2s;
+}
+.StreamSidebarHeader {
+  padding: 2rem 2rem 3.5rem 2rem;
+  text-align: center;
+}
+.StreamSidebarHeader h1 {
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--color-primary);
+  text-transform: uppercase;
+}
+
+.StreamSidebarContainerList
+{
+  display: grid;
+  grid-template-rows: repeat(auto-fill, 1fr);
+  grid-row-gap: 2rem;
+  padding: 0 2rem;
+  list-style: none;
+}
+.StreamSidebarContainerLink {
+  text-decoration: none;
+  display: grid;
+  grid-template-columns: 18rem 1fr;
+}
+.StreamSidebarContainerImg {
+  width: 18rem;
+  height: 10.5rem;
+  object-fit: cover;
+}
+.StreamSidebarContainerImg img {
+  width: 100%;
+  height: 100%;
+}
+.StreamSidebarBox {
+  padding-left: 1rem;
+}
+.StreamSidebarBox h4 {
+  color: var(--color-black);
+  font-size: 1.7rem;
+}
+.StreamSidebarBox span {
+  color: var(--color-tertiary3);
+  text-transform: capitalize;
+}
+
+.StreamSidebarContainerItem a figure {
+  position: relative;
+}
+
+.StreamSidebarContainerItem a figure::before {
+  content: "";
+  position: absolute;
+  top:0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.4);
+  filter: blur(2px);
+}
+
+.StreamSidebarContainerItem a figure::after {
+  content: "Playing Now...";
+  position: absolute;
+  bottom: 10%;
+  color: var(--color-pure-white);
+  left: 10%;
+  transform: translate(-10%, -10%);
+  font-size: 2rem;
+}
+
+.square-btn {
+  background-color: var(--color-primary-light);
+  padding: 1rem 2rem;
+  font-weight: 600;
+  font-size: 1.6rem;
+  font-family: inherit;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer; }

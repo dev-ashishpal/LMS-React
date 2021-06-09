@@ -1,0 +1,30 @@
+.Logout {
+    padding: 3rem 5rem;
+}
+
+.Logout h3 {
+    font-size: 3rem;
+    text-align: center;
+    font-weight: 400;
+    color: var(--color-black);
+}
+
+.Cta {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 3rem;
+}
+
+.Cancel {
+    width: 10rem;
+    height: auto;
+    border:1px solid var(--color-primary-dark);
+    padding: 1rem 2rem;
+    font-weight: 600;
+    font-size: 1.6rem;
+    font-family: inherit;
+    background-color: transparent;
+    /*border: none;*/
+    border-radius: 3px;
+    cursor: pointer;
+}

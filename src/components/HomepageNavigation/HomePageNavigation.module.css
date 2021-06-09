@@ -1,0 +1,15 @@
+.Navbar {
+    height: 5rem;
+    width: 100%;
+    /*background-color: orangered;*/
+    display: flex;
+    padding-top: 1rem;
+}
+
+.Logo {
+    margin-right: auto;
+    align-self: flex-start;
+}
+
+
+

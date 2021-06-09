@@ -1,0 +1,20 @@
+.ErrorModal {
+    position: fixed;
+    z-index: 1000;
+    background-color: white;
+    width: auto;
+    max-width: 40rem;
+    max-height: 5rem;
+    padding: 1rem 4rem;
+    overflow: hidden;
+    /*overflow-y: scroll;*/
+    border-radius: 5px;
+    font-weight: 400;
+    font-size: 120%;
+    box-shadow: 0 0 1rem rgba(0,0,0,0.4);
+    left: 50%;
+    top: 5%;
+    transform: translate(-50%, -5%);
+    box-sizing: border-box;
+    transition: all 0.3s ease-out;
+}

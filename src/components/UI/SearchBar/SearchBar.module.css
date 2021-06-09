@@ -1,0 +1,81 @@
+.SearchBar {
+  align-self: end;
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  width: 80%;
+  padding:1rem 0;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .SearchBar {
+    width: 95%;
+    /*background-color: orangered;*/
+  }
+}
+.SearchBar div {
+  display: flex;
+  flex: 0 0 40%;
+  grid-template-columns: 1fr max-content;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 80%;
+}
+
+
+@media (max-width: 900px) {
+  .SearchBar div{
+    width: 90%;
+  }
+}
+
+.SearchBar div button {
+  transform: translateY(2px);
+  background-color: transparent;
+  outline: none;
+  border: none;
+}
+.SearchBarInput {
+  width: 70%;
+  border-radius: 10rem;
+  padding: 0.7rem 2rem;
+  font-size: 1.5rem;
+  border: none;
+  /*background-color: #f1f1f1;*/
+  background-color: var(--color-white);
+  outline: none;
+  font-weight: 300;
+  color: inherit;
+  margin-right: -4rem;
+  transition: all 0.4s;
+}
+
+@media (max-width: 900px) {
+  .SearchBarInput {
+    width: 80%;
+  }
+}
+.SearchBarInput:focus {
+  width: 80%;
+}
+
+@media (max-width: 900px) {
+  .SearchBarInput:focus {
+    width: 90%;
+  }
+}
+
+.SearchBarInput::-webkit-input-placeholder {
+  /*color: #babac0;*/
+  color: var(--color-tertiary3);
+  letter-spacing: 1px;
+  font-weight: inherit;
+}
+.SearchBar div button svg {
+  width: 2.3rem;
+  height: 2.3rem;
+  /*fill: #7f7f7f;*/
+  fill: var(--color-tertiary2);
+  cursor: pointer;
+}

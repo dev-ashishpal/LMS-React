@@ -1,0 +1,29 @@
+.NavigationItem:not(:last-of-type) {
+    padding-right: 5rem;
+}
+
+@media (max-width: 600px) {
+    .NavigationItem:not(:last-of-type) {
+        padding-right: 3rem;
+    }
+}
+
+.NavigationItem:last-of-type {
+    background-color: rgba(255,255,255,0.3);
+    padding: .5rem 1.5rem;
+    border-radius: 5px;
+}
+
+.NavigationItem a,
+.NavigationItem a:active,
+.NavigationItem a:visited,
+.NavigationItem button{
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    text-transform: capitalize;
+    cursor: pointer;
+    color: var(--color-primary-dark);
+    font-size: 1.6rem;
+}

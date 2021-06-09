@@ -1,0 +1,118 @@
+.IconBtn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.VideoLecture {
+    display: grid;
+    grid-template-rows: 1fr 7.5rem;
+    border-radius: 3px;
+    text-align: center;
+    overflow: hidden;
+    transition: all 0.3s;
+    text-decoration: none;
+    max-height: 32.6rem;
+    max-width: 43.4rem;
+    box-shadow: 0 0 10px rgba(68, 68, 68, 0.25);
+    background-color: var(--color-pure-white);
+}
+
+.SkeletonLecture {
+    background-color: var(--color-white);
+}
+
+.VideoLecture video,
+.VideoLecture img {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    transition: all 0.3s;
+    object-fit: cover;
+    outline: none;
+    border: none;
+}
+
+.VideoLecture:hover video,
+.VideoLecture:hover img {
+    transform: scale(1.3);
+}
+
+.IconContainer {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 100;
+    /*background-color: rgb(255, 255, 255);*/
+    background-color: var(--color-pure-white);
+    opacity: 0.5;
+    /*background-color: rgba(var(--color-pure-white), 0.5);*/
+    padding: 0 0.5rem;
+    border-radius: 2px;
+    display: none;
+    transition: all 0.1s;
+}
+
+.IconContainer button {
+    background-color: transparent;
+    border:none;
+    outline: none;
+}
+
+.IconContainer svg {
+    /*fill: rgb(68, 68, 68);*/
+    fill: var(--color-tertiary3);
+    opacity: 0.85;
+    /*fill: hsla(var(--color-primary),0.85);*/
+    transform: translateY(2px);
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+}
+
+.IconContainer svg.active {
+    fill: var(--color-primary);
+}
+
+.IconEdit {
+    position: absolute;
+    top: 4.5rem;
+    right: 0.5rem;
+}
+
+.ImageContainer {
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.ImageContainer:hover .IconContainer {
+    display: block;
+}
+
+.VideoLectureHeading {
+    transform: translateY(-6px);
+    /*color: #444444;*/
+    color: var(--color-black);
+    text-align: center;
+    text-transform: capitalize;
+    margin-top: 2rem;
+}
+
+.VideoLecturePara {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    /*color: #7f7f7f;*/
+    color: var(--color-tertiary3);
+}
+
+.VideoLecturePara a {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: currentColor;
+}

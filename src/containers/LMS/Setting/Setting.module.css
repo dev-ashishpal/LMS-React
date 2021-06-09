@@ -1,0 +1,156 @@
+.Setting {
+    width: 50%;
+    margin: 0 0 0 15rem;
+    padding: 5rem 0;
+    grid-column: 1 / -1;
+    max-height: calc(100vh - 5rem);
+    overflow-y: scroll;
+    /*background-color: orangered;*/
+}
+
+@media (max-width: 1100px) {
+    .Setting {
+        width: 60%;
+        margin: 0 0 0 10rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .Setting {
+        width: 80%;
+        margin: 0 0 0 10rem;
+    }
+}
+
+@media (max-width: 470px) {
+    .Setting {
+        width: 90%;
+        margin: 0 0 0 3rem;
+    }
+}
+
+.Setting::-webkit-scrollbar {
+    opacity: 0;
+}
+
+.SettingBox {
+    width: 100%;
+    height: 100%;
+}
+
+.SettingBox:not(:last-of-type) {
+    margin-bottom: 5rem;
+}
+
+@media (max-width: 470px) {
+    .SettingBox:not(:last-of-type) {
+        margin-bottom: 2rem;
+    }
+}
+
+.Heading {
+    font-size: 4rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-black-dark);
+    padding-bottom: 2rem;
+}
+
+@media (max-width: 470px) {
+    .Heading {
+        font-size: 3rem;
+        padding-bottom: 1.5rem;
+    }
+}
+
+.HeadingSub {
+    text-transform: capitalize;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-black-dark);
+}
+
+@media (max-width: 470px) {
+    .HeadingSub {
+        font-size: 1.6rem;
+    }
+}
+
+.Paragraph {
+    font-size: 1.6rem;
+}
+
+@media (max-width: 470px) {
+    .Paragraph {
+        font-size: 1.4rem;
+    }
+}
+
+.ThemeContainer {
+    /*background-color: orangered;*/
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 5rem;
+}
+
+@media (max-width: 470px) {
+    .ThemeContainer {
+        margin-bottom: 2rem;
+    }
+}
+
+.ThemeContainerBox {
+    padding: 5rem 2rem 5rem 0;
+}
+
+@media (max-width: 470px) {
+    .ThemeContainerBox {
+        padding: 2.5rem 1rem 2.5rem 0;
+        /*margin-bottom: 2rem;*/
+    }
+}
+
+.ThemeContainerBox button {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    width: 25.6rem;
+    height: 14.4rem;
+    cursor: pointer;
+}
+
+.ThemeContainerBox button img {
+    width: 100%;
+    height: 100%;
+}
+
+.ThemeContainerBox p {
+    font-weight: 600;
+    padding-left: 3px;
+
+}
+
+.NotificationContainer {
+    width: 100%;
+    margin-bottom: 5rem;
+    height: 20rem;
+}
+
+.DeleteBtn {
+    margin: 4rem 0;
+}
+
+.DeleteBtn button {
+    width: auto;
+    height: auto;
+    background-color: #58dee0;
+    padding: 1rem 2rem;
+    font-weight: 600;
+    font-size: 1.6rem;
+    font-family: inherit;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}

@@ -1,0 +1,27 @@
+.Option {
+  height: 4rem;
+  display: flex;
+  margin: 1px 0;
+  font-size: 1.6rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+.Input {
+  display: none;
+}
+
+.Input:checked ~ .Label {
+  /*background-color: #e1e1e1;*/
+  background-color: var(--color-tertiary1);
+  font-weight: 600;
+}
+
+.Label {
+  height: 100%;
+  padding: 5px 2rem 0 2rem;
+  /*background-color: #f7f7f7;*/
+  background-color: var(--color-white);
+  width: 100%;
+  cursor: pointer;
+}

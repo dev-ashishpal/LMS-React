@@ -1,0 +1,249 @@
+.Profile {
+  margin: 0 auto;
+  margin-top: 10rem;
+  width: 83%;
+  /*background-color: orangered;*/
+  grid-column: 1/-1;
+  display: grid;
+  /*height: 100%;*/
+  grid-template-columns: 25rem 1fr;
+  /*grid-template-rows: auto;*/
+  /*background-color: chartreuse;*/
+}
+
+@media (max-width: 600px) {
+  .Profile {
+    width: 90%;
+    margin: 0 auto;
+    grid-template-columns: unset;
+    grid-template-rows: 20rem 1fr;
+    margin-top: 5rem;
+  }
+}
+
+.ProfileSidebar {
+  /*background-color: green;*/
+  width: 100%;
+  /*background-color: rebeccapurple;*/
+  height: 100%;
+}
+
+.ProfileMain {
+  /*background-color: blue;*/
+  overflow-y: scroll;
+  height: 60rem;
+  /*max-height: 100%;*/
+  padding: 0 5rem;
+  width: 100%;
+}
+
+.ProfileMain::-webkit-scrollbar {
+  opacity: 0;
+}
+
+@media (max-width: 900px) and (min-height: 60rem) {
+  .ProfileMain {
+    overflow-y: scroll;
+    height: 100%;
+    max-height: 60rem;
+    padding: 0 3rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .ProfileMain {
+    padding: 0;
+    margin-top: 3rem;
+    /*background-color: orangered;*/
+  }
+}
+
+/*@media (max-height: 5.5rem) {*/
+/*    .ProfileMain {*/
+/*        max-height: 50rem;*/
+/*    }*/
+/*}*/
+
+.ProfileImage {
+  width: 20rem;
+  height: 20rem;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+/*@media (max-width: 470px) {*/
+/*    .ProfileImage {*/
+/*        width: 10rem;*/
+/*        height: 10rem;*/
+/*    }*/
+/*}*/
+
+.ProfileImage img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+}
+
+.ImageInputBox:hover ~ img {
+  filter: blur(2px);
+}
+
+.ImageInputBox {
+  position: absolute;
+  background-color: transparent;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+}
+
+.ImageInputBox:hover .ImageInput svg {
+  opacity: 1;
+}
+
+.ImageInput {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+}
+
+.ImageInput input {
+  background-color: transparent;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  position: absolute;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.ImageInput label {
+  display: none;
+}
+
+.ImageInput svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  transform: translate(-50%, -50%);
+  height: 5rem;
+  width: 5rem;
+  fill: var(--color-white);
+}
+
+.ProfileMainHeader h3 {
+  font-size: 3.7rem;
+  font-weight: 400;
+  font-family: inherit;
+  text-transform: capitalize;
+  color: var(--color-primary-dark);
+}
+
+.ProfileMainHeader p {
+    color: var(--color-black);
+}
+
+.ProfileMainHeader label {
+  display: none;
+}
+
+.ProfileMainAbout {
+  padding-top: 9rem;
+}
+
+.ProfileMainAbout h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+}
+
+.HorizontalLine {
+  border-bottom: 1px solid var(--color-tertiary2);
+  width: 100%;
+}
+
+.Form {
+  padding-top: 7rem;
+}
+
+@media (max-width: 900px) {
+  .Form {
+    padding-top: 5rem;
+  }
+}
+
+@media (max-width: 470px) {
+  .Form {
+    padding-top: 3rem;
+  }
+}
+
+.FormInput {
+  display: flex;
+}
+
+.FormInput:not(:last-of-type) {
+  padding-bottom: 4rem;
+}
+
+@media (max-width: 470px) {
+  .FormInput:not(:last-of-type) {
+    padding-bottom: 2rem;
+  }
+}
+
+.FormInput label {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  font-family: inherit;
+  color: var(--color-black-dark);
+  font-weight: 600;
+  margin-right: 6rem;
+  display: block;
+  /*background-color: orangered;*/
+  width: 20rem;
+}
+
+@media (max-width: 900px) {
+  .FormInput label {
+    margin-right: 3rem;
+    width: 15rem;
+  }
+}
+
+@media (max-width: 470px) {
+  .FormInput label {
+    margin-right: 2rem;
+    width: 15rem;
+  }
+}
+
+.FormInput input {
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  width: 40rem;
+  background-color: transparent;
+  color: var(--color-black-dark);
+}
+
+.Invalid input {
+  color: var(--color-sec-dark) !important;
+}
+
+.SubmitBtn {
+  display: flex;
+  width: 100%;
+  margin: 1rem 0;
+}

@@ -1,0 +1,30 @@
+.LectureAddBtn {
+  display: grid;
+  grid-template-rows: 1fr 10.5rem;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 4rem;
+  transition: all 0.3s;
+  text-decoration: none;
+
+  /*background-color: red;*/
+  max-height: 20rem;
+  max-width: 20rem;
+  /*box-shadow: 0 0 10px rgba(68, 68, 68, 0.25);*/
+}
+
+.LectureAddBtn figure {
+  height: 100%;
+  width: 100%;
+  /*background-color: orangered;*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  /*fill: #ccc;*/
+}
+
+.LectureAddBtn figure img {
+  height: 80%;
+  width: 80%;
+}

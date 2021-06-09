@@ -1,0 +1,102 @@
+.Sidebar {
+  background-color: var(--color-white);
+  max-height: calc(100vh - 6rem);
+  overflow-y: scroll;
+  padding: 10rem 1rem 0 3rem;
+}
+
+@media (max-width: 1000px) {
+  .Sidebar {
+    padding: 10rem 1rem 0 2rem;
+  }
+}
+
+.Sidebar::-webkit-scrollbar {
+  width: 0.8rem;
+  background-color: transparent;
+}
+.Sidebar::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 2px;
+  width: 0.8rem;
+  transition: background-color 0.2s;
+}
+
+.SidebarContainer {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 2rem;
+  width: 40rem;
+}
+
+@media (max-width: 1000px) {
+  .SidebarContainer {
+    width: 30rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .SidebarContainer {
+    width: 25rem;
+  }
+}
+
+.SearchBar {
+  margin: 3rem 0;
+  padding: 0.5rem 1rem;
+  display: flex;
+  background-color: var(--color-pure-white);
+  border-radius: 5px;
+  align-items: center;
+}
+.SearchBarInput {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 100%;
+  margin-left: -2rem;
+  font-size: 1.5rem;
+  font-family: inherit;
+  color: inherit;
+  letter-spacing: 1px;
+  padding: 1rem 0 1rem 3rem;
+}
+.SearchBarInput::placeholder {
+  color: #7f7f7f;
+  font-size: 1.6rem;
+}
+
+.SearchBar svg {
+  width: 2.3rem;
+  height: 2.3rem;
+  fill: #7f7f7f;
+  cursor: pointer;
+}
+
+
+
+
+
+.Main {
+  display: grid;
+  grid-template-columns: 1fr;
+    background-color: var(--color-pure-white);
+}
+@media screen and (max-width: 1200px) {
+  .Main {
+    grid-template-columns: 1fr;
+  }
+}
+@media screen and (max-width: 600px) {
+  .Main {
+    display: none;
+  }
+}
+.MainContainer {
+  padding: 0 2rem;
+  margin-top: 10rem;
+}
+
+
+
+

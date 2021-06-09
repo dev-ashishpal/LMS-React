@@ -1,0 +1,24 @@
+.Layout {
+    grid-column: main-start / main-end;
+    grid-row: 2/9;
+    /*background-color: #f1f1f1;*/
+    background-color: var(--color-white);
+    width: auto;
+    height: 100%;
+    display: grid;
+    grid-template-columns: minmax(max-content, 30rem) 1fr;
+}
+
+@media (max-width: 600px) {
+    .Layout {
+        max-height: calc(100vh - 5rem);
+        overflow-y: scroll;
+    }
+}
+
+@media (max-width:470px) {
+    .Layout{
+        grid-column: sidebar-start / main-end;
+        grid-row: 2 / 8;
+    }
+}
