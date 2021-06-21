@@ -9,12 +9,22 @@ export const positionMenuDropdown = (e, menuDropdownRef) => {
     e.target.getBoundingClientRect().height +
     10 +
     "px";
-  if (window.innerWidth - e.target.getBoundingClientRect().x <= 400) {
+  if (window.innerWidth - e.target.getBoundingClientRect().x <= window.innerWidth / 2) {
     menuDropdownRef.current.style.left =
       e.target.getBoundingClientRect().x +
       window.scrollX +
       e.target.getBoundingClientRect().width -
       menuDropdownRef.current.getBoundingClientRect().width +
       "px";
+  }
+  if (window.innerHeight - e.target.getBoundingClientRect().y <= 400) {
+    menuDropdownRef.current.style.bottom = 
+    (window.innerHeight -
+      e.target.getBoundingClientRect().y) +
+      window.scrollY +
+      e.target.getBoundingClientRect().height + "px"
+      ;
+      menuDropdownRef.current.style.top = 'unset';
+    
   }
 };

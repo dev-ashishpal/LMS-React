@@ -5,28 +5,30 @@ import * as actionCreators from "./store/actions";
 import { connect } from "react-redux";
 import LineGraph from "../../../components/Graphs/LineGraph/LineGraph";
 import DonutGraph from "../../../components/Graphs/DonutGraph/DonutGraph";
+// import {userAgent} from "../../../util/userAgent";
+import openSocket from "socket.io-client";
 
 class Dashboard extends React.Component {
   componentDidMount() {
-    if(this.props.teacherToken) {
-    this.props.onLoad(this.props.teacherToken, 'teacher');
-    this.props.onLoadVideo(this.props.teacherToken);
-    this.props.onLoadNotes(this.props.teacherToken);
-    this.props.onLoadPaper(this.props.teacherToken);
-    } else if(this.props.studentToken) {
-      this.props.onLoad(this.props.studentToken, 'student');
+    localStorage.setItem('URL',window.location.pathname);
+    if (this.props.teacherToken) {
+      this.props.onLoad(this.props.teacherToken, "teacher");
+      this.props.onLoadVideo(this.props.teacherToken);
+      this.props.onLoadNotes(this.props.teacherToken);
+      this.props.onLoadPaper(this.props.teacherToken);
+    } else if (this.props.studentToken) {
+      this.props.onLoad(this.props.studentToken, "student");
     }
   }
 
   render() {
-    const videoData = {...this.props.videoData};
-    const paperData = {...this.props.paperData};
-    const notesData = {...this.props.notesData};
+    const videoData = { ...this.props.videoData };
+    const paperData = { ...this.props.paperData };
+    const notesData = { ...this.props.notesData };
     return (
       <div className={classes.Dashboard}>
         <div className={classes.Boxes}>
-          {
-            this.props.data.map((dt) => (
+          {this.props.data.map((dt) => (
             <div className={classes.Box} key={dt.name}>
               <h1>{dt.count}</h1>
               <span>{dt.name}</span>
@@ -54,7 +56,6 @@ class Dashboard extends React.Component {
             </div>
           </div>
         </div>
-
       </div>
     );
   }
@@ -68,6 +69,7 @@ const mapStateToProps = (state) => {
     videoData: state.dashboard.videoData,
     paperData: state.dashboard.paperData,
     notesData: state.dashboard.notesData,
+    branch: state.profile.data,
   };
 };
 
@@ -84,6 +86,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onLoadPaper: (token) => {
       dispatch(actionCreators.dashboardPaperData(token));
+    },
+    onNotification: (branch, token) => {
+      dispatch(actionCreators.dashboardNotification(branch, token));
     },
   };
 };

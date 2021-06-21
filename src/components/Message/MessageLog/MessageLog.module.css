@@ -5,7 +5,16 @@
   padding: 0.5rem 2rem;
   max-width: 70rem;
   margin: 0 1rem;
+  height: auto;
+  width: auto;
 }
+
+@media (max-width: 600px) {
+  .ChatBox {
+    max-width: 95rem;
+  }
+}
+
 .ChatBox span:first-of-type {
   font-weight: 700;
   font-size: 1.3rem;
@@ -14,7 +23,24 @@
 }
 .ChatBox span:nth-of-type(2) {
   color: #444444;
+  height: auto;
+  width: auto;
 }
+.ChatBox span:nth-of-type(2) img {
+  /* height: 36rem; */
+  height: auto;
+  width: 36rem;
+  border-radius: unset;
+}
+
+@media (max-width: 600px) {
+  .ChatBox span:nth-of-type(2) img {
+    height: auto;
+    width: 28rem;
+    border-radius: unset;
+  }
+}
+
 .ChatBox span:last-of-type {
   font-size: 1.2rem;
   align-self: flex-end;
@@ -38,7 +64,7 @@
   border-radius: 100%;
 }
 .ChatUser1 p {
-  background-color: #fff;
+  background-color:var(--color-white);
   hyphens: auto;
 }
 .ChatUser2 {
@@ -57,5 +83,5 @@
   border-radius: 100%;
 }
 .ChatUser2 p {
-  background-color: #00ced1;
+  background-color:var(--color-primary);
 }

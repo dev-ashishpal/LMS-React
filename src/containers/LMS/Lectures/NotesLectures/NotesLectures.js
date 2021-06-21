@@ -9,18 +9,66 @@ import Spinner from "../../../../components/UI/Spinner/Spinner";
 import img from "../../../../assets/images/notes.png";
 import * as actionCreators from "./store/actions";
 import { connect } from "react-redux";
-import {withRouter} from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 import SkeletonLecture from "../../../../components/Lecture/Skeleton/SkeletonLecture";
-import openSocket from 'socket.io-client';
+import openSocket from "socket.io-client";
+import { userAgent } from "../../../../util/userAgent";
 
 class NotesLectures extends React.PureComponent {
-  componentDidMount() {
-    if(this.props.teacherToken) {
-    this.props.onLoadLecture(this.props.teacherToken, '/teacher/lecture/book');
-    } else if(this.props.studentToken) {
-      this.props.onLoadLecture(this.props.studentToken, '/student/lecture/book' + this.props.location.search);
-    }
+  constructor(props) {
+    super(props);
+    this.lectureRef = React.createRef();
+    this.loadingRef = React.createRef();
+    this.notesContainerRef = React.createRef();
   }
+  componentDidMount() {
+    localStorage.setItem("URL", window.location.pathname);
+    if (this.props.teacherToken) {
+      this.props.onLoadLecture(
+        this.props.teacherToken,
+        "/teacher/lecture/book"
+      );
+    } else if (this.props.studentToken) {
+      this.props.onLoadLecture(
+        this.props.studentToken,
+        "/student/lecture/book" + this.props.location.search
+      );
+    }
+    console.log(this.lectureRef.current.lastElementChild);
+    this.observerHandler();
+  }
+
+  observerHandler = () => {
+    let page = 1;
+    const callback = (entries) => {
+      if (entries[0].isIntersecting && entries[0].intersectionRatio === 1) {
+        page = page + 1;
+        console.log("Is intersecting", page);
+        if (this.props.teacherToken) {
+          this.props.onPaginateLecture(
+            this.props.teacherToken,
+            "/teacher/lecture/book",
+            page
+          );
+        } else if (this.props.studentToken) {
+          this.props.onPaginateLecture(
+            this.props.studentToken,
+            "/student/lecture/book" + this.props.location.search,
+            page
+          );
+        }
+      }
+    };
+    const options = {
+      root: null,
+      rootMargins: "-10px",
+      threshold: 1,
+    };
+
+    const observer = new IntersectionObserver(callback, options);
+    observer.observe(this.loadingRef.current);
+    // console.log(this.loadingRef.current);
+  };
 
   deleteNotesHandler = (_id) => {
     this.props.onDeleteLecture(_id, this.props.data, this.props.teacherToken);
@@ -35,26 +83,35 @@ class NotesLectures extends React.PureComponent {
   };
 
   render() {
-    // console.log(this.props);
+    let localhost = "localhost";
+    if (userAgent()) {
+      localhost = "192.168.43.135";
+    }
+
     let notes;
     if (this.props.loading) {
-      notes = [1,2].map((data) => {
-        return <SkeletonLecture key={data} />
+      notes = [1, 2].map((data) => {
+        return <SkeletonLecture key={data} />;
       });
     } else {
-        notes = this.props.data.map((data) => (
-            <Lecture
-                link={'http://localhost:8080/'+data.pdf}
-                title={data.title}
-                key={data._id}
-                date={data.date}
-                img={img}
-                name={data.subject}
-                deleteHandler={() => {
-                  this.deleteNotesHandler(data._id);
-                }}
-            />
-        ));
+      notes = this.props.data.map((data) => (
+        <Lecture
+          link={"http://" + localhost + ":8080/" + data.pdf}
+          title={data.title}
+          key={data._id}
+          date={data.date}
+          img={img}
+          name={data.subject}
+          deleteHandler={() => {
+            this.deleteNotesHandler(data._id);
+          }}
+        />
+      ));
+    }
+
+    let paginateLoading = null;
+    if (this.props.paginateLoading) {
+      paginateLoading = <Spinner />;
     }
 
     let addLectureBtn = null;
@@ -62,24 +119,22 @@ class NotesLectures extends React.PureComponent {
     if (this.props.teacherToken) {
       addLectureBtn = <LectureAddBtn clicked={this.showModal} />;
       addLectureModal = (
-          <Modal clicked={this.closeModal} show={this.props.show}>
-            <AddNotesLecture closed={this.closeModal} />
-          </Modal>
+        <Modal clicked={this.closeModal} show={this.props.show}>
+          <AddNotesLecture closed={this.closeModal} />
+        </Modal>
       );
     }
     return (
       <React.Fragment>
-        <SearchBar />
-        <section className={classes.NotesLectures}>
-          <div className={classes.NotesLecturesDiv}>
-            {notes}
-            {/*<LectureAddBtn clicked={this.showModal} />*/}
+        <section ref={this.notesContainerRef} className={classes.NotesLectures}>
+          <SearchBar />
+          <div ref={this.lectureRef} className={classes.NotesLecturesDiv}>
             {addLectureBtn}
+            {notes}
           </div>
+          <div ref={this.loadingRef}>&nbsp;</div>
+          {paginateLoading}
         </section>
-        {/*<Modal clicked={this.closeModal} show={this.props.show}>*/}
-        {/*  <AddNotesLecture closed={this.closeModal} />*/}
-        {/*</Modal>*/}
         {addLectureModal}
       </React.Fragment>
     );
@@ -90,6 +145,7 @@ const mapStateToProps = (state) => {
   return {
     data: state.notesLec.data,
     loading: state.notesLec.loading,
+    paginateLoading: state.notesLec.paginateLoading,
     error: state.notesLec.error,
     show: state.notesLec.show,
     teacherToken: state.auth.teacherToken,
@@ -99,8 +155,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLoadLecture: (token, url) => {
-      dispatch(actionCreators.loadNotesLec(token, url));
+    onLoadLecture: (token, url, page) => {
+      dispatch(actionCreators.loadNotesLec(token, url, page));
+    },
+    onPaginateLecture: (token, url, page) => {
+      dispatch(actionCreators.paginateNotesLec(token, url, page));
     },
     onDeleteLecture: (_id, prevData, token) => {
       dispatch(actionCreators.deleteNotesLec(_id, prevData, token));
@@ -114,4 +173,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NotesLectures));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(NotesLectures));

@@ -1,4 +1,10 @@
 import * as actionTypes from "./actionTypes";
+import { userAgent } from "../../util/userAgent";
+
+let localhost = "localhost";
+if (userAgent()) {
+  localhost = "192.168.43.135";
+}
 
 export const showLogin = () => {
   return {
@@ -49,7 +55,7 @@ export const teacherAuthFail = (error) => {
 export const teacherSignup = (data, array) => {
   return (dispatch) => {
     let ok;
-    fetch("http://localhost:8080/teacher/signup", {
+    fetch(`http://${localhost}:8080/teacher/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +86,7 @@ export const studentSignup = (data) => {
   return (dispatch) => {
     let ok;
     dispatch(teacherAuthStart());
-    fetch("http://localhost:8080/student/signup", {
+    fetch(`http://${localhost}:8080/student/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -110,13 +116,14 @@ export const teacherLogout = () => {
   localStorage.removeItem("teacherToken");
   localStorage.removeItem("teacherId");
   localStorage.removeItem("teacherExpirationDate");
+  localStorage.removeItem("URL");
   return {
     type: actionTypes.TEACHER_LOGOUT,
   };
 };
 
 export const studentLogout = () => {
-  localStorage.removeItem("studentToken");
+  // localStorage.removeItem("studentToken");
   localStorage.removeItem("studentId");
   localStorage.removeItem("studentExpirationDate");
   return {
@@ -137,7 +144,7 @@ export const teacherLogin = (data) => {
   return (dispatch) => {
     let ok;
     dispatch(teacherAuthStart());
-    fetch("http://localhost:8080/teacher/login", {
+    fetch(`http://${localhost}:8080/teacher/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -182,7 +189,7 @@ export const studentLogin = (data) => {
   return (dispatch) => {
     let ok;
     dispatch(teacherAuthStart());
-    fetch("http://localhost:8080/student/login", {
+    fetch(`http://${localhost}:8080/student/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

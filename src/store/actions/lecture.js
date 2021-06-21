@@ -1,4 +1,10 @@
 import * as actionTypes from "./actionTypes";
+import { userAgent } from "../../util/userAgent";
+
+let localhost = "localhost";
+if (userAgent()) {
+  localhost = "192.168.43.135";
+}
 
 export const getBranchesSuccess = (branches) => {
   return {
@@ -9,7 +15,7 @@ export const getBranchesSuccess = (branches) => {
 
 export const getBranches = (token, url) => {
   return (dispatch) => {
-    fetch("http://localhost:8080/" + url + "/lecture/branches", {
+    fetch(`http://${localhost}:8080/${url}/lecture/branches`, {
       headers: {
         Authorization: "Bearer " + token,
       },
@@ -54,7 +60,7 @@ export const studentVideosFail = (error) => {
 export const studentVideos = (token) => {
   return (dispatch) => {
     dispatch(studentVideosStart());
-    fetch("http://localhost:8080/student/lecture/all-video", {
+    fetch(`http://${localhost}:8080/student/lecture/all-video`, {
       headers: {
         Authorization: "Bearer " + token,
       },

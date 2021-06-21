@@ -2,9 +2,10 @@ import React from "react";
 import sprite from "../../../assets/svg/sprite.svg";
 import classes from "./MenuIcon.module.css";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import MenuDropdown from "../../UI/MenuDropdown/MenuDropdown";
 import Logout from "../../Logout/Logout";
-import {positionMenuDropdown} from "../../../util/menuDropdown";
+import { positionMenuDropdown } from "../../../util/menuDropdown";
 
 class MenuIcon extends React.Component {
   constructor(props) {
@@ -35,6 +36,12 @@ class MenuIcon extends React.Component {
     this.setState({ showLogout: false });
   };
   render() {
+    let url;
+    if (this.props.teacherToken) {
+      url = "/teacher/setting";
+    } else if (this.props.studentToken) {
+      url = "/student/setting";
+    }
     return (
       <React.Fragment>
         <div className={classes.MenuIcon} onClick={this.showDropdownHandler}>
@@ -52,7 +59,7 @@ class MenuIcon extends React.Component {
               className={classes.MenuItem}
               onClick={this.closeDropdownHandler}
             >
-              <Link to="/teacher/setting">Setting</Link>
+              <Link to={url}>Setting</Link>
             </li>
             <li className={classes.MenuItem} onClick={this.showLogoutHandler}>
               <button>Logout</button>
@@ -68,4 +75,10 @@ class MenuIcon extends React.Component {
   }
 }
 
-export default MenuIcon;
+const mapStateToProps = (state) => {
+  return {
+    teacherToken: state.auth.teacherToken,
+    studentToken: state.auth.studentToken,
+  };
+};
+export default connect(mapStateToProps)(MenuIcon);

@@ -1,3 +1,10 @@
+import { userAgent } from "../../../../../util/userAgent";
+
+let localhost = "localhost";
+if (userAgent()) {
+  localhost = "192.168.43.135";
+}
+
 export const LOAD_PAPER_LEC_START = "LOAD_PAPER_LEC_START";
 export const LOAD_PAPER_LEC_SUCCESS = "LOAD_PAPER_LEC_SUCCESS";
 export const LOAD_PAPER_LEC_FAIL = "LOAD_PAPER_LEC_FAIL";
@@ -46,42 +53,44 @@ export const loadPaperLecFail = (error) => {
 export const loadPaperLec = (token, url) => {
   return (dispatch) => {
     dispatch(loadPaperLecStart());
-    fetch('http://localhost:8080' + url, {
+    fetch(`http://${localhost}:8080${url}`, {
       method: "GET",
-      headers:{
+      headers: {
         Authorization: "Bearer " + token,
-      }
-    }).then(res => {
-      return res.json();
-    }).then(resData => {
-      // console.log(resData);
-      dispatch(loadPaperLecSuccess(resData.data));
-    }).catch(err => {
-      dispatch(loadPaperLecFail(err));
+      },
     })
+      .then((res) => {
+        return res.json();
+      })
+      .then((resData) => {
+        // console.log(resData);
+        dispatch(loadPaperLecSuccess(resData.data));
+      })
+      .catch((err) => {
+        dispatch(loadPaperLecFail(err));
+      });
   };
 };
 
 export const deletePaperLec = (_id, prevData, token) => {
   return (dispatch) => {
-    // axiosInstance.delete("/lecture/paper/" + id + ".json").then((res) => {
-    //   const updatedPaper = prevData.filter((pp) => pp.id !== id);
-    //   dispatch(loadPaperLecSuccess(updatedPaper));
-    // });
-    fetch('http://localhost:8080/teacher/lecture/paper/' + _id, {
+    fetch(`http://${localhost}:8080/teacher/lecture/paper/${_id}`, {
       method: "DELETE",
       headers: {
-        Authorization: "Bearer " + token
-      }
-    }).then(res => {
-      return res.json();
-    }).then(resData => {
-      console.log(resData);
-      const updatedPaper = prevData.filter(pp => pp._id !== _id);
-      dispatch(loadPaperLecSuccess(updatedPaper));
-    }).catch(err => {
-      dispatch(loadPaperLecFail(err));
+        Authorization: "Bearer " + token,
+      },
     })
+      .then((res) => {
+        return res.json();
+      })
+      .then((resData) => {
+        console.log(resData);
+        const updatedPaper = prevData.filter((pp) => pp._id !== _id);
+        dispatch(loadPaperLecSuccess(updatedPaper));
+      })
+      .catch((err) => {
+        dispatch(loadPaperLecFail(err));
+      });
   };
 };
 
@@ -101,7 +110,7 @@ export const submitPaperLecSuccess = (data) => {
 export const submitPaperLec = (paperData, token) => {
   return (dispatch) => {
     dispatch(submitPaperLecStart());
-    fetch("http://localhost:8080/teacher/lecture/paper", {
+    fetch(`http://${localhost}:8080/teacher/lecture/paper`, {
       method: "POST",
       headers: {
         Authorization: "Bearer " + token,

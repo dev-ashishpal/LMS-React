@@ -15,7 +15,7 @@ const playerControls = (props) => {
             name="progressBar"
             id="progress"
             className={classes.ProgressBar}
-            value={props.played * 100}
+            value={ isNaN(props.played) ? 0 :props.played * 100}
             min="0"
             max="100"
             ref={props.progressBarRef}

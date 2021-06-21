@@ -5,16 +5,23 @@ import StudentLectureNavigation from "../../../components/LectureNavigation/Stud
 import * as actionCreators from "../../../store/actions/lecture";
 import SearchBar from "../../../components/UI/SearchBar/SearchBar";
 import Lecture from "../../../components/Lecture/Lecture";
+import {userAgent} from "../../../util/userAgent";
 class StudentLectures extends React.PureComponent {
   componentDidMount() {
+    localStorage.setItem('URL',window.location.pathname);
     this.props.onLoad(this.props.studentToken);
   }
 
   render() {
+    let localhost = "localhost";
+    if (userAgent()) {
+      localhost = "192.168.43.135";
+    }
+
     let subjects = [];
     let lectures = [];
     const data = { ...this.props.data };
-    console.log(data);
+    // console.log(data);
     for (let key in data) {
       subjects.push(key);
       data[key].forEach((lecture) => {
@@ -45,7 +52,7 @@ class StudentLectures extends React.PureComponent {
                     {lecture.map((lec) => (
                       <Lecture
                         src={lec.video}
-                        img={"http://localhost:8080/" + lec.image}
+                        img={"http://" + localhost + ":8080/" + lec.image}
                         title={lec.title}
                         key={lec._id}
                         isVideo={true}

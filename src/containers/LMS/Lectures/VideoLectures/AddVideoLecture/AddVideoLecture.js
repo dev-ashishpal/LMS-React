@@ -9,7 +9,8 @@ import ErrorHandler from "../../../../../components/ErrorHandler/ErrorHandler";
 import { connect } from "react-redux";
 import * as actionCreators from "../store/actions";
 import Select from "../../../../../components/UI/SelectDropdown/Select";
-import {required} from "../../../../../util/validators";
+import { required, url } from "../../../../../util/validators";
+import {userAgent} from "../../../../../util/userAgent";
 
 class AddVideoLecture extends React.PureComponent {
   state = {
@@ -60,7 +61,10 @@ class AddVideoLecture extends React.PureComponent {
   };
 
   componentDidMount() {
-    // console.log("mount, it is", this.props.editing, this.props.selectedPost);
+    let localhost = "localhost";
+    if (userAgent()) {
+      localhost = "192.168.43.135";
+    }
     if (this.props.editing && this.props.selectedPost) {
       console.log(this.props.selectedPost.image);
       const branchElem = { ...this.state.branches };
@@ -73,7 +77,7 @@ class AddVideoLecture extends React.PureComponent {
       const imageElem = { ...this.state.image };
       imageElem.valid = true;
       imageElem.preview = true;
-      imageElem.url = "http://localhost:8080/" + this.props.selectedPost.image;
+      imageElem.url = "http://" + localhost +":8080/" + this.props.selectedPost.image;
       imageElem.path = this.props.selectedPost.image;
 
       const videoElem = { ...this.state.video };
@@ -101,7 +105,6 @@ class AddVideoLecture extends React.PureComponent {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     this.setState({ loading: true });
-    console.log('title is:', this.state.title.valid);
     if (
       this.state.image.valid &&
       this.state.video.valid &&
@@ -111,7 +114,7 @@ class AddVideoLecture extends React.PureComponent {
     ) {
       this.setState({ formIsValid: true });
     } else {
-      this.setState({formIsValid: false})
+      this.setState({ formIsValid: false });
     }
   }
 
@@ -198,7 +201,7 @@ class AddVideoLecture extends React.PureComponent {
       this.props.selectedPost,
       videoData,
       this.props.data,
-      this.props.teacherToken
+      this.props.teacherToken,
     );
   };
 
@@ -216,7 +219,6 @@ class AddVideoLecture extends React.PureComponent {
           encType="multipart/form-data"
           onSubmit={this.submitHandler}
         >
-          {/*  Input Title */}
           <TextInput
             label="Title"
             type="text"
@@ -224,11 +226,10 @@ class AddVideoLecture extends React.PureComponent {
             name="lectureTitle"
             onChange={this.titleChangeHandler}
             value={this.state.title.name}
-            valid={this.state.title.valid}
-            touched={this.state.title.touched}
+            valid={this.state.title.valid ? 1 : 0}
+            touched={this.state.title.touched ? 1 : 0}
           />
 
-          {/*  Input Video  */}
           <GooglePicker
             clientId={
               "547991845560-ksedd8hpat4deob8svj5dskra2pjo7ie.apps.googleusercontent.com"
@@ -239,9 +240,9 @@ class AddVideoLecture extends React.PureComponent {
               if (data.action === "picked") {
                 const downloadableLink = data.docs[0].url.replace(
                   /\/file\/d\/(.+)\/(.+)/,
-                  "/uc?export=download&id=$1"
+                  "/uc?export=download&id=$1",
                 );
-                const videoElem = {...this.state.video};
+                const videoElem = { ...this.state.video };
                 videoElem.url = downloadableLink;
                 videoElem.touched = true;
                 videoElem.valid = videoElem.required(downloadableLink);
@@ -273,7 +274,6 @@ class AddVideoLecture extends React.PureComponent {
             />
           </GooglePicker>
 
-          {/*    Input Thumbnail   */}
           <FileInput
             type="file"
             label="thumbnail"
@@ -289,17 +289,18 @@ class AddVideoLecture extends React.PureComponent {
             valid={this.state.image.valid}
             touched={this.state.image.touched}
           />
-          {/*    Description   */}
+
           <TextInput
             label="Description"
             type="text"
             inputtype="textarea"
             name="lectureDescription"
             onChange={this.descriptionChangeHandler}
-            valid={this.state.description.valid}
-            touched={this.state.description.touched}
+            valid={this.state.description.valid ? 1 : 0}
+            touched={this.state.description.touched ? 1 : 0}
             value={this.state.description.name}
           />
+
           <Select
             data={this.state.branches.elementConfig.options}
             changed={this.selectChangeHandler}
@@ -354,8 +355,8 @@ const mapDispatchToProps = (dispatch) => {
           selectedPost,
           videoData,
           prevData,
-          token
-        )
+          token,
+        ),
       );
     },
     onCloseModal: () => {

@@ -4,11 +4,12 @@ import sprite from "../../../assets/svg/sprite.svg";
 
 const searchBar = (props) => (
   <section className={classes.SearchBar}>
-    <div>
+    <form>
       <label htmlFor="lecture--search-bar" hidden>
         Search Bar for lectures
       </label>
       <input
+        onChange={props.onChange}
         type="text"
         id="lecture--search-bar"
         placeholder="Search By Title"
@@ -19,7 +20,7 @@ const searchBar = (props) => (
           <use href={sprite + "#icon-search"}></use>
         </svg>
       </button>
-    </div>
+    </form>
   </section>
 );
 

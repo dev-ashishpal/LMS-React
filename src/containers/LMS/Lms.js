@@ -19,6 +19,7 @@ const Setting = React.lazy(() => import("./Setting/Setting"));
 
 class LMS extends PureComponent {
   componentDidMount() {
+      // console.log('lms is rendered');
     if (this.props.teacherToken) {
       this.props.getBranches(this.props.teacherToken, "teacher");
       this.props.onProfileLoad(this.props.teacherToken, "teacher");
@@ -26,12 +27,14 @@ class LMS extends PureComponent {
       this.props.getBranches(this.props.studentToken, "student");
       this.props.onProfileLoad(this.props.studentToken, "student");
     }
-    console.log('lms.js CDM', this.props.branch);
+    // console.log('LMS.js CDM', this.props.branch);
   }
 
   render() {
     let path;
-    // console.log('lms.js',this.props.branch);
+      const URL = localStorage.getItem("URL");
+      // console.log('url [LMS]', URL);
+      // console.log('LMS.js',this.props.branch);
     if (this.props.teacherToken) {
       path = "/teacher/";
     } else if (this.props.studentToken) {
@@ -120,7 +123,7 @@ class LMS extends PureComponent {
           />
           <Route
             path={path + "messages"}
-            exact
+           
             render={() => (
               <Suspense
                 fallback={
@@ -176,11 +179,13 @@ class LMS extends PureComponent {
             )}
           />
           <Switch>
+              {/*{URL ? <Redirect to={URL} /> : null }*/}
             <Redirect
               from="/teacher/lectures"
               exact
               to="/teacher/lectures/videos"
             />
+            <Redirect from={path + "messages"} to={path + "messages/empty"} />
           </Switch>
         </Layout>
       </div>

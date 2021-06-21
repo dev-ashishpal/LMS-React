@@ -1,7 +1,7 @@
 .VideoLectures {
   overflow-y: scroll;
-  max-height: 68rem;
-  padding-bottom: 2rem;
+  max-height: calc(100vh - 8rem);
+  margin-bottom: 10px;
   position: relative;
 }
 
@@ -12,12 +12,6 @@
   }
 }
 
-/*@media (max-width: 470px) {*/
-/*  .VideoLectures {*/
-/*    width: 95%;*/
-/*    margin: 0 auto;*/
-/*  }*/
-/*}*/
 .VideoLectures::-webkit-scrollbar {
   width: 0.8rem;
   background-color: transparent;
@@ -37,6 +31,7 @@
   display: grid;
   grid-row-gap: 3rem;
   grid-column-gap: 2rem;
+  /* grid-template-rows: minmax(25rem, 1fr); */
   grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
   padding: 0 2rem;
   /*background-color: orangered;*/
@@ -44,7 +39,7 @@
 
 @media (max-width: 470px) {
   .VideoLecturesDiv {
-   grid-column-gap: unset;
+    grid-column-gap: unset;
     justify-items: center;
     grid-template-columns: 1fr;
   }

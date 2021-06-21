@@ -1,3 +1,10 @@
+import {userAgent} from "../../../../../util/userAgent";
+
+let localhost = "localhost";
+if (userAgent()) {
+  localhost = "192.168.43.135";
+}
+
 export const LOAD_VID_LEC_START = "LOAD_VID_LEC_START";
 export const LOAD_VID_LEC_SUCCESS = "LOAD_VID_LEC_SUCCESS";
 export const LOAD_VID_LEC_FAIL = "LOAD_VID_LEC_FAIL";
@@ -82,7 +89,7 @@ export const submitVidLecStart = () => {
 export const loadVidLec = (token, url) => {
   return (dispatch) => {
     dispatch(loadVidLecStart());
-    fetch("http://localhost:8080" + url, {
+    fetch(`http://${localhost}:8080${url}`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + token,
@@ -105,7 +112,7 @@ export const loadVidLec = (token, url) => {
 export const deleteVidLec = (_id, data, token) => {
   return (dispatch) => {
     console.log(data);
-    fetch("http://localhost:8080/teacher/lecture/video/" + _id, {
+    fetch(`http://${localhost}:8080/teacher/lecture/video/${_id}`, {
       headers: {
         Authorization: "Bearer " + token,
       },
@@ -134,7 +141,7 @@ export const submitVidLec = (
     dispatch(submitVidLecStart());
     if (editing) {
       console.log(videoData);
-      fetch("http://localhost:8080/teacher/lecture/video/" + selectedPost._id, {
+      fetch(`http://${localhost}:8080/teacher/lecture/video/${selectedPost._id}`, {
         method: "PUT",
         headers: {
           Authorization: "Bearer " + token,
@@ -164,7 +171,7 @@ export const submitVidLec = (
           dispatch(submitVidLecFail());
         });
     } else {
-      fetch("http://localhost:8080/teacher/lecture/video", {
+      fetch(`http://${localhost}:8080/teacher/lecture/video`, {
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,

@@ -1,14 +1,14 @@
 export {
   teacherSignup,
-    studentSignup,
+  studentSignup,
   showLogin,
   showSignup,
   closeModal,
   teacherLogin,
-    studentLogin,
+  studentLogin,
   teacherLogout,
-    studentLogout,
+  studentLogout,
   authCheckState,
 } from "./auth";
 
-export {getBranches, studentVideos} from './lecture';
+export { getBranches, studentVideos } from "./lecture";

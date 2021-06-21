@@ -11,9 +11,11 @@ import img from "../../../../assets/images/paper.png";
 import { connect } from "react-redux";
 import * as actionCreators from "./store/actions";
 import SkeletonLecture from "../../../../components/Lecture/Skeleton/SkeletonLecture";
+import {userAgent} from "../../../../util/userAgent";
 
 class PapersLectures extends React.PureComponent {
   componentDidMount() {
+    localStorage.setItem('URL',window.location.pathname);
     if (this.props.teacherToken) {
       this.props.onLoadLecture(
         this.props.teacherToken,
@@ -40,6 +42,10 @@ class PapersLectures extends React.PureComponent {
   };
 
   render() {
+    let localhost = "localhost";
+    if (userAgent()) {
+      localhost = "192.168.43.135";
+    }
     // console.log('[paper]',this.props);
     let paper;
     if (this.props.loading) {
@@ -49,7 +55,7 @@ class PapersLectures extends React.PureComponent {
     } else {
       paper = this.props.data.map((data) => (
         <Lecture
-          link={"http://localhost:8080/" + data.pdf}
+          link={"http://" + localhost + ":8080/" + data.pdf}
           title={data.title}
           key={data._id}
           date={data.date}
@@ -78,8 +84,8 @@ class PapersLectures extends React.PureComponent {
         <SearchBar />
         <section className={classes.NotesLectures}>
           <div className={classes.NotesLecturesDiv}>
-            {paper}
             {addLectureBtn}
+            {paper}
           </div>
         </section>
         {addLectureModal}

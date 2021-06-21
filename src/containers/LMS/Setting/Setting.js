@@ -6,6 +6,7 @@ import greenTheme from "../../../assets/images/theme-green.png";
 import blueTheme from "../../../assets/images/theme-blue.png";
 
 const setting = () => {
+  localStorage.setItem('URL',window.location.pathname);
   const changeThemeHandler = (theme) => {
     switch (theme) {
       case "white":

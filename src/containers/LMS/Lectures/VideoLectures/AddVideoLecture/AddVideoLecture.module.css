@@ -1,10 +1,26 @@
 .ModalContainer {
   padding: 50px;
   position: relative;
-  max-width: 900px;
-  width: 900px;
-  max-height: 600px;
+  width: 90rem;
+  max-height: 60rem;
   overflow-y: scroll;
+}
+
+@media (max-width: 900px) {
+  .ModalContainer {
+    width: unset;
+  }
+}
+
+@media (max-width: 900px) and (min-width: 600px) {
+  .ModalContainer {
+    padding: 30px 30px 70px 30px;
+  }
+}
+@media (max-width: 600px) {
+  .ModalContainer {
+    padding: 20px 20px 60px 20px;
+  }
 }
 .ModalContainer::-webkit-scrollbar {
   width: 0.8rem;
@@ -19,22 +35,14 @@
 
 .Form {
   padding: 4rem 0;
+  width: 100%;
+  /*background-color: orangered;*/
 }
 
 .Form > *:not(:last-child) {
   padding-bottom: 3rem;
 }
 
-@media (max-width: 900px) and (min-width: 600px) {
-  .ModalContainer {
-    padding: 30px 30px 70px 30px;
-  }
-}
-@media (max-width: 600px) {
-  .ModalContainer {
-    padding: 20px 20px 60px 20px;
-  }
-}
 
 @media (max-height: 600px) {
   .ModalContainer {

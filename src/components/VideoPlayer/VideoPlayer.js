@@ -104,16 +104,11 @@ class VideoPlayer extends React.Component {
 
     this.currentTimeRef.current.innerHTML = `${currMin}:${currSec}`;
     this.durationTimeRef.current.innerHTML = `${durMin}:${durSec}`;
-    // console.log(
-    //   this.videoRef.current.currentTime,
-    //   this.videoRef.current.buffered
-    // );
   };
 
   scrub = (e) => {
     this.videoRef.current.currentTime = (e.nativeEvent.offsetX / this.progressBarRef.current.offsetWidth) *
         this.videoRef.current.duration;
-    // console.log(scrubTime, e.nativeEvent.offsetX, this.progressBarRef.current.offsetWidth);
   };
 
   skipFwdHandler = () => {
@@ -135,7 +130,6 @@ class VideoPlayer extends React.Component {
   volumeSliderHandler = (e) => {
     this.videoRef.current.volume = +e.target.value;
     this.setState({ volume: e.target.value });
-    // console.log(this.value,+e.target.value, this.videoRef.current[e.target.name]);
   };
 
   fullscreenHandler = () => {
@@ -176,17 +170,14 @@ class VideoPlayer extends React.Component {
       scrubMin = "0" + scrubMin;
     }
     this.progressTimeRef.current.innerHTML = `${scrubMin}:${scrubSec}`;
-    // console.log(`${scrubMin}:${scrubSec}, is the time`);
   };
 
   spinnerShowHandler = () => {
     this.setState({ spinner: true });
-    // console.log("show");
   };
 
   spinnerCloseHandler = () => {
     this.setState({ spinner: false });
-    // console.log("close");
   };
 
   endedHandler = () => {
@@ -202,11 +193,8 @@ class VideoPlayer extends React.Component {
       while(!(bf.start(range) <= time && time <= bf.end(range))) {
         range +=1;
       }
-      // let start = (bf.start(range) / this.videoRef.current.duration) * 100;
       let end = (bf.end(range) / this.videoRef.current.duration) * 100;
-      // const percentage = end - start;
       this.progressBarFilledLoadedRef.current.style.width = `${end}%`;
-      // console.log(percentage, end);
     }
   }
 

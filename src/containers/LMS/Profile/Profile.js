@@ -8,6 +8,7 @@ import { checkValidity } from "../../../util/validators";
 import { connect } from "react-redux";
 import * as actionCreators from "./store/actions";
 import { generateBase64FromImage } from "../../../util/imagePreview";
+import {userAgent} from "../../../util/userAgent";
 
 class Profile extends Component {
   constructor(props) {
@@ -110,6 +111,8 @@ class Profile extends Component {
   };
 
   componentDidMount() {
+    // localStorage.setItem('URL',window.location.pathname);
+    console.log(this.props.data);
     const updatedUserForm = { ...this.state.userForm };
     const name = { ...updatedUserForm.name };
     const email = { ...updatedUserForm.email };
@@ -180,7 +183,7 @@ class Profile extends Component {
       formIsValid = updatedUserForm[inputIdentifier].valid && formIsValid;
     }
     this.setState({ userForm: updatedUserForm, formIsValid });
-    console.log(this.state.formIsValid);
+    // console.log(this.state.formIsValid);
   };
 
   submitHandler = (event) => {
@@ -191,7 +194,7 @@ class Profile extends Component {
     }
     formData.append("image", this.state.imageUrl);
     formData.append("imagePath", this.state.imagePath);
-    console.log(formData);
+    // console.log(formData);
     if (this.props.teacherToken) {
       this.props.onSubmit(formData, this.props.teacherToken, "teacher");
     } else if (this.props.studentToken) {
@@ -214,6 +217,11 @@ class Profile extends Component {
   };
 
   render() {
+    let localhost = "localhost";
+    if (userAgent()) {
+      localhost = "192.168.43.135";
+    }
+
     const formElementArr = [];
     for (let key in this.state.userForm) {
       if (this.props.teacherToken) {
@@ -232,7 +240,7 @@ class Profile extends Component {
     if (this.state.userImage !== null) {
       profileImage = this.state.userImage;
     } else if (this.state.imagePath !== null) {
-      profileImage = "http://localhost:8080/" + this.state.imagePath;
+      profileImage = "http://" + localhost + ":8080/" + this.state.imagePath;
     } else {
       profileImage = image;
     }
@@ -278,6 +286,7 @@ class Profile extends Component {
                 ) {
                   formClasses.push(classes.Invalid);
                 }
+                // console.log('here:',element.config.elementConfig);
                 return (
                   <div key={element.id} className={formClasses.join(" ")}>
                     <Input

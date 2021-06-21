@@ -12,28 +12,56 @@ import { withRouter } from "react-router-dom";
 import * as actionCreators from "./store/actions";
 import Spinner from "../../../../components/UI/Spinner/Spinner";
 import ErrorModal from "../../../../components/UI/ErrorModal/ErrorModal";
+import {userAgent} from "../../../../util/userAgent";
 
 class VideoLectures extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.lectureRef = [];
+    this.lectureRef = React.createRef();
+    this.loadingRef = React.createRef();
   }
 
+  state = {
+    isIntersecting: false,
+  };
+
   componentDidMount() {
-    console.log(this.props.addedToWl);
+    localStorage.setItem('URL',window.location.pathname);
     if (this.props.teacherToken) {
       this.props.onLoadLecture(
         this.props.teacherToken,
-        "/teacher/lecture/video"
+        "/teacher/lecture/video",
       );
     } else if (this.props.studentToken) {
       this.props.onLoadLecture(
         this.props.studentToken,
-        "/student/lecture/video" + this.props.location.search
+        "/student/lecture/video" + this.props.location.search,
       );
-      // this.props.onGetWatchlist(this.props.studentToken);
     }
+    // console.log(this.state.isIntersecting);
+    this.observerHandler();
   }
+
+  componentDidUpdate() {
+    // this.observerHandler();
+  }
+
+  observerHandler = () => {
+    const callback = (entries) => {
+      if (entries[0].isIntersecting && entries[0].intersectionRatio === 1) {
+        // console.log("Is intersecting");
+      }
+    };
+    const options = {
+      root: null,
+      rootMargins: "-10px",
+      threshold: 1,
+    };
+
+    const observer = new IntersectionObserver(callback, options);
+    observer.observe(this.loadingRef.current);
+    // console.log(this.loadingRef.current);
+  };
 
   openedAddLectureModal = () => {
     this.props.onShowModal();
@@ -54,10 +82,19 @@ class VideoLectures extends React.PureComponent {
 
   addToWlHandler = (_id) => {
     this.props.onAddToWl(_id, this.props.studentToken);
-  }
+  };
+
+  onSearchHandler = (e) => {
+    // console.log(e.target.value);
+    const searchTitle = e.target.value;
+    console.log(searchTitle.toUpperCase());
+  };
 
   render() {
-    console.log(this.props.data,this.props.watchlist);
+    let localhost = "localhost";
+    if (userAgent()) {
+      localhost = "192.168.43.135";
+    }
     //////
     let streamLink;
     if (this.props.teacherToken) {
@@ -74,34 +111,35 @@ class VideoLectures extends React.PureComponent {
     } else if (this.props.error) {
       lecture = <ErrorHandler>{this.props.error.message}</ErrorHandler>;
     } else {
-      lecture = this.props.data.map((data) =>{
-        this.props.watchlist.forEach(wl => {
-          if(wl._id === data._id) {
-            console.log('ids match');
+      lecture = this.props.data.map((data) => {
+        this.props.watchlist.forEach((wl) => {
+          if (wl._id === data._id) {
+            console.log("ids match");
           }
-        })
+        });
         return (
-        <Lecture
-          src={data.video}
-          img={"http://localhost:8080/" + data.image}
-          title={data.title}
-          key={data._id}
-          isVideo={this.props.isVideo}
-          date={data.date}
-          name={data.subject}
-          link={streamLink + data._id}
-          addedToWl = {this.props.addedToWl}
-          deleteHandler={() => {
-            this.deleteLectureHandler(data._id);
-          }}
-          editHandler={() => {
-            this.editLectureHandler(data._id);
-          }}
-          addToWlHandler={() => {
-            this.addToWlHandler(data._id);
-          }}
-        />
-      )});
+          <Lecture
+            src={data.video}
+            img={"http://"+ localhost +":8080/" + data.image}
+            title={data.title}
+            key={data._id}
+            isVideo={this.props.isVideo}
+            date={data.date}
+            name={data.subject}
+            link={streamLink + data._id}
+            addedToWl={this.props.addedToWl}
+            deleteHandler={() => {
+              this.deleteLectureHandler(data._id);
+            }}
+            editHandler={() => {
+              this.editLectureHandler(data._id);
+            }}
+            addToWlHandler={() => {
+              this.addToWlHandler(data._id);
+            }}
+          />
+        );
+      });
     }
 
     let addLectureBtn = null;
@@ -119,14 +157,15 @@ class VideoLectures extends React.PureComponent {
 
     return (
       <React.Fragment>
-        {error ? (
-            <ErrorModal error>{error}</ErrorModal>
-        ) : null}
-        <SearchBar />
-        <section className={classes.VideoLectures}>
-          <div className={classes.VideoLecturesDiv}>
-            {lecture}
+        {error ? <ErrorModal error>{error}</ErrorModal> : null}
+        <section ref={this.videoContainerRef} className={classes.VideoLectures}>
+          <SearchBar onChange={this.onSearchHandler} />
+          <div ref={this.lectureRef} className={classes.VideoLecturesDiv}>
             {addLectureBtn}
+            {lecture}
+          </div>
+          <div ref={this.loadingRef}>
+            &nbsp;
           </div>
         </section>
         {addLectureModal}
@@ -175,5 +214,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(withRouter(VideoLectures));

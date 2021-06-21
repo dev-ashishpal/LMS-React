@@ -1,97 +1,172 @@
 .Dashboard {
-    grid-column: 1 / -1;
-    margin: 0 auto;
-    width: 90%;
-    padding-top: 6rem;
+  grid-column: 1 / -1;
+  padding-top: 6rem;
+  max-height: calc(100vh - 5rem);
+  overflow-y: scroll;
+}
+
+.Dashboard::-webkit-scrollbar {
+  width: 0.8rem;
+  background-color: transparent;
+}
+.Dashboard::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 2px;
+  width: 0.8rem;
+  transition: background-color 0.2s;
 }
 
 .Boxes {
-    /*background-color: orangered;*/
-    display: flex;
-    gap: 3rem 3rem;
-    width: 100%;
+  display: flex;
+  gap: 3rem 3rem;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
+@media (max-width: 600px) {
+  .Boxes {
+    gap: unset;
+  }
+}
+
+/*@media (max-width: 470px) {*/
+/*  .Boxes {*/
+/*    gap: 2rem 2rem;*/
+/*  }*/
+/*}*/
+
 .Box {
-    height: 18rem;
-    color: var(--color-pure-white);
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    width: 100%;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  height: 18rem;
+  color: var(--color-pure-white);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: calc((100vw - 20rem) / 4);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .Box {
+    width: calc((100vw - 20rem) / 2);
+  }
+}
+
+@media (max-width: 600px) {
+  .Box {
+    width: calc((100vw - 12rem));
+    margin: 1rem 1rem;
+  }
+}
+
+@media (max-width: 470px) {
+  .Box {
+    width: calc((100vw - 10rem));
+  }
 }
 
 .Box:nth-of-type(1) {
-    background-color: var(--color-primary);
+  background-color: var(--color-primary);
 }
 
 .Box:nth-of-type(2) {
-    background-color: var(--color-sec-dark);
+  background-color: var(--color-sec-dark);
 }
 
 .Box:nth-of-type(3) {
-    background-color: var(--color-secondary);
+  background-color: var(--color-secondary);
 }
 
 .Box:nth-of-type(4) {
-    background-color: var(--color-tertiary4);
+  background-color: var(--color-tertiary4);
 }
 
 .Box h1 {
-    font-weight: 300;
-    font-size: 7rem;
+  font-weight: 300;
+  font-size: 7rem;
 }
 
 .Box span {
-    font-size: 1.6rem;
+  font-size: 1.6rem;
 }
 
 .Chart {
-    display: flex;
-    gap: 3rem;
-    margin:6rem 0;
-    width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem 3rem;
+  margin: 6rem 0;
+  width: 100%;
 }
 
+@media (max-width: 600px) {
+  .Chart {
+    gap: unset;
+  }
+}
+
+
 .LineChart {
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    padding: 2rem;
-    height: 30rem;
-    background-color: var(--color-pure-white);
-    /*width: 55rem;*/
-    flex: 1 0 40%;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  height: 30rem;
+  background-color: var(--color-pure-white);
+  width: calc((100vw - 28rem) / 2);
+}
+
+@media (max-width: 1200px) {
+  .LineChart {
+    width: calc(100vw - 12rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .LineChart {
+    margin: 1rem;
+  }
 }
 
 .LineChart p {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-left: 5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-left: 5rem;
 }
 
 .DonutChart {
-    flex: 1 0 55%;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    padding: 2rem;
-    background-color: var(--color-pure-white);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 2rem 1rem;
+  background-color: var(--color-pure-white);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: calc((100vw) / 2);
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (max-width: 1200px) {
+  .DonutChart {
+    width: calc(100vw - 12rem);
+  }
+}
+@media (max-width: 600px) {
+  .DonutChart {
+    margin: 1rem;
+    padding: 1rem 1rem;
+  }
 }
 
 .DonutChartSingle {
-    /*border-radius: 5px;*/
-    /*box-shadow: 0 0 10px rgba(0,0,0,0.2);*/
-    /*background-color: var(--color-pure-white);*/
+  border: 1px solid var(--color-tertiary1);
+  border-radius: 3px;
 }
 
 .DonutChartSingle p {
-    text-align: center;
-    font-weight: 600;
-    font-size: 1.6rem;
-    padding-right: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.6rem;
+  padding-right: 1.5rem;
 }

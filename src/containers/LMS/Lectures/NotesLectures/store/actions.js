@@ -1,6 +1,17 @@
+import { userAgent } from "../../../../../util/userAgent";
+
+let localhost = "localhost";
+if (userAgent()) {
+  localhost = "192.168.43.135";
+}
+
 export const LOAD_NOTES_LEC_START = "LOAD_NOTES_LEC_START";
 export const LOAD_NOTES_LEC_SUCCESS = "LOAD_NOTES_LEC_SUCCESS";
 export const LOAD_NOTES_LEC_FAIL = "LOAD_NOTES_LEC_FAIL";
+
+export const PAGINATE_NOTES_LEC_START = "PAGINATE_NOTES_LEC_START";
+export const PAGINATE_NOTES_LEC_SUCCESS = "PAGINATE_NOTES_LEC_SUCCESS";
+export const PAGINATE_NOTES_LEC_FAIL = "PAGINATE_NOTES_LEC_FAIL";
 
 export const EDIT_NOTES_LEC_SUCCESS = "EDIT_NOTES_LEC_SUCCESS";
 
@@ -46,7 +57,7 @@ export const loadNotesLecFail = (error) => {
 export const loadNotesLec = (token, url) => {
   return (dispatch) => {
     dispatch(loadNotesLecStart());
-    fetch("http://localhost:8080" + url, {
+    fetch(`http://${localhost}:8080${url}`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + token,
@@ -65,22 +76,67 @@ export const loadNotesLec = (token, url) => {
   };
 };
 
+export const paginateNotesLecStart = () => {
+  return {
+    type: PAGINATE_NOTES_LEC_START,
+  };
+};
+
+export const paginateNotesLecSuccess = (data) => {
+  return {
+    type: PAGINATE_NOTES_LEC_SUCCESS,
+    data,
+  };
+};
+
+export const paginateNotesLecFail = (error) => {
+  return {
+    type: PAGINATE_NOTES_LEC_FAIL,
+    error,
+  };
+};
+
+export const paginateNotesLec = (token, url, page) => {
+  return (dispatch) => {
+    dispatch(paginateNotesLecStart());
+    fetch(`http://${localhost}:8080${url}?page=${page}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((resData) => {
+        dispatch(paginateNotesLecSuccess(resData.data));
+        // console.log(resData);
+      })
+      .catch((err) => {
+        dispatch(paginateNotesLecFail(err));
+      });
+  };
+};
+
 export const deleteNotesLec = (_id, prevData, token) => {
   return (dispatch) => {
-    fetch('http://localhost:8080/teacher/lecture/book/' + _id, {
+    fetch(`http://${localhost}:8080/teacher/lecture/book/${_id}`, {
       method: "DELETE",
       headers: {
-        Authorization: "Bearer " + token
-      }
-    }).then(res => {
-      return res.json();
-    }).then(resData => {
-      console.log(resData);
-      const updatedNotes = prevData.filter(bk => bk._id !== _id);
-      dispatch(loadNotesLecSuccess(updatedNotes));
-    }).catch(err => {
-      dispatch(loadNotesLecFail(err));
+        Authorization: "Bearer " + token,
+      },
     })
+      .then((res) => {
+        return res.json();
+      })
+      .then((resData) => {
+        console.log(resData);
+        const updatedNotes = prevData.filter((bk) => bk._id !== _id);
+        dispatch(loadNotesLecSuccess(updatedNotes));
+      })
+      .catch((err) => {
+        dispatch(loadNotesLecFail(err));
+      });
   };
 };
 
@@ -99,7 +155,7 @@ export const submitNotesLecSuccess = (data) => {
 
 export const submitNotesLec = (notesData, token) => {
   return (dispatch) => {
-    fetch("http://localhost:8080/teacher/lecture/book", {
+    fetch(`http://${localhost}:8080/teacher/lecture/book`, {
       method: "POST",
       headers: {
         Authorization: "Bearer " + token,

@@ -114,8 +114,8 @@ class AddPaperLecture extends React.PureComponent {
             inputtype="input"
             name="paperTitle"
             onChange={this.titleChangeHandler}
-            valid={this.state.title.valid}
-            touched={this.state.title.touched}
+            valid={this.state.title.valid ? 1 : 0}
+            touched={this.state.title.touched ? 1 : 0}
           />
 
           {/*    Input PDF   */}

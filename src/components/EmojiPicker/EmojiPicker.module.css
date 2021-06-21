@@ -1,0 +1,19 @@
+.EmojiContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-height: 40rem;
+  overflow-y: scroll;
+  width: 80rem;
+  /* max-height: 40rem;
+    max-width: 70rem; */
+}
+
+.EmojiSingle {
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.EmojiSingle:hover {
+  background-color: #eee;
+}

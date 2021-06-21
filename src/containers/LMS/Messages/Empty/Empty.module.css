@@ -1,0 +1,10 @@
+.Empty {
+	/* background-color: orangered; */
+	height: 100%;
+	width: 100%;
+	padding-top: 2rem;
+}
+
+.Primary {
+	fill: var(--color-primary);
+}

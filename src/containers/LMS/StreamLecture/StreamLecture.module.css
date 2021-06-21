@@ -67,6 +67,11 @@
   font-size: 1.5rem;
   line-height: 1.7;
 }
+
+.StreamContainerDesc p a {
+  text-decoration: none;
+  color: var(--color-primary-dark);
+}
 /*.user-stream--container__details-description--para-btn {*/
 /*  font-weight: 700;*/
 /*  font-size: 1.6rem;*/
@@ -165,6 +170,11 @@
   border-radius: 3px;
   cursor: pointer;
 }
+
+.CommentFormSubmit button:disabled {
+  background-color: var(--color-primary-light);
+  cursor: not-allowed;
+}
 .UsersCommentContainer {
   margin: 0 auto;
   width: 80%;
@@ -175,7 +185,7 @@
     width: 90%;
   }
 }
-.UsersComment {
+/* .UsersComment {
   display: grid;
   margin: 3rem 0;
   grid-template-columns: 5.3rem 1fr;
@@ -214,7 +224,7 @@
 }
 .UsersCommentPara {
   margin-left: -1px;
-}
+} */
 .StreamSidebar {
   /*max-height: 94vh;*/
   /*overflow: scroll;*/

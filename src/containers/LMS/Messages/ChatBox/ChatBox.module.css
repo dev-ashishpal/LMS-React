@@ -1,0 +1,187 @@
+.Header {
+  display: grid;
+  grid-row-gap: 0;
+  grid-column-gap: 1rem;
+  grid-template-columns: repeat(2, max-content) 1fr max-content;
+  align-items: center;
+  padding: 1rem 1rem 1rem 0.5rem;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 0 20px rgba(68, 68, 68, 0.15);
+}
+.HeaderImg {
+  padding-left: 2rem;
+  transform: translateY(0.2rem);
+}
+.HeaderImg img {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 100%;
+}
+.HeaderHeading h4 {
+  text-transform: capitalize;
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--color-primary);
+}
+.HeaderHeading span {
+  color: #babac0;
+}
+.HeaderIcon {
+  grid-column: 4 / 5;
+  display: flex;
+  justify-content: space-between;
+  width: 7rem;
+  align-items: center;
+  padding-right: 1rem;
+}
+.HeaderIcon svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  fill: currentColor;
+  cursor: pointer;
+}
+
+.ChatContainer {
+  height: calc(100% - 8rem);
+  overflow-y: scroll;
+}
+.ChatContainer::-webkit-scrollbar {
+  display: none;
+}
+.ChatLog {
+  display: flex;
+  /*height: calc(100vh - 35rem);*/
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.EmojiContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-height: 40rem;
+  overflow-y: scroll;
+  width: 80rem;
+  padding: 1rem;
+  /* max-height: 40rem;
+    max-width: 70rem; */
+}
+
+@media (max-width: 900px) {
+  .EmojiContainer {
+    width: 50rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .EmojiContainer {
+    max-width: 30rem;
+  }
+}
+
+.EmojiContainer::-webkit-scrollbar {
+  width: 0.8rem;
+  background-color: transparent;
+}
+.EmojiContainer::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  /* border-radius: 2px; */
+  width: 0.8rem;
+  transition: background-color 0.2s;
+}
+
+.EmojiSingle {
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.EmojiSingle:hover {
+  background-color: #eee;
+}
+
+.GiphyContainer {
+  max-height: 40rem;
+  overflow-y: scroll;
+  /* width: 70rem; */
+  /* max-height: 40rem; */
+    max-width: 65rem; 
+}
+
+@media (max-width: 900px) {
+  .GiphyContainer {
+    max-width: 50rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .GiphyContainer {
+    max-width: 30rem;
+  }
+}
+
+.GiphyContainer::-webkit-scrollbar {
+  width: 0.8rem;
+  background-color: transparent;
+}
+.GiphyContainer::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  /* border-radius: 2px; */
+  width: 0.8rem;
+  transition: background-color 0.2s;
+}
+
+.GiphyButtons {
+  width: 100%;
+  height: 5rem;
+  position: relative;
+  display: flex;
+}
+
+.GiphyBox {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  flex-wrap: wrap;
+}
+
+.GiphySingle {
+  padding: 1rem;
+  /* max-width: 100px; */
+  background-color: white;
+  cursor: pointer;
+}
+
+.GiphySingle:hover {
+  background-color: #eee;
+}
+
+.GifBtn {
+  width: 50%;
+  background-color: white;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 2rem;
+}
+
+.GifBtn.Active {
+    background-color: var(--color-primary);
+}
+
+.StickerBtn.Active {
+    background-color: var(--color-primary);
+}
+
+.StickerBtn {
+  width: 50%;
+  background-color: white;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 2rem;
+}

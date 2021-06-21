@@ -6,7 +6,7 @@ import { timeSince } from "../../util/timeSince";
 import { connect } from "react-redux";
 
 const lecture = (props) => {
-  const date = timeSince(props.date);
+  // const date = timeSince(props.date);
   const iconClass = [classes.IconContainer, classes.IconEdit];
   let editIcon = (
     <div className={iconClass.join(" ")}>
@@ -77,7 +77,7 @@ const lecture = (props) => {
         <h3 className={classes.VideoLectureHeading}>{props.title}</h3>
         <p className={classes.VideoLecturePara}>
           <a href="#">{props.name}</a>
-          <span>{date}</span>
+          <span>{timeSince(props.date)}</span>
         </p>
       </div>
     </article>
