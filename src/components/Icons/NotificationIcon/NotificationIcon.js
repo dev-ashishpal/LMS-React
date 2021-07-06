@@ -5,7 +5,6 @@ import MenuDropdown from "../../UI/MenuDropdown/MenuDropdown";
 import { connect } from "react-redux";
 import { positionMenuDropdown } from "../../../util/menuDropdown";
 import NotificationItem from "./NotificationItem/NotificationItem";
-import openSocket from "socket.io-client";
 
 class notificationIcon extends React.Component {
   constructor(props) {
@@ -14,29 +13,11 @@ class notificationIcon extends React.Component {
   }
   state = {
     showMenu: false,
-    userData: {},
+    notification: [],
     // notification: this.props.notification,
   };
 
-  componentDidMount() {
-    const userData = { ...this.props.userData };
-    // console.log('notification',userData);
-
-    // const socket = openSocket("http://localhost:8080");
-    // this.notif();
-    // socket.on("notification", (data) => {
-    //   console.log(data.notification);
-    //   // console.log("outside");
-    //   if (data.action === branch) {
-    //     console.log(data.notification);
-    //     // console.log("inside");
-    //   }
-    // });
-  }
-
-  notif = () => {
-    // console.log(this.props.branch);
-  }
+  componentDidMount() {}
 
   showDropdownHandler = (e) => {
     this.setState({ showMenu: true });
@@ -48,24 +29,17 @@ class notificationIcon extends React.Component {
     this.setState({ showMenu: false });
   };
   render() {
-    const userData = { ...this.props.userData };
-    // this.setState({userData});
-    // console.log(this.props.notification.concat([{_id: 123213, message: 'piece of shit', branch: "IT Sem 4"}]));
-    // console.log("render", branch);
-    // const notification = this.state.notification;
-    // console.log(notification);
-    // console.log('notif',this.props.studentToken);
+    // console.log(this.state.notification);
     let item;
     if (this.props.studentToken) {
-      item = this.props.notification.map((notif) => {
-        // console.log(notif);
+      item = this.state.notification.map((notif, idx) => {
         return (
           <NotificationItem
-            key={notif._id}
+            key={idx}
             className={classes.MenuItem}
             closeDropdownHandler={this.closeDropdownHandler}
           >
-            {notif.message}
+            {notif}
           </NotificationItem>
         );
       });

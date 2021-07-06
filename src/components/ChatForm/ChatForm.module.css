@@ -17,6 +17,10 @@
   color: currentColor;
 }
 
+.ChatForm input::placeholder {
+  color: currentColor;
+}
+
 .ChatForm label {
   display: none;
 }

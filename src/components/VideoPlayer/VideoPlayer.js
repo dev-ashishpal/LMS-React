@@ -3,7 +3,7 @@ import video from "../../assets/video/video.mp4";
 import PlayerControls from "./PlayerControls/PlayerControls";
 import sprite from "../../assets/svg/sprite.svg";
 import classes from "./VideoPlayer.module.css";
-import Spinner from '../../components/UI/Spinner/Spinner';
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 class VideoPlayer extends React.Component {
   constructor(props) {
@@ -107,8 +107,9 @@ class VideoPlayer extends React.Component {
   };
 
   scrub = (e) => {
-    this.videoRef.current.currentTime = (e.nativeEvent.offsetX / this.progressBarRef.current.offsetWidth) *
-        this.videoRef.current.duration;
+    this.videoRef.current.currentTime =
+      (e.nativeEvent.offsetX / this.progressBarRef.current.offsetWidth) *
+      this.videoRef.current.duration;
   };
 
   skipFwdHandler = () => {
@@ -160,6 +161,18 @@ class VideoPlayer extends React.Component {
       (e.nativeEvent.offsetX / this.progressBarRef.current.offsetWidth) *
       this.videoRef.current.duration;
 
+    if (
+      this.progressTimeRef.current.getBoundingClientRect().x +
+        this.progressTimeRef.current.getBoundingClientRect().width >=
+      this.videoRef.current.getBoundingClientRect().x +
+        this.videoRef.current.getBoundingClientRect().width
+    ) {
+      this.progressTimeRef.current.style.left = `${
+        this.progressBarRef.current.offsetWidth -
+        (10 + this.progressTimeRef.current.offsetWidth / 2)
+      }px`;
+    }
+
     let scrubMin = Math.floor(scrubTime / 60);
     let scrubSec = Math.floor(scrubTime - scrubMin * 60);
 
@@ -169,7 +182,14 @@ class VideoPlayer extends React.Component {
     if (scrubMin < 10) {
       scrubMin = "0" + scrubMin;
     }
-    this.progressTimeRef.current.innerHTML = `${scrubMin}:${scrubSec}`;
+    this.progressTimeRef.current.querySelector(
+      "span"
+    ).innerHTML = `${scrubMin}:${scrubSec}`;
+    if (this.props.src) {
+      this.progressTimeRef.current.querySelector(
+        "video"
+      ).currentTime = scrubTime ? scrubTime : null;
+    }
   };
 
   spinnerShowHandler = () => {
@@ -189,14 +209,14 @@ class VideoPlayer extends React.Component {
     let time = this.videoRef.current.currentTime;
     let range = 0;
     let bf = this.videoRef.current.buffered;
-    if(this.videoRef.current.readyState >= 2) {
-      while(!(bf.start(range) <= time && time <= bf.end(range))) {
-        range +=1;
+    if (this.videoRef.current.readyState >= 2) {
+      while (!(bf.start(range) <= time && time <= bf.end(range))) {
+        range += 1;
       }
       let end = (bf.end(range) / this.videoRef.current.duration) * 100;
       this.progressBarFilledLoadedRef.current.style.width = `${end}%`;
     }
-  }
+  };
 
   render() {
     return (
@@ -223,6 +243,7 @@ class VideoPlayer extends React.Component {
           Your browser doesn't support Video File.
         </video>
         <PlayerControls
+          src={this.props.src}
           playPauseHandler={this.playPauseHandler}
           playPauseIcon={this.state.playPauseIcon}
           muteHandler={this.muteHandler}
@@ -252,7 +273,11 @@ class VideoPlayer extends React.Component {
             </svg>
           </div>
         ) : null}
-        {this.state.spinner ? <div className={classes.Spinner}><Spinner /></div>  : null}
+        {this.state.spinner ? (
+          <div className={classes.Spinner}>
+            <Spinner />
+          </div>
+        ) : null}
       </div>
     );
   }

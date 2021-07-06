@@ -1,23 +1,23 @@
 import React from "react";
 import classes from "./Dashboard.module.css";
-import SkeletonElement from "../../../components/UI/skeletonElements/skeletonElement";
 import * as actionCreators from "./store/actions";
 import { connect } from "react-redux";
 import LineGraph from "../../../components/Graphs/LineGraph/LineGraph";
 import DonutGraph from "../../../components/Graphs/DonutGraph/DonutGraph";
-// import {userAgent} from "../../../util/userAgent";
-import openSocket from "socket.io-client";
 
 class Dashboard extends React.Component {
   componentDidMount() {
-    localStorage.setItem('URL',window.location.pathname);
+    localStorage.setItem("URL", window.location.pathname);
     if (this.props.teacherToken) {
       this.props.onLoad(this.props.teacherToken, "teacher");
-      this.props.onLoadVideo(this.props.teacherToken);
-      this.props.onLoadNotes(this.props.teacherToken);
-      this.props.onLoadPaper(this.props.teacherToken);
+      this.props.onLoadVideo(this.props.teacherToken, "teacher");
+      this.props.onLoadNotes(this.props.teacherToken, "teacher");
+      this.props.onLoadPaper(this.props.teacherToken, "teacher");
     } else if (this.props.studentToken) {
       this.props.onLoad(this.props.studentToken, "student");
+      this.props.onLoadVideo(this.props.studentToken, "student");
+      this.props.onLoadNotes(this.props.studentToken, "student");
+      this.props.onLoadPaper(this.props.studentToken, "student");
     }
   }
 
@@ -78,14 +78,14 @@ const mapDispatchToProps = (dispatch) => {
     onLoad: (token, url) => {
       dispatch(actionCreators.dashboardData(token, url));
     },
-    onLoadVideo: (token) => {
-      dispatch(actionCreators.dashboardVideoData(token));
+    onLoadVideo: (token, url) => {
+      dispatch(actionCreators.dashboardVideoData(token, url));
     },
-    onLoadNotes: (token) => {
-      dispatch(actionCreators.dashboardNotesData(token));
+    onLoadNotes: (token, url) => {
+      dispatch(actionCreators.dashboardNotesData(token, url));
     },
-    onLoadPaper: (token) => {
-      dispatch(actionCreators.dashboardPaperData(token));
+    onLoadPaper: (token, url) => {
+      dispatch(actionCreators.dashboardPaperData(token, url));
     },
     onNotification: (branch, token) => {
       dispatch(actionCreators.dashboardNotification(branch, token));

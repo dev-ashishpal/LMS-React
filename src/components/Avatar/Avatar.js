@@ -1,5 +1,5 @@
 import React from "react";
-import userImage from "../../assets/images/user.jpg";
+import userImage from "../../assets/images/user.png";
 import classes from "./Avatar.module.css";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
@@ -22,7 +22,7 @@ const avatar = (props) => {
         <img
           src={
             image.image
-              ? "http://" + localhost + ":8080/" + image.image
+              ? "http://" + localhost + ":8080/" + image.imagePreview
               : userImage
           }
           alt="user_image"

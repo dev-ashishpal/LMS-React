@@ -14,7 +14,13 @@
   text-decoration: none;
   max-height: 32.6rem;
   max-width: 43.4rem;
-  box-shadow: 0 0 10px rgba(68, 68, 68, 0.25);
+  /*box-shadow: 0 0 10px rgba(68, 68, 68, 0.25);*/
+  box-shadow:0 0 10px hsla(
+    var(--color-tertiary-h),
+    var(--color-tertiary-s),
+    var(--color-tertiary-l),
+    0.8
+  );
   background-color: var(--color-pure-white);
 }
 
@@ -111,7 +117,7 @@
   color: var(--color-tertiary3);
 }
 
-.VideoLecturePara a {
+.VideoLecturePara span:first-of-type {
   text-decoration: none;
   text-transform: uppercase;
   color: currentColor;

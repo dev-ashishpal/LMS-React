@@ -28,7 +28,13 @@
 
 .TextInput input:focus {
     border-bottom: 3px solid var(--color-primary-dark);
-    box-shadow: 0 0.5rem .5rem rgba(68, 68, 68, 0.5);
+    /*box-shadow: 0 0.5rem .5rem rgba(68, 68, 68, 0.5);*/
+    box-shadow:0 0 .5rem .5rem hsla(
+            var(--color-tertiary-h),
+            var(--color-tertiary-s),
+            var(--color-tertiary-l),
+            0.8
+    );
 }
 
 /*.TextInput input:focus:invalid {*/
@@ -51,5 +57,11 @@
 
 .Invalid input{
     border-bottom: 3px solid var(--color-sec-dark) !important;
-    box-shadow: 0 0.5rem .5rem rgba(68, 68, 68, 0.5);
+    /*box-shadow: 0 0.5rem .5rem rgba(68, 68, 68, 0.5);*/
+    box-shadow:0 0 .5rem .5rem hsla(
+            var(--color-tertiary-h),
+            var(--color-tertiary-s),
+            var(--color-tertiary-l),
+            0.8
+    );
 }

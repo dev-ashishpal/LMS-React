@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import classes from "./Lectures.module.css";
 import { connect } from "react-redux";
 import StudentLectureNavigation from "../../../components/LectureNavigation/StudentLectureNavigation";
@@ -57,8 +57,14 @@ class StudentLectures extends React.PureComponent {
                         key={lec._id}
                         isVideo={true}
                         date={lec.date}
-                        name={lec.subject}
-                        link={"/student/watch/" + lec._id}
+                        subject={
+                          this.props.teacherToken
+                            ? lec.branch
+                            : this.props.studentToken
+                            ? lec.subject
+                            : null
+                        }
+                        link={"/student/watch?v=" + lec._id}
                         addedToWl={this.props.addedToWl}
                         addToWlHandler={() => {
                           this.addToWlHandler(lec._id);

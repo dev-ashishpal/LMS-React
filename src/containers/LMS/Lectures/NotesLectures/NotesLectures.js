@@ -11,8 +11,9 @@ import * as actionCreators from "./store/actions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import SkeletonLecture from "../../../../components/Lecture/Skeleton/SkeletonLecture";
-import openSocket from "socket.io-client";
 import { userAgent } from "../../../../util/userAgent";
+import { search } from "../../../../util/search";
+import ErrorModal from "../../../../components/UI/ErrorModal/ErrorModal";
 
 class NotesLectures extends React.PureComponent {
   constructor(props) {
@@ -101,7 +102,13 @@ class NotesLectures extends React.PureComponent {
           key={data._id}
           date={data.date}
           img={img}
-          name={data.subject}
+          subject={
+            this.props.teacherToken
+              ? data.branch
+              : this.props.studentToken
+              ? data.subject
+              : null
+          }
           deleteHandler={() => {
             this.deleteNotesHandler(data._id);
           }}
@@ -124,10 +131,16 @@ class NotesLectures extends React.PureComponent {
         </Modal>
       );
     }
+    let error = this.props.error;
     return (
       <React.Fragment>
+        {error ? <ErrorModal error>{error}</ErrorModal> : null}
         <section ref={this.notesContainerRef} className={classes.NotesLectures}>
-          <SearchBar />
+          <SearchBar
+            onChange={(e) => {
+              search(e, this.lectureRef);
+            }}
+          />
           <div ref={this.lectureRef} className={classes.NotesLecturesDiv}>
             {addLectureBtn}
             {notes}

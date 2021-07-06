@@ -11,9 +11,15 @@
     border-radius: 5px;
     font-weight: 400;
     font-size: 120%;
-    box-shadow: 0 0 1rem rgba(0,0,0,0.4);
+    /*box-shadow: 0 0 1rem rgba(0,0,0,0.4);*/
+    box-shadow:0 0 10px hsla(
+            var(--color-tertiary-h),
+            var(--color-tertiary-s),
+            var(--color-tertiary-l),
+            0.5
+    );
     left: 50%;
-    top: 5%;
+    top: 10%;
     transform: translate(-50%, -5%);
     box-sizing: border-box;
     transition: all 0.3s ease-out;

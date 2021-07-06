@@ -7,8 +7,13 @@ import ChatBox from "./ChatBox/ChatBox";
 import { Route, Switch, withRouter } from "react-router";
 import * as actionCreators from "./store/actions";
 import { connect } from "react-redux";
+import { search } from "../../../util/search";
 
 class Messages extends Component {
+  constructor(props) {
+    super(props);
+    this.chatListRef = React.createRef();
+  }
   componentDidMount() {
     localStorage.setItem("URL", window.location.pathname);
     if (this.props.teacherToken) {
@@ -21,7 +26,7 @@ class Messages extends Component {
   render() {
     const mediaQuery = window.matchMedia("(max-width: 600px)");
     if (mediaQuery.matches) {
-      console.log("yeah its mobile mode");
+      // console.log("yeah its mobile mode");
     }
     let urlParam = window.location.search.split("=")[1]
       ? window.location.search.split("=")[1].replace("%", " ")
@@ -39,6 +44,9 @@ class Messages extends Component {
             type="text"
             className={classes.SearchBarInput}
             placeholder="Search"
+            onChange={(e) => {
+              search(e, this.chatListRef);
+            }}
             id="messages-search"
           />
           <label htmlFor="messages-search" hidden>
@@ -48,7 +56,7 @@ class Messages extends Component {
             <use href={sprite + "#icon-search"}></use>
           </svg>
         </div>
-        <section className={classes.SidebarContainer}>
+        <section ref={this.chatListRef} className={classes.SidebarContainer}>
           {this.props.branches.map((branch) => (
             <ChatList url={urlParam === branch} link={branch} key={branch}>
               {branch}

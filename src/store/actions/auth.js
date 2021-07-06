@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import { userAgent } from "../../util/userAgent";
+import { caughtError } from "../../util/caughtError";
 
 let localhost = "localhost";
 if (userAgent()) {
@@ -24,20 +25,20 @@ export const closeModal = () => {
   };
 };
 
-export const teacherAuthStart = () => {
+export const userAuthStart = () => {
   return {
-    type: actionTypes.TEACHER_AUTH_START,
+    type: actionTypes.USER_AUTH_START,
   };
 };
 
-export const teacherAuthSuccess = (
+export const userAuthSuccess = (
   teacherToken,
   teacherId,
   studentToken,
   studentId
 ) => {
   return {
-    type: actionTypes.TEACHER_AUTH_SUCCESS,
+    type: actionTypes.USER_AUTH_SUCCESS,
     teacherId,
     teacherToken,
     studentId,
@@ -45,70 +46,65 @@ export const teacherAuthSuccess = (
   };
 };
 
-export const teacherAuthFail = (error) => {
+export const userAuthFail = (error) => {
   return {
-    type: actionTypes.TEACHER_AUTH_FAIL,
+    type: actionTypes.USER_AUTH_FAIL,
     error: error,
   };
 };
 
 export const teacherSignup = (data, array) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     let ok;
-    fetch(`http://${localhost}:8080/teacher/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => {
-        if (res.status !== 201) {
-          ok = res.ok;
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (ok === false) {
-          throw new Error(data.message);
-        }
-        dispatch(showLogin());
-        array.length = 0;
-        // console.log(data);
-      })
-      .catch((err) => {
-        dispatch(teacherAuthFail(err.message));
+    try {
+      const res = await fetch(`http://${localhost}:8080/teacher/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
+      if (res.status !== 201) {
+        ok = res.ok;
+      }
+      const resData = await res.json();
+
+      if (ok === false) {
+        throw new Error(resData.message);
+      }
+      dispatch(showLogin());
+      array.length = 0;
+    } catch (err) {
+      caughtError(dispatch, userAuthFail, err);
+    }
   };
 };
 
 export const studentSignup = (data) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     let ok;
-    dispatch(teacherAuthStart());
-    fetch(`http://${localhost}:8080/student/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => {
-        if (res.status !== 201) {
-          ok = res.ok;
-        }
-        return res.json();
-      })
-      .then((result) => {
-        if (ok === false) {
-          throw new Error(result.message);
-        }
-        dispatch(showLogin());
-        // console.log(result);
-      })
-      .catch((err) => {
-        dispatch(teacherAuthFail(err.message));
+    dispatch(userAuthStart());
+    try {
+      const res = await fetch(`http://${localhost}:8080/student/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
+      if (res.status !== 201) {
+        ok = res.ok;
+      }
+      const resData = await res.json();
+
+      if (ok === false) {
+        throw new Error(resData.message);
+      }
+      dispatch(showLogin());
+      // console.log(resData);
+    } catch (err) {
+      caughtError(dispatch, userAuthFail, err);
+    }
   };
 };
 
@@ -141,89 +137,77 @@ export const checkAuthTimeout = (expirationTime) => {
 };
 
 export const teacherLogin = (data) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     let ok;
-    dispatch(teacherAuthStart());
-    fetch(`http://${localhost}:8080/teacher/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => {
-        if (res.status !== 201) {
-          ok = res.ok;
-          console.log(ok);
-        }
-        return res.json();
-      })
-      .then((result) => {
-        if (ok === false) {
-          console.log(result.message);
-          throw new Error(result.message);
-        }
-        console.log(result);
-        // console.log(result, result.data.token, result.data.userId);
-        const expiresIn = 60 * 60;
-        localStorage.setItem("teacherToken", result.data.token);
-        localStorage.setItem("teacherId", result.data.userId);
-        localStorage.setItem(
-          "teacherExpirationDate",
-          new Date(new Date().getTime() + expiresIn * 1000)
-        );
-        dispatch(
-          teacherAuthSuccess(result.data.token, result.data.userId, null, null)
-        );
-        // dispatch(setAuthRedirectPath('/teacher/dashboard'));
-        dispatch(checkAuthTimeout(expiresIn));
-      })
-      .catch((err) => {
-        console.log(err.message);
-        dispatch(teacherAuthFail(err.message));
+    dispatch(userAuthStart());
+    try {
+      const res = await fetch(`http://${localhost}:8080/teacher/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
+      if (res.status !== 201) {
+        ok = res.ok;
+      }
+      const resData = await res.json();
+
+      if (ok === false) {
+        throw new Error(resData.message);
+      }
+      const expiresIn = 60 * 60;
+      localStorage.setItem("teacherToken", resData.data.token);
+      localStorage.setItem("teacherId", resData.data.userId);
+      localStorage.setItem(
+        "teacherExpirationDate",
+        new Date(new Date().getTime() + expiresIn * 1000)
+      );
+      dispatch(
+        userAuthSuccess(resData.data.token, resData.data.userId, null, null)
+      );
+      dispatch(checkAuthTimeout(expiresIn));
+    } catch (err) {
+      caughtError(dispatch, userAuthFail, err);
+    }
   };
 };
 
 export const studentLogin = (data) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     let ok;
-    dispatch(teacherAuthStart());
-    fetch(`http://${localhost}:8080/student/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => {
-        if (res.status !== 201) {
-          ok = res.ok;
-        }
-        return res.json();
-      })
-      .then((result) => {
-        if (ok === false) {
-          console.log(result.message);
-          throw new Error(result.message);
-        }
-        // console.log(result, result.data.token, result.data.userId);
-        const expiresIn = 60 * 60; //time in seconds
-        localStorage.setItem("studentToken", result.data.token);
-        localStorage.setItem("studentId", result.data.userId);
-        localStorage.setItem(
-          "studentExpirationDate",
-          new Date(new Date().getTime() + expiresIn * 1000)
-        );
-        dispatch(
-          teacherAuthSuccess(null, null, result.data.token, result.data.userId)
-        );
-        dispatch(checkAuthTimeout(expiresIn));
-      })
-      .catch((err) => {
-        console.log(err.message);
-        dispatch(teacherAuthFail(err.message));
+    dispatch(userAuthStart());
+    try {
+      const res = await fetch(`http://${localhost}:8080/student/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
+      if (res.status !== 201) {
+        ok = res.ok;
+      }
+      const resData = await res.json();
+
+      if (ok === false) {
+        console.log(resData.message);
+        throw new Error(resData.message);
+      }
+      const expiresIn = 60 * 60; //time in seconds
+      localStorage.setItem("studentToken", resData.data.token);
+      localStorage.setItem("studentId", resData.data.userId);
+      localStorage.setItem(
+        "studentExpirationDate",
+        new Date(new Date().getTime() + expiresIn * 1000)
+      );
+      dispatch(
+        userAuthSuccess(null, null, resData.data.token, resData.data.userId)
+      );
+      dispatch(checkAuthTimeout(expiresIn));
+    } catch (err) {
+      caughtError(dispatch, userAuthFail, err);
+    }
   };
 };
 
@@ -240,7 +224,7 @@ export const authCheckState = () => {
         dispatch(teacherLogout());
       } else {
         const userId = localStorage.getItem("teacherId");
-        dispatch(teacherAuthSuccess(teacherToken, userId, null, null));
+        dispatch(userAuthSuccess(teacherToken, userId, null, null));
         dispatch(
           checkAuthTimeout(
             (expirationDate.getTime() - new Date().getTime()) / 1000
@@ -259,7 +243,7 @@ export const authCheckState = () => {
         dispatch(studentLogout());
       } else {
         const userId = localStorage.getItem("studentId");
-        dispatch(teacherAuthSuccess(null, null, studentToken, userId));
+        dispatch(userAuthSuccess(null, null, studentToken, userId));
         dispatch(
           checkAuthTimeout(
             (expirationDate.getTime() - new Date().getTime()) / 1000

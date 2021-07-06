@@ -1,9 +1,8 @@
 import React, { Suspense } from "react";
 import classes from "./Lectures.module.css";
 import ProgressBar from "../../../components/UI/ProgressBar/ProgressBar";
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-// import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 import LectureNavigation from "../../../components/LectureNavigation/LectureNavigation";
 
 const VideoLectures = React.lazy(() => import("./VideoLectures/VideoLectures"));
@@ -67,6 +66,7 @@ class Lectures extends React.PureComponent {
                 </Suspense>
               )}
             />
+            
             {/*</Switch>*/}
           </section>
         </main>

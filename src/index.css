@@ -7,8 +7,8 @@
 }
 
 *::selection {
-  background-color: #00ced1;
-  color: #fff;
+  background-color: var(--color-primary);
+  color: var(--color-pure-white);
 }
 
 html {
@@ -48,6 +48,9 @@ body {
   --color-primary-light: hsl(180, 65%, 81%);
   --color-primary: hsl(181, 69%, 61%);
   --color-primary-dark: hsl(181, 100%, 41%);
+  --color-primary-h: 181;
+  --color-primary-s: 100%;
+  --color-primary-l: 41%;
 
   /* ----------  SECONDARY COLORS  ------------ */
   --color-secondary-light: hsl(146, 35%, 40%);
@@ -59,10 +62,15 @@ body {
   --color-sec-dark: hsl(16, 100%, 50%);
 
   /* ----------  TERTIARY COLORS  ------------ */
-  --color-tertiary1: #eee;
-  --color-tertiary2: #babac0;
-  --color-tertiary3: #7f7f7f;
-  --color-tertiary4: #666666;
+  /*--color-tertiary1: #eee;*/
+  --color-tertiary1: hsl(0, 0%, 93%);
+  --color-tertiary2: hsl(240, 5%, 74%);
+  --color-tertiary3: hsl(0, 0%, 50%);
+  --color-tertiary4: hsl(0, 0%, 40%);
+
+  --color-tertiary-h: 0;
+  --color-tertiary-s: 0%;
+  --color-tertiary-l: 40%;
 
   /* ----------  ESSENTIAL COLORS  ------------ */
   --color-white: rgb(241, 241, 241);
@@ -80,6 +88,10 @@ body {
   --color-primary: hsl(181, 69%, 61%);
   --color-primary-dark: hsl(181, 100%, 41%);
 
+  --color-primary-h: 181;
+  --color-primary-s: 100%;
+  --color-primary-l: 41%;
+
   /* ----------  SECONDARY COLORS  ------------ */
   --color-secondary-light: hsl(146, 35%, 40%);
   --color-secondary: hsl(146, 43%, 30%);
@@ -91,10 +103,14 @@ body {
 
   /* ----------  TERTIARY COLORS  ------------ */
   /*--color-tertiary1: #e1e1e1;*/
-  --color-tertiary1: #eee;
-  --color-tertiary2: #babac0;
-  --color-tertiary3: #7f7f7f;
-  --color-tertiary4: #666666;
+  --color-tertiary1: hsl(0, 0%, 93%);
+  --color-tertiary2: hsl(240, 5%, 74%);
+  --color-tertiary3: hsl(0, 0%, 50%);
+  --color-tertiary4: hsl(0, 0%, 40%);
+
+  --color-tertiary-h: 0;
+  --color-tertiary-s: 0%;
+  --color-tertiary-l: 40%;
 
   /* ----------  ESSENTIAL COLORS  ------------ */
   --color-white: rgb(241, 241, 241);
@@ -106,13 +122,13 @@ body {
 
 .greenMode {
   /* ----------  PRIMARY COLORS  ------------ */
-  /*--color-primary-light: hsl(180, 65%, 81%);*/
-  /*--color-primary: hsl(181, 69%, 61%);*/
-  /*--color-primary-dark: hsl(181, 100%, 41%);*/
-
   --color-primary-light: hsl(29, 55%, 60%);
   --color-primary: hsl(29, 64%, 55%);
   --color-primary-dark: hsl(29, 74%, 50%);
+
+  --color-primary-h: 29;
+  --color-primary-s: 74%;
+  --color-primary-l: 50%;
 
   /* ----------  SECONDARY COLORS  ------------ */
   --color-secondary-light: hsl(146, 35%, 40%);
@@ -124,34 +140,17 @@ body {
   --color-sec-dark: hsl(16, 100%, 50%);
 
   /* ----------  TERTIARY COLORS  ------------ */
-  /*--color-tertiary1: #e1e1e1;*/
-  /*--color-tertiary1: #eee;*/
-  /*--color-tertiary2: #babac0;*/
-  /*--color-tertiary3: #7f7f7f;*/
-  /*--color-tertiary4: #666666;*/
-
-  /*--color-tertiary4: #eee;*/
-  /*--color-tertiary3: #babac0 ;*/
-  /*--color-tertiary2: #7f7f7f;*/
-  /*--color-tertiary1: #666666;*/
-
-  /*--color-tertiary1: hsl(29, 55%, 60%);*/
-  /*--color-tertiary2: hsl(29, 64%, 55%);*/
-  /*--color-tertiary3: hsl(29, 74%, 50%);*/
-  /*--color-tertiary4: hsl(29, 80%, 47%);*/
 
   --color-tertiary1: hsl(51, 35%, 100%);
   --color-tertiary2: hsl(51, 40%, 92%);
   --color-tertiary3: hsl(51, 45%, 82%);
   --color-tertiary4: hsl(51, 50%, 72%);
 
+  --color-tertiary-h: 51;
+  --color-tertiary-s: 50%;
+  --color-tertiary-l: 72%;
+
   /* ----------  ESSENTIAL COLORS  ------------ */
-  /*--color-white: rgb(241, 241, 241);*/
-  /*--color-pure-white: rgb(255, 255, 255);*/
-
-  /*--color-black: rgb(51, 51, 51);*/
-  /*--color-black-dark: rgb(34, 34, 34);*/
-
   --color-white: hsl(146, 35%, 40%);
   --color-pure-white: hsl(146, 43%, 30%);
 
@@ -165,6 +164,10 @@ body {
   --color-primary: hsl(181, 69%, 61%);
   --color-primary-dark: hsl(181, 100%, 41%);
 
+  --color-primary-h: 181;
+  --color-primary-s: 100%;
+  --color-primary-l: 41%;
+
   /* ----------  SECONDARY COLORS  ------------ */
   --color-secondary-light: hsl(146, 35%, 40%);
   --color-secondary: hsl(146, 43%, 30%);
@@ -176,10 +179,19 @@ body {
 
   /* ----------  TERTIARY COLORS  ------------ */
 
-  --color-tertiary1: #666666;
-  --color-tertiary2: #7f7f7f;
-  --color-tertiary3: #babac0;
-  --color-tertiary4: #e1e1e1;
+  /*--color-tertiary1: #666666;*/
+  /*--color-tertiary2: #7f7f7f;*/
+  /*--color-tertiary3: #babac0;*/
+  /*--color-tertiary4: #e1e1e1;*/
+
+  --color-tertiary1: hsl(0, 0%, 40%);
+  --color-tertiary2: hsl(0, 0%, 50%);
+  --color-tertiary3: hsl(240, 5%, 74%);
+  --color-tertiary4: hsl(0, 0%, 88%);
+
+  --color-tertiary-h: 240;
+  --color-tertiary-s: 5%;
+  --color-tertiary-l: 50%;
 
   /* ----------  ESSENTIAL COLORS  ------------ */
 
@@ -196,6 +208,10 @@ body {
   --color-primary: hsl(328, 75%, 50%);
   --color-primary-dark: hsl(328, 85%, 45%);
 
+  --color-primary-h: 328;
+  --color-primary-s: 85%;
+  --color-primary-l: 45%;
+
   /* ----------  SECONDARY COLORS  ------------ */
   --color-secondary-light: hsl(146, 35%, 40%);
   --color-secondary: hsl(146, 43%, 30%);
@@ -210,6 +226,9 @@ body {
   --color-tertiary2: hsl(51, 40%, 92%);
   --color-tertiary3: hsl(51, 45%, 82%);
   --color-tertiary4: hsl(51, 50%, 72%);
+  --color-tertiary-h: 51;
+  --color-tertiary-s: 50%;
+  --color-tertiary-l: 72%;
 
   /* ----------  ESSENTIAL COLORS  ------------ */
   --color-white: hsl(201, 100%, 20%);

@@ -4,7 +4,6 @@ import TeacherLogin from "./LoginForm/TeacherLogin/TeacherLogin";
 import TeacherSignup from "./SignupForm/TeacherSignup/TeacherSignup";
 import StudentLogin from "./LoginForm/StudentLogin/StudenLogin";
 import StudentSignup from "./SignupForm/StudentSignup/StudentSignup";
-import ErrorModal from "../UI/ErrorModal/ErrorModal";
 
 const authForm = (props) => {
   let login, signup;
@@ -17,7 +16,6 @@ const authForm = (props) => {
   }
   return (
     <div className={classes.ModalContainer}>
-
       <button className={classes.ModalCancelBtn} onClick={props.closed}>
         &times;
       </button>
@@ -25,14 +23,24 @@ const authForm = (props) => {
       {props.showLogin ? (
         <Fragment>
           {login}
-          <button className={classes.FormSwitchBtn} onClick={props.studentHandler}>Switch To {props.student ? 'Student' : 'Teacher'}</button>
+          <button
+            className={classes.FormSwitchBtn}
+            onClick={props.studentHandler}
+          >
+            Switch To {props.student ? "Student" : "Teacher"}
+          </button>
         </Fragment>
       ) : null}
 
       {props.showSignup ? (
         <Fragment>
           {signup}
-          <button className={classes.FormSwitchBtn} onClick={props.studentHandler}>Switch To {props.student ? 'Student' : 'Teacher'}</button>
+          <button
+            className={classes.FormSwitchBtn}
+            onClick={props.studentHandler}
+          >
+            Switch To {props.student ? "Student" : "Teacher"}
+          </button>
         </Fragment>
       ) : null}
     </div>

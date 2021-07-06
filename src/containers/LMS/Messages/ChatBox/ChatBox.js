@@ -1,27 +1,17 @@
 import React, { Component, Fragment } from "react";
 import classes from "./ChatBox.module.css";
-import Message from "../../../../components/Message/Message";
 import ChatForm from "../../../../components/ChatForm/ChatForm";
 import { withRouter } from "react-router";
 import * as actionCreators from "../store/actions";
-import Input from "../../../../components/UI/ProfileInput/ProfileInput";
 import { required } from "../../../../util/validators";
-import sprite from "../../../../assets/svg/sprite.svg";
 import { timeSince } from "../../../../util/timeSince";
-// import imageBig from "../../assets/images/user.jpg";
-import imageBig from "../../../../assets/images/user.jpg";
-import image from "../../../../assets/images/user1.jpg";
-// import MessageLog from "./MessageLog/MessageLog";
 import MessageLog from "../../../../components/Message/MessageLog/MessageLog";
 import { connect } from "react-redux";
-import messageLog from "../../../../components/Message/MessageLog/MessageLog";
 import openSocket from "socket.io-client";
 import { emojis } from "../../../../util/emoji";
 import MenuDropdown from "../../../../components/UI/MenuDropdown/MenuDropdown";
 import { positionMenuDropdown } from "../../../../util/menuDropdown";
 import Spinner from "../../../../components/UI/Spinner/Spinner";
-import EmojiPicker from "../../../../components/EmojiPicker/EmojiPicker";
-import { gifGenerator } from "../../../../util/linkGenerator";
 import {userAgent} from "../../../../util/userAgent";
 
 class ChatBox extends Component {
@@ -209,7 +199,7 @@ class ChatBox extends Component {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && entries[0].intersectionRatio === 1) {
-          console.log("Is intersecting");
+          // console.log("Is intersecting");
         }
       },
       {
@@ -237,7 +227,7 @@ class ChatBox extends Component {
     this.setState({ showGiphyMenu: true });
     positionMenuDropdown(e, this.menuGiphyDropdownRef);
     this.getGiphyGif();
-    console.log(this.props.giphyData);
+    // console.log(this.props.giphyData);
     // this.observerHandler();
   };
 
@@ -248,7 +238,7 @@ class ChatBox extends Component {
   };
 
   getEmojiUniCode = (value) => {
-    console.log(value);
+    // console.log(value);
     this.setState((prevState) => {
       const updatedMessage = { ...prevState.message };
       updatedMessage.value = `${prevState.message.value} ${value}`;
@@ -273,6 +263,7 @@ class ChatBox extends Component {
     } else if (this.props.giphyError) {
       giphyData = <div>it is an error.</div>;
     } else if (this.props.giphyData.data) {
+      console.log(this.props.giphyData.data[0].title);
       giphyData = (
         <Fragment>
           {this.props.giphyData.data.map((element, idx) => (
@@ -282,6 +273,7 @@ class ChatBox extends Component {
               }}
               className={classes.GiphySingle}
               key={idx}
+              alt={element.title}
               src={element.images.fixed_width_downsampled.url}
               width={element.images.fixed_width_downsampled.width}
               height={element.images.fixed_width_downsampled.height}

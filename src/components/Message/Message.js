@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import classes from "./Message.module.css";
-import imageBig from "../../assets/images/user.jpg";
+import imageBig from "../../assets/images/user.png";
 import sprite from "../../assets/svg/sprite.svg";
 import MessageLog from "./MessageLog/MessageLog";
 // import image from "../../assets/images/user1.jpg";

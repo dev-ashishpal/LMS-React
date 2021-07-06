@@ -6,7 +6,6 @@ import { timeSince } from "../../util/timeSince";
 import { connect } from "react-redux";
 
 const lecture = (props) => {
-  // const date = timeSince(props.date);
   const iconClass = [classes.IconContainer, classes.IconEdit];
   let editIcon = (
     <div className={iconClass.join(" ")}>
@@ -30,30 +29,31 @@ const lecture = (props) => {
     </button>
   );
   if (props.studentToken) {
-    if(props.addedToWl) {
-      deleteIcon = (<button
-          title="Remove From WatchList"
-          className={classes.IconBtn}
-          type="button"
-          onClick={props.removeFromWlHandler}
-      >
-        <svg>
-          <use href={sprite + "#icon-favorite"}></use>
-        </svg>
-      </button>);
+    if (props.addedToWl) {
+      deleteIcon = null;
+      // deleteIcon = (<button
+      //     title="Remove From WatchList"
+      //     className={classes.IconBtn}
+      //     type="button"
+      //     onClick={props.removeFromWlHandler}
+      // >
+      //   <svg>
+      //     <use href={sprite + "#icon-favorite"}></use>
+      //   </svg>
+      // </button>);
     } else {
-    deleteIcon = (<button
-        title="Add to WatchList"
-        className={classes.IconBtn}
-        type="button"
-        onClick={props.addToWlHandler}
-    >
-      <svg>
-        <use href={sprite + "#icon-favorite_outline"}></use>
-      </svg>
-    </button>);
+      // deleteIcon = (<button
+      //     title="Add to WatchList"
+      //     className={classes.IconBtn}
+      //     type="button"
+      //     onClick={props.addToWlHandler}
+      // >
+      //   <svg>
+      //     <use href={sprite + "#icon-favorite_outline"}></use>
+      //   </svg>
+      // </button>);
+      deleteIcon = null;
     }
-
   }
   if (!props.isVideo || props.studentToken) {
     editIcon = null;
@@ -66,7 +66,7 @@ const lecture = (props) => {
             <img src={props.img} alt="thumbnail" />
           </Link>
         ) : (
-          <a href={props.link} target="_blank" download="true">
+          <a href={props.link} target="_blank" rel="noreferrer" download="true">
             <img src={props.img} alt="thumbnail" />
           </a>
         )}
@@ -76,7 +76,7 @@ const lecture = (props) => {
       <div>
         <h3 className={classes.VideoLectureHeading}>{props.title}</h3>
         <p className={classes.VideoLecturePara}>
-          <a href="#">{props.name}</a>
+          <span>{props.subject}</span>
           <span>{timeSince(props.date)}</span>
         </p>
       </div>

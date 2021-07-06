@@ -9,8 +9,8 @@ import ErrorHandler from "../../../../../components/ErrorHandler/ErrorHandler";
 import { connect } from "react-redux";
 import * as actionCreators from "../store/actions";
 import Select from "../../../../../components/UI/SelectDropdown/Select";
-import { required, url } from "../../../../../util/validators";
-import {userAgent} from "../../../../../util/userAgent";
+import { required } from "../../../../../util/validators";
+import { userAgent } from "../../../../../util/userAgent";
 
 class AddVideoLecture extends React.PureComponent {
   state = {
@@ -77,7 +77,8 @@ class AddVideoLecture extends React.PureComponent {
       const imageElem = { ...this.state.image };
       imageElem.valid = true;
       imageElem.preview = true;
-      imageElem.url = "http://" + localhost +":8080/" + this.props.selectedPost.image;
+      imageElem.url =
+        "http://" + localhost + ":8080/" + this.props.selectedPost.image;
       imageElem.path = this.props.selectedPost.image;
 
       const videoElem = { ...this.state.video };
@@ -150,7 +151,7 @@ class AddVideoLecture extends React.PureComponent {
     titleElem.name = e.target.value;
     titleElem.touched = true;
     titleElem.valid = titleElem.required(e.target.value);
-    console.log(titleElem.valid);
+    // console.log(titleElem.valid);
     this.setState({ title: titleElem });
   };
   descriptionChangeHandler = (e) => {
@@ -178,7 +179,7 @@ class AddVideoLecture extends React.PureComponent {
 
     const branchesElement = { ...this.state.branches };
     branchesElement.value = selectedData;
-    console.log(branchesElement.value.length);
+    // console.log(branchesElement.value.length);
     branchesElement.valid = branchesElement.value.length !== 0;
     branchesElement.touched = true;
     this.setState({ branches: branchesElement });
@@ -190,12 +191,13 @@ class AddVideoLecture extends React.PureComponent {
     const videoData = new FormData();
     videoData.append("image", this.state.image.file);
     videoData.append("video", this.state.video.url);
+    // videoData.append("video", 'https://drive.google.com/uc?export=download&id=1gTc0-GUAkeSSqXvMfk7QHsY04tmbLEcz');
     videoData.append("title", this.state.title.name);
     videoData.append("description", this.state.description.name);
     videoData.append("branch", this.state.branches.value);
     videoData.append("imagePath", this.state.image.path);
 
-    console.log(videoData);
+    // console.log(videoData);
     this.props.onSubmit(
       this.props.editing,
       this.props.selectedPost,
@@ -249,7 +251,7 @@ class AddVideoLecture extends React.PureComponent {
                 this.setState({
                   video: videoElem,
                 });
-                console.log(downloadableLink);
+                // console.log(downloadableLink);
                 this.previewVideo();
               }
             }}

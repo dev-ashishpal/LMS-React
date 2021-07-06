@@ -58,30 +58,57 @@
   cursor: pointer;
 }
 .StreamContainerDesc {
-  padding: 2rem 0;
+  padding: 2rem 0 0 2rem;
   border-bottom: 1px solid var(--color-tertiary2);
 }
-.StreamContainerDesc p {
+.StreamContainerDescBox {
   font-family: inherit;
-  padding-left: 1.5rem;
+  /*padding-left: 1.5rem;*/
   font-size: 1.5rem;
   line-height: 1.7;
 }
 
-.StreamContainerDesc p a {
+.StreamContainerDescBox a {
   text-decoration: none;
   color: var(--color-primary-dark);
 }
-/*.user-stream--container__details-description--para-btn {*/
-/*  font-weight: 700;*/
-/*  font-size: 1.6rem;*/
-/*  font-family: inherit;*/
-/*  color: #58dee0;*/
-/*  cursor: pointer;*/
-/*}*/
-/*.user-stream--container__details-description--para-btn:hover {*/
-/*  text-decoration: underline;*/
-/*}*/
+
+.StreamContainerDescBox h1 {
+  font-size: 4rem;
+  font-family: inherit;
+  /*padding: .5rem 0;*/
+  color: currentColor;
+  font-weight: 600;
+}
+
+.StreamContainerDescBox h2 {
+  font-size: 3rem;
+  font-family: inherit;
+  color: currentColor;
+  padding: .3rem 0;
+  font-weight: 600;
+}
+.StreamContainerDescBox h3 {
+  font-size: 2rem;
+  font-family: inherit;
+  color: currentColor;
+  padding: .1rem 0;
+  font-weight: 600;
+}
+.ShowMore {
+  font-weight: 700;
+  font-size: 1.6rem;
+  font-family: inherit;
+  color: currentColor;
+  opacity: 0.5;
+  border: none;
+  outline: none;
+  padding: 1.5rem 0;
+  cursor: pointer;
+}
+.ShowMore:hover {
+  text-decoration: underline;
+}
 
 .CommentBox {
   padding: 2rem 0;
@@ -318,3 +345,25 @@
   border: none;
   border-radius: 3px;
   cursor: pointer; }
+
+/*.DeleteBtnContainer {*/
+/*  width: 20rem;*/
+/*  height: 20rem;*/
+/*  background-color: orangered;*/
+/*  position: relative;*/
+/*}*/
+
+
+.DeleteBtn {
+  padding: 1rem 2.5rem;
+  /*width: 20rem;*/
+  border: none;
+  cursor: pointer;
+  outline: none;
+  border-radius: 3px;
+  background-color: var(--color-pure-white);
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 1.6rem;
+
+}

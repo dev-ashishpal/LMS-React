@@ -1,4 +1,5 @@
-import {userAgent} from "../../../../../util/userAgent";
+import { userAgent } from "../../../../../util/userAgent";
+import { caughtError } from "../../../../../util/caughtError";
 
 let localhost = "localhost";
 if (userAgent()) {
@@ -18,7 +19,7 @@ export const SUBMIT_VID_LEC_FAIL = "SUBMIT_VID_LEC_FAIL";
 export const SHOW_MODAL = "SHOW_MODAL";
 export const CLOSE_MODAL = "CLOSE_MODAL";
 
-export const WATCHLIST_SUCCESS = 'WATCHLIST_SUCCESS';
+export const WATCHLIST_SUCCESS = "WATCHLIST_SUCCESS";
 
 export const showModal = () => {
   return {
@@ -74,9 +75,10 @@ export const submitVidLecSuccess = (data) => {
   };
 };
 
-export const submitVidLecFail = () => {
+export const submitVidLecFail = (error) => {
   return {
     type: SUBMIT_VID_LEC_FAIL,
+    error,
   };
 };
 
@@ -87,45 +89,51 @@ export const submitVidLecStart = () => {
 };
 
 export const loadVidLec = (token, url) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(loadVidLecStart());
-    fetch(`http://${localhost}:8080${url}`, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        // console.log(resData.data);
-        dispatch(loadVidLecSuccess(resData.data));
-      })
-      .catch((err) => {
-        console.log(err);
-        dispatch(loadVidLecFail(err));
+    try {
+      const res = await fetch(`http://${localhost}:8080${url}`, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
       });
+      const resData = await res.json();
+      dispatch(loadVidLecSuccess(resData.data));
+    } catch (err) {
+      console.log(err);
+      dispatch(loadVidLecFail(err));
+    }
   };
 };
 
 export const deleteVidLec = (_id, data, token) => {
-  return (dispatch) => {
-    console.log(data);
-    fetch(`http://${localhost}:8080/teacher/lecture/video/${_id}`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-      method: "DELETE",
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => {
-        const updatedLectures = data.filter((lec) => lec._id !== _id);
-        dispatch(loadVidLecSuccess(updatedLectures));
-        console.log(result);
-      });
+  return async (dispatch) => {
+    let ok;
+    // console.log(data);
+    try {
+      const res = await fetch(
+        `http://${localhost}:8080/teacher/lecture/video/${_id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+          method: "DELETE",
+        }
+      );
+      if (res.status !== 200) {
+        ok = res.ok;
+      }
+      const resData = await res.json();
+      if (ok === false) {
+        throw new Error("Not Deleted, some error occurred");
+      }
+      const updatedLectures = data.filter((lec) => lec._id !== _id);
+      dispatch(loadVidLecSuccess(updatedLectures));
+      console.log(resData);
+    } catch (err) {
+      caughtError(dispatch, loadVidLecFail, err);
+    }
   };
 };
 
@@ -136,66 +144,66 @@ export const submitVidLec = (
   prevData,
   token
 ) => {
-  return (dispatch) => {
-    let ok,editOk;
+  return async (dispatch) => {
+    let ok, editOk;
     dispatch(submitVidLecStart());
     if (editing) {
       console.log(videoData);
-      fetch(`http://${localhost}:8080/teacher/lecture/video/${selectedPost._id}`, {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-        body: videoData,
-      })
-        .then((res) => {
-          if(res.status !== 201) {
-            editOk = res.ok;
+      try {
+        const res = await fetch(
+          `http://${localhost}:8080/teacher/lecture/video/${selectedPost._id}`,
+          {
+            method: "PUT",
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+            body: videoData,
           }
-          return res.json();
-        })
-        .then((resData) => {
-          if(editOk === false) {
-            throw new Error(resData.message);
-          }
-          const updatedData = prevData.filter(
-            (lec) => lec._id !== selectedPost._id
-          );
-          dispatch(loadVidLecSuccess(updatedData));
-          // console.log(resData);
-          dispatch(submitVidLecSuccess(resData.data));
-          dispatch(closeModal());
-        })
-        .catch((err) => {
-          dispatch(loadVidLecFail(err.message));
-          dispatch(submitVidLecFail());
-        });
+        );
+        if (res.status !== 201) {
+          editOk = res.ok;
+        }
+        const resData = await res.json();
+
+        if (editOk === false) {
+          throw new Error(resData.message);
+        }
+        const updatedData = prevData.filter(
+          (lec) => lec._id !== selectedPost._id
+        );
+        dispatch(loadVidLecSuccess(updatedData));
+        dispatch(submitVidLecSuccess(resData.data));
+        dispatch(closeModal());
+      } catch (err) {
+        caughtError(dispatch, submitVidLecFail, err);
+      }
     } else {
-      fetch(`http://${localhost}:8080/teacher/lecture/video`, {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-        body: videoData,
-      })
-        .then((res) => {
-          if(res.status !== 201) {
-            ok = res.ok;
+      try {
+        const res = await fetch(
+          `http://${localhost}:8080/teacher/lecture/video`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+            body: videoData,
           }
-          return res.json();
-        })
-        .then((resData) => {
-          if(ok === false) {
-            throw new Error(resData.message);
-          }
-          // console.log(resData);
-          dispatch(submitVidLecSuccess(resData.data));
-          dispatch(closeModal());
-        })
-        .catch((err) => {
-          console.log(err.message);
-          dispatch(submitVidLecFail(err.message));
-        });
+        );
+        if (res.status !== 201) {
+          ok = res.ok;
+        }
+        const resData = await res.json();
+
+        if (ok === false) {
+          throw new Error(resData.message);
+        }
+        // console.log(resData);
+        dispatch(submitVidLecSuccess(resData.data));
+        dispatch(closeModal());
+      } catch (err) {
+        console.log(err.message);
+        caughtError(dispatch, submitVidLecFail, err);
+      }
     }
   };
 };
@@ -203,10 +211,9 @@ export const submitVidLec = (
 export const watchlistSuccess = (data) => {
   return {
     type: WATCHLIST_SUCCESS,
-    data
-  }
-}
-
+    data,
+  };
+};
 
 // export const getWatchlist = (token) => {
 //   return dispatch => {
@@ -227,19 +234,22 @@ export const watchlistSuccess = (data) => {
 // }
 
 export const watchlist = (_id, token) => {
-  return dispatch => {
-  fetch('http://localhost:8080/student/lecture/video/add-watchlist/' + _id, {
-    method: "GET",
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  }).then(res => {
-    return res.json();
-  }).then(resData => {
-    console.log(resData);
-    dispatch(watchlistSuccess(resData.data));
-  }).catch(err => {
-    console.log(err);
-  })
-  }
-}
+  return (dispatch) => {
+    fetch("http://localhost:8080/student/lecture/video/add-watchlist/" + _id, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((resData) => {
+        console.log(resData);
+        dispatch(watchlistSuccess(resData.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};

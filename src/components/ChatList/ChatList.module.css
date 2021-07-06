@@ -1,7 +1,15 @@
+.SidebarContainer {
+
+}
+
+.SidebarContainer:not(:last-of-type) {
+    margin-bottom: 1rem;
+}
+
 .SidebarContainerBox {
     background-color: var(--color-pure-white);
     display: flex;
-    padding: 1rem;
+    padding: 1.5rem 1rem;
     border-radius: 5px;
     text-decoration: none;
     align-items: center;
@@ -13,21 +21,21 @@
     margin-bottom: 1.5rem;
 }
 
-.SidebarImg {
-    width: 4.5rem;
-    height: 4.5rem;
-}
-.SidebarImg img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-}
+/*.SidebarImg {*/
+/*    width: 4.5rem;*/
+/*    height: 4.5rem;*/
+/*}*/
+/*.SidebarImg img {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    border-radius: 50%;*/
+/*}*/
 
 .SidebarHeading {
     margin-right: auto;
     padding-left: 2rem;
 }
-.SidebarHeading h5 {
+.SidebarHeading h3 {
     font-family: inherit;
     font-size: 1.8rem;
     text-transform: capitalize;

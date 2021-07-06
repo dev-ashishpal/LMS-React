@@ -5,15 +5,20 @@ import Lecture from "../../../../components/Lecture/Lecture";
 import LectureAddBtn from "../../../../components/LectureAddBtn/LectureAddBtn";
 import Modal from "../../../../components/UI/Modal/Modal";
 import AddPaperLecture from "./AddPaperLecture/AddPaperLecture";
-import Spinner from "../../../../components/UI/Spinner/Spinner";
 import { withRouter } from "react-router-dom";
 import img from "../../../../assets/images/paper.png";
 import { connect } from "react-redux";
 import * as actionCreators from "./store/actions";
 import SkeletonLecture from "../../../../components/Lecture/Skeleton/SkeletonLecture";
 import {userAgent} from "../../../../util/userAgent";
+import {search} from "../../../../util/search";
+import ErrorModal from "../../../../components/UI/ErrorModal/ErrorModal";
 
 class PapersLectures extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.lectureRef = React.createRef();
+  }
   componentDidMount() {
     localStorage.setItem('URL',window.location.pathname);
     if (this.props.teacherToken) {
@@ -60,7 +65,13 @@ class PapersLectures extends React.PureComponent {
           key={data._id}
           date={data.date}
           img={img}
-          name={data.subject}
+          subject={
+            this.props.teacherToken
+              ? data.branch
+              : this.props.studentToken
+              ? data.subject
+              : null
+          }
           deleteHandler={() => {
             this.deletePaperHandler(data._id);
           }}
@@ -78,12 +89,18 @@ class PapersLectures extends React.PureComponent {
         </Modal>
       );
     }
+    const error = this.props.error;
 
     return (
       <React.Fragment>
-        <SearchBar />
+        {error ? <ErrorModal error>{error}</ErrorModal> : null}
+        <SearchBar
+            onChange={(e) => {
+              search(e, this.lectureRef);
+            }}
+        />
         <section className={classes.NotesLectures}>
-          <div className={classes.NotesLecturesDiv}>
+          <div ref={this.lectureRef} className={classes.NotesLecturesDiv}>
             {addLectureBtn}
             {paper}
           </div>

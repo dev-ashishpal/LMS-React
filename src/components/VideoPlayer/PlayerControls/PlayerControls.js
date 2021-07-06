@@ -32,7 +32,10 @@ const playerControls = (props) => {
           <div
             ref={props.progressTimeRef}
             className={classes.ProgressBarTimer}
-          ></div>
+          >
+           <video src={props.src}>Video not supported</video> 
+            <span>&nbsp;</span>
+          </div>
           <div
             ref={props.progressBarFilled}
             className={classes.ProgressBarFilled}

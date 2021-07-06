@@ -59,10 +59,20 @@ class MenuIcon extends React.Component {
               className={classes.MenuItem}
               onClick={this.closeDropdownHandler}
             >
-              <Link to={url}>Setting</Link>
+              <Link to={url}>
+                <svg className={classes.Svg}>
+                  <use href={sprite + "#icon-cog"}></use>
+                </svg>
+                <span>Setting</span>
+              </Link>
             </li>
             <li className={classes.MenuItem} onClick={this.showLogoutHandler}>
-              <button>Logout</button>
+              <button>
+                <svg className={classes.Svg}>
+                  <use href={sprite + "#icon-logout"}></use>
+                </svg>
+                <span>Logout</span>
+              </button>
             </li>
           </ul>
         </MenuDropdown>

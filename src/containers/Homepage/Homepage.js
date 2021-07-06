@@ -31,10 +31,6 @@ class Homepage extends React.Component {
 
   render() {
     let error = this.props.error;
-    // setTimeout(() => {
-    //   error = null;
-    //   console.log('removed!',error);
-    // }, 1000);
     let auth;
     if (this.props.isTeacherAuthenticated) {
       auth = <Redirect to="/teacher/dashboard" />;
@@ -42,6 +38,7 @@ class Homepage extends React.Component {
     if (this.props.isStudentAuthenticated) {
       auth = <Redirect to="/student/dashboard" />;
     }
+
 
     return (
       <React.Fragment>

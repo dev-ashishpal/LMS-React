@@ -1,4 +1,5 @@
-import {userAgent} from "../../../../util/userAgent";
+import { userAgent } from "../../../../util/userAgent";
+import { caughtError } from "../../../../util/caughtError";
 
 let localhost = "localhost";
 if (userAgent()) {
@@ -8,6 +9,9 @@ if (userAgent()) {
 export const LOAD_PROFILE_START = "LOAD_PROFILE_START";
 export const LOAD_PROFILE_SUCCESS = "LOAD_PROFILE_SUCCESS";
 export const LOAD_PROFILE_FAIL = "LOAD_PROFILE_FAIL";
+
+export const SENT_PROFILE = "SENT_PROFILE";
+
 
 export const loadProfileStart = () => {
   return {
@@ -28,46 +32,55 @@ export const loadProfileFail = (error) => {
     error,
   };
 };
+export const sentProfile = (sent) => {
+  return {
+    type: SENT_PROFILE,
+    sent,
+  };
+};
 
 export const loadProfile = (token, url) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(loadProfileStart());
-    fetch(`http://${localhost}:8080/${url}/profile`, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        // console.log('[Profile]',resData);
-        dispatch(loadProfileSuccess(resData.data));
-      })
-      .catch((err) => {
-        console.log(err);
+    try {
+      const res = await fetch(`http://${localhost}:8080/${url}/profile`, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
       });
+      const resData = await res.json();
+      dispatch(loadProfileSuccess(resData.data));
+    } catch (err) {
+      dispatch(loadProfileFail(err));
+    }
   };
 };
 
 export const postProfile = (profileData, token, url) => {
-  return (dispatch) => {
-    fetch(`http://${localhost}:8080/${url}/profile`, {
-      method: "PUT",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-      body: profileData,
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        // console.log(resData);
-      })
-      .catch((err) => {
-        console.log(err);
+  return async (dispatch) => {
+    let ok;
+    try {
+      const res = await fetch(`http://${localhost}:8080/${url}/profile`, {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        body: profileData,
       });
+      if (res.status !== 200) {
+        ok = res.ok;
+      }
+      const resData = await res.json();
+      if (ok === false) {
+        throw new Error(resData.message);
+      }
+      console.log(resData.message);
+      caughtError(dispatch, sentProfile, resData);
+
+      // console.log(resData);
+    } catch (err) {
+      caughtError(dispatch, loadProfileFail, err);
+    }
   };
 };

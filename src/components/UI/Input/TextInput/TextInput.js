@@ -14,11 +14,13 @@ const textInput = (props) => {
       break;
     case "textarea":
       input = (
+          <div>
         <textarea
           className={inputClass.join(" ")}
           {...props}  
           maxLength={props.maxLength}
         />
+        </div>
       );
       break;
     default:

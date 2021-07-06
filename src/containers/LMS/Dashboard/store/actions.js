@@ -87,10 +87,10 @@ export const dashboardVideoDataFail = (error) => {
   };
 };
 
-export const dashboardVideoData = (token) => {
+export const dashboardVideoData = (token, url) => {
   return (dispatch) => {
     dispatch(dashboardVideoDataStart());
-    fetch(`http://${localhost}:8080/teacher/dashboard-video`, {
+    fetch(`http://${localhost}:8080/${url}/dashboard-video`, {
       headers: {
         Authorization: "Bearer " + token,
       },
@@ -130,10 +130,10 @@ export const dashboardNotesDataFail = (error) => {
   };
 };
 
-export const dashboardNotesData = (token) => {
+export const dashboardNotesData = (token, url) => {
   return (dispatch) => {
     dispatch(dashboardNotesDataStart());
-    fetch(`http://${localhost}:8080/teacher/dashboard-book`, {
+    fetch(`http://${localhost}:8080/${url}/dashboard-book`, {
       headers: {
         Authorization: "Bearer " + token,
       },
@@ -173,10 +173,10 @@ export const dashboardPaperDataFail = (error) => {
   };
 };
 
-export const dashboardPaperData = (token) => {
+export const dashboardPaperData = (token, url) => {
   return (dispatch) => {
     dispatch(dashboardPaperDataStart());
-    fetch(`http://${localhost}:8080/teacher/dashboard-paper`, {
+    fetch(`http://${localhost}:8080/${url}/dashboard-paper`, {
       headers: {
         Authorization: "Bearer " + token,
       },

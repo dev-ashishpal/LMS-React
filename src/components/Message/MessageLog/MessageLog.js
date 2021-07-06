@@ -1,6 +1,7 @@
-import React, { Fragment } from "react";
+import React from "react";
 import classes from "./MessageLog.module.css";
 import { gifGenerator } from "../../../util/linkGenerator";
+import userImage from '../../../assets/images/user.png'
 import { userAgent } from "../../../util/userAgent";
 
 const messageLog = (props) => {
@@ -17,7 +18,7 @@ const messageLog = (props) => {
   return (
     <div className={userClass} ref={props.messageLogRef}>
       <img
-        src={"http://" + localhost + ":8080/" + props.image}
+        src={props.image ? "http://" + localhost + ":8080/" + props.image : userImage}
         alt="user_image"
       />
       <p className={classes.ChatBox}>

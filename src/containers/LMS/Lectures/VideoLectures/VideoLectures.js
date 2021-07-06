@@ -10,9 +10,9 @@ import ErrorHandler from "../../../../components/ErrorHandler/ErrorHandler";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import * as actionCreators from "./store/actions";
-import Spinner from "../../../../components/UI/Spinner/Spinner";
 import ErrorModal from "../../../../components/UI/ErrorModal/ErrorModal";
-import {userAgent} from "../../../../util/userAgent";
+import { userAgent } from "../../../../util/userAgent";
+import { search } from "../../../../util/search";
 
 class VideoLectures extends React.PureComponent {
   constructor(props) {
@@ -26,7 +26,7 @@ class VideoLectures extends React.PureComponent {
   };
 
   componentDidMount() {
-    localStorage.setItem('URL',window.location.pathname);
+    localStorage.setItem("URL", window.location.pathname);
     if (this.props.teacherToken) {
       this.props.onLoadLecture(
         this.props.teacherToken,
@@ -98,9 +98,9 @@ class VideoLectures extends React.PureComponent {
     //////
     let streamLink;
     if (this.props.teacherToken) {
-      streamLink = "/teacher/watch/";
+      streamLink = "/teacher/watch?v=";
     } else if (this.props.studentToken) {
-      streamLink = "/student/watch/";
+      streamLink = "/student/watch?v=";
     }
     //////
     let lecture;
@@ -117,15 +117,22 @@ class VideoLectures extends React.PureComponent {
             console.log("ids match");
           }
         });
+
         return (
           <Lecture
             src={data.video}
-            img={"http://"+ localhost +":8080/" + data.image}
+            img={"http://" + localhost + ":8080/" + data.image}
             title={data.title}
             key={data._id}
             isVideo={this.props.isVideo}
             date={data.date}
-            name={data.subject}
+            subject={
+              this.props.teacherToken
+                ? data.branch
+                : this.props.studentToken
+                ? data.subject
+                : null
+            }
             link={streamLink + data._id}
             addedToWl={this.props.addedToWl}
             deleteHandler={() => {
@@ -159,14 +166,16 @@ class VideoLectures extends React.PureComponent {
       <React.Fragment>
         {error ? <ErrorModal error>{error}</ErrorModal> : null}
         <section ref={this.videoContainerRef} className={classes.VideoLectures}>
-          <SearchBar onChange={this.onSearchHandler} />
+          <SearchBar
+            onChange={(e) => {
+              search(e, this.lectureRef);
+            }}
+          />
           <div ref={this.lectureRef} className={classes.VideoLecturesDiv}>
             {addLectureBtn}
             {lecture}
           </div>
-          <div ref={this.loadingRef}>
-            &nbsp;
-          </div>
+          <div ref={this.loadingRef}>&nbsp;</div>
         </section>
         {addLectureModal}
       </React.Fragment>

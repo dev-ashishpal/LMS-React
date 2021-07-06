@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import * as actionCreators from "./store/actions";
 import { generateBase64FromImage } from "../../../util/imagePreview";
 import {userAgent} from "../../../util/userAgent";
+import ErrorModal from "../../../components/UI/ErrorModal/ErrorModal";
 
 class Profile extends Component {
   constructor(props) {
@@ -68,10 +69,10 @@ class Profile extends Component {
           placeholder: "Your Github Link",
         },
         value: "",
-        valid: false,
-        touched: false,
+        valid: true,
+        touched: true,
         validation: {
-          required: true,
+          // required: false,
           isUrl: true,
         },
       },
@@ -82,10 +83,10 @@ class Profile extends Component {
           placeholder: "Your LinkedIn Link",
         },
         value: "",
-        valid: false,
-        touched: false,
+        valid: true,
+        touched: true,
         validation: {
-          required: true,
+          // required: false,
           isUrl: true,
         },
       },
@@ -96,10 +97,9 @@ class Profile extends Component {
           placeholder: "Your Portfolio Link",
         },
         value: "",
-        valid: false,
-        touched: false,
+        valid: true,
+        touched: true,
         validation: {
-          required: true,
           isUrl: true,
         },
       },
@@ -112,7 +112,7 @@ class Profile extends Component {
 
   componentDidMount() {
     // localStorage.setItem('URL',window.location.pathname);
-    console.log(this.props.data);
+    // console.log(this.props.data);
     const updatedUserForm = { ...this.state.userForm };
     const name = { ...updatedUserForm.name };
     const email = { ...updatedUserForm.email };
@@ -244,8 +244,14 @@ class Profile extends Component {
     } else {
       profileImage = image;
     }
+
+    let error = this.props.error;
+    let sent = this.props.sent;
+    // console.log(sent);
     return (
       <section className={classes.Profile}>
+        {error ? <ErrorModal error>{error}</ErrorModal> : null}
+        {sent ? <ErrorModal error={false}>{sent}</ErrorModal> : null}
         <div className={classes.ProfileSidebar} ref={this.profileRef}>
           <figure className={classes.ProfileImage}>
             <div className={classes.ImageInputBox}>
@@ -317,6 +323,8 @@ const mapStateToProps = (state) => {
     teacherToken: state.auth.teacherToken,
     studentToken: state.auth.studentToken,
     data: state.profile.data,
+    error: state.profile.error,
+    sent: state.profile.sent,
   };
 };
 

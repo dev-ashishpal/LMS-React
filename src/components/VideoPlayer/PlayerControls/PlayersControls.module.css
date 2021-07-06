@@ -74,17 +74,6 @@
   z-index: 20;
 }
 
-.ProgressBarTimer {
-  position: absolute;
-  top: -35px;
-  left: 0;
-  height: 30px;
-  width: 30px;
-  display: none;
-  color: #fff;
-  /*background-color: rgba(0,0,0,0.5);*/
-}
-
 .ProgressBarThumbBtn {
   height: 15px;
   width: 16px;
@@ -174,4 +163,31 @@
   border-radius: 100%;
   background-color: var(--color-primary);
   cursor: pointer;
+}
+
+.ProgressBarTimer {
+  position: absolute;
+  top: -135px;
+  left: 0;
+  transform: translateX(-50%);
+  height: 108px;
+  width: 180px;
+  display: none;
+  color: #fff;
+  /*background-color: rgba(0,0,0,0.5);*/
+}
+
+.ProgressBarTimer span {
+  /*height: 30px;*/
+  display: block;
+  text-align: center;
+  /*width: 50px;*/
+}
+
+.ProgressBarTimer video {
+  height: 108px;
+  width: 180px;
+  border-radius: 2px;
+  background-color: black;
+  border: 3px solid white;
 }

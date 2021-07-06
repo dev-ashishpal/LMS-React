@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./Comment.module.css";
+import sprite from "../../assets/svg/sprite.svg";
 
 const comment = (props) => (
   <article className={classes.UsersComment}>
@@ -17,6 +18,10 @@ const comment = (props) => (
         </p>
       </div>
     </div>
+      {props.isAdmin ? <svg onClick={props.deleteBtn}>
+          <use href={sprite + "#icon-dots-three-horizontal"}></use>
+      </svg> : null}
+
   </article>
 );
 

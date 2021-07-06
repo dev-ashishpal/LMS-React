@@ -1,4 +1,5 @@
 import { userAgent } from "../../../../../util/userAgent";
+import { caughtError } from "../../../../../util/caughtError";
 
 let localhost = "localhost";
 if (userAgent()) {
@@ -55,24 +56,21 @@ export const loadNotesLecFail = (error) => {
 };
 
 export const loadNotesLec = (token, url) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(loadNotesLecStart());
-    fetch(`http://${localhost}:8080${url}`, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        dispatch(loadNotesLecSuccess(resData.data));
-        // console.log(resData);
-      })
-      .catch((err) => {
-        dispatch(loadNotesLecFail(err));
+    try {
+      const res = await fetch(`http://${localhost}:8080${url}`, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
       });
+      const resData = await res.json();
+      dispatch(loadNotesLecSuccess(resData.data));
+      // console.log(resData);
+    } catch (err) {
+      dispatch(loadNotesLecFail(err));
+    }
   };
 };
 
@@ -119,24 +117,31 @@ export const paginateNotesLec = (token, url, page) => {
 };
 
 export const deleteNotesLec = (_id, prevData, token) => {
-  return (dispatch) => {
-    fetch(`http://${localhost}:8080/teacher/lecture/book/${_id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        console.log(resData);
-        const updatedNotes = prevData.filter((bk) => bk._id !== _id);
-        dispatch(loadNotesLecSuccess(updatedNotes));
-      })
-      .catch((err) => {
-        dispatch(loadNotesLecFail(err));
-      });
+  return async (dispatch) => {
+    let ok;
+    try {
+      const res = await fetch(
+        `http://${localhost}:8080/teacher/lecture/book/${_id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      if (res.status !== 200) {
+        ok = res.ok;
+      }
+      const resData = await res.json();
+      if (ok === false) {
+        throw new Error("Notes not Deleted!");
+      }
+      console.log(resData);
+      const updatedNotes = prevData.filter((bk) => bk._id !== _id);
+      dispatch(loadNotesLecSuccess(updatedNotes));
+    } catch (err) {
+      caughtError(dispatch, loadNotesLecFail, err);
+    }
   };
 };
 
@@ -154,23 +159,27 @@ export const submitNotesLecSuccess = (data) => {
 };
 
 export const submitNotesLec = (notesData, token) => {
-  return (dispatch) => {
-    fetch(`http://${localhost}:8080/teacher/lecture/book`, {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-      body: notesData,
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        dispatch(submitNotesLecSuccess(resData.data));
-        dispatch(closeModal());
-      })
-      .catch((err) => {
-        dispatch(loadNotesLecFail(err));
+  return async (dispatch) => {
+    let ok;
+    try {
+      const res = await fetch(`http://${localhost}:8080/teacher/lecture/book`, {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        body: notesData,
       });
+      if (res.status !== 201) {
+        ok = res.ok;
+      }
+      const resData = await res.json();
+      if (ok === false) {
+        throw new Error(resData.message);
+      }
+      dispatch(submitNotesLecSuccess(resData.data));
+      dispatch(closeModal());
+    } catch (err) {
+      caughtError(dispatch, loadNotesLecFail, err);
+    }
   };
 };

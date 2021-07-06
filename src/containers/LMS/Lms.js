@@ -1,25 +1,25 @@
-import React, { PureComponent, Suspense } from "react";
+import React, { Component, Suspense } from "react";
 import classes from "./LMS.module.css";
 import Navigation from "../../components/Navigation/Navigation";
 import TopBar from "../../components/TopBar/TopBar";
-import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import ProgressBar from "../../components/UI/ProgressBar/ProgressBar";
 import Layout from "../../hoc/Layout/Layout";
 import * as actionCreators from "../../store/actions/index";
 import * as actionProfile from "./Profile/store/actions";
 import { connect } from "react-redux";
-import StudentLectures from "./Lectures/StudentLecture";
 
 const Dashboard = React.lazy(() => import("./Dashboard/Dashboard"));
 const Lectures = React.lazy(() => import("./Lectures/Lectures"));
 const Messages = React.lazy(() => import("./Messages/Messages"));
+const StudentLectures = React.lazy(() => import("./Lectures/StudentLecture"));
 const StreamLecture = React.lazy(() => import("./StreamLecture/StreamLecture"));
 const Profile = React.lazy(() => import("./Profile/Profile"));
 const Setting = React.lazy(() => import("./Setting/Setting"));
+const Classmate = React.lazy(() => import("./Classmate/Classmate"));
 
-class LMS extends PureComponent {
+class LMS extends Component {
   componentDidMount() {
-      // console.log('lms is rendered');
     if (this.props.teacherToken) {
       this.props.getBranches(this.props.teacherToken, "teacher");
       this.props.onProfileLoad(this.props.teacherToken, "teacher");
@@ -27,20 +27,16 @@ class LMS extends PureComponent {
       this.props.getBranches(this.props.studentToken, "student");
       this.props.onProfileLoad(this.props.studentToken, "student");
     }
-    // console.log('LMS.js CDM', this.props.branch);
   }
 
   render() {
     let path;
-      const URL = localStorage.getItem("URL");
-      // console.log('url [LMS]', URL);
-      // console.log('LMS.js',this.props.branch);
+    // const URL = localStorage.getItem("URL");
     if (this.props.teacherToken) {
       path = "/teacher/";
     } else if (this.props.studentToken) {
       path = "/student/";
     }
-    // console.log(this.props.teacherData);
     return (
       <div className={classes.LMS}>
         <TopBar />
@@ -95,6 +91,20 @@ class LMS extends PureComponent {
                   </Suspense>
                 )}
               />
+              <Route
+                path="/student/classmates/"
+                render={() => (
+                  <Suspense
+                    fallback={
+                      <div>
+                        <ProgressBar />
+                      </div>
+                    }
+                  >
+                    <Classmate />
+                  </Suspense>
+                )}
+              />
             </Switch>
           ) : (
             <Route
@@ -114,16 +124,7 @@ class LMS extends PureComponent {
           )}
 
           <Route
-            path={path + "watch/:id"}
-            render={() => (
-              <Suspense fallback={<ProgressBar />}>
-                <StreamLecture />
-              </Suspense>
-            )}
-          />
-          <Route
             path={path + "messages"}
-           
             render={() => (
               <Suspense
                 fallback={
@@ -136,8 +137,10 @@ class LMS extends PureComponent {
               </Suspense>
             )}
           />
+          {/* <Switch> */}
           <Route
-            path={path + "stream"}
+            key={Math.random().toString()}
+            path={path + "watch"}
             render={() => (
               <Suspense
                 fallback={
@@ -150,6 +153,7 @@ class LMS extends PureComponent {
               </Suspense>
             )}
           />
+          {/* </Switch> */}
           <Route
             path={path + "profile"}
             render={() => (
@@ -179,7 +183,7 @@ class LMS extends PureComponent {
             )}
           />
           <Switch>
-              {/*{URL ? <Redirect to={URL} /> : null }*/}
+            {/*{URL ? <Redirect to={URL} /> : null }*/}
             <Redirect
               from="/teacher/lectures"
               exact
@@ -197,7 +201,7 @@ const mapStateToProps = (state) => {
   return {
     teacherToken: state.auth.teacherToken,
     studentToken: state.auth.studentToken,
-    branch: state.profile.data,
+    userData: state.profile.data,
   };
 };
 

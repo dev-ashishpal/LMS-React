@@ -8,3 +8,7 @@
 .Primary {
 	fill: var(--color-primary);
 }
+
+.Tertiary {
+	fill: var(--color-tertiary4);
+}

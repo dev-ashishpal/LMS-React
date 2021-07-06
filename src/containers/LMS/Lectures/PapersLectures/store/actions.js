@@ -1,4 +1,5 @@
 import { userAgent } from "../../../../../util/userAgent";
+import { caughtError } from "../../../../../util/caughtError";
 
 let localhost = "localhost";
 if (userAgent()) {
@@ -51,46 +52,51 @@ export const loadPaperLecFail = (error) => {
 };
 
 export const loadPaperLec = (token, url) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(loadPaperLecStart());
-    fetch(`http://${localhost}:8080${url}`, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        // console.log(resData);
-        dispatch(loadPaperLecSuccess(resData.data));
-      })
-      .catch((err) => {
-        dispatch(loadPaperLecFail(err));
+    try {
+      const res = await fetch(`http://${localhost}:8080${url}`, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
       });
+      const resData = await res.json();
+      // console.log(resData);
+      dispatch(loadPaperLecSuccess(resData.data));
+    } catch (err) {
+      dispatch(loadPaperLecFail(err));
+    }
   };
 };
 
 export const deletePaperLec = (_id, prevData, token) => {
-  return (dispatch) => {
-    fetch(`http://${localhost}:8080/teacher/lecture/paper/${_id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        console.log(resData);
-        const updatedPaper = prevData.filter((pp) => pp._id !== _id);
-        dispatch(loadPaperLecSuccess(updatedPaper));
-      })
-      .catch((err) => {
-        dispatch(loadPaperLecFail(err));
-      });
+  return async (dispatch) => {
+    let ok;
+    try {
+      const res = await fetch(
+        `http://${localhost}:8080/teacher/lecture/paper/${_id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      if (res.status !== 200) {
+        ok = res.ok;
+      }
+      const resData = await res.json();
+      if (ok === false) {
+        throw new Error("Paper Not Deleted!");
+      }
+
+      console.log(resData);
+      const updatedPaper = prevData.filter((pp) => pp._id !== _id);
+      dispatch(loadPaperLecSuccess(updatedPaper));
+    } catch (err) {
+      caughtError(dispatch, loadPaperLecFail, err);
+    }
   };
 };
 
@@ -108,24 +114,31 @@ export const submitPaperLecSuccess = (data) => {
 };
 
 export const submitPaperLec = (paperData, token) => {
-  return (dispatch) => {
+  return async (dispatch) => {
+    let ok;
     dispatch(submitPaperLecStart());
-    fetch(`http://${localhost}:8080/teacher/lecture/paper`, {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-      body: paperData,
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        dispatch(submitPaperLecSuccess(resData.data));
-        dispatch(closeModal());
-      })
-      .catch((err) => {
-        dispatch(loadPaperLecFail(err));
-      });
+    try {
+      const res = await fetch(
+        `http://${localhost}:8080/teacher/lecture/paper`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+          body: paperData,
+        }
+      );
+      if (res.status !== 201) {
+        ok = res.ok;
+      }
+      const resData = await res.json();
+      if (ok === false) {
+        throw new Error(resData.message);
+      }
+      dispatch(submitPaperLecSuccess(resData.data));
+      dispatch(closeModal());
+    } catch (err) {
+      caughtError(dispatch, loadPaperLecFail, err);
+    }
   };
 };

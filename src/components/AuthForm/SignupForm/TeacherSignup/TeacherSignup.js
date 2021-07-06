@@ -16,7 +16,7 @@ class TeacherSignup extends Component {
         elementType: "input",
         elementConfig: {
           type: "text",
-          placeholder: "Name",
+          placeholder: "Subject",
         },
         validation: {
           required: true,

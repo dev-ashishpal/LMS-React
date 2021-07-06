@@ -6,11 +6,11 @@ const homepageNavigationItems = (props) => {
   return (
     <ul className={classes.NavigationList}>
       <NavItem>
-        <a href="#">About</a>
+        <a href="/about" target="_blank">About</a>
       </NavItem>
 
       <NavItem>
-        <a href="#">Help</a>
+        <a href="/help" target="_blank">Help</a>
       </NavItem>
 
       <NavItem>

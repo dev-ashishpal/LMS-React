@@ -8,7 +8,13 @@
     overflow: hidden;
     /*overflow-y: scroll;*/
     border-radius: 5px;
-    box-shadow: 0 1rem 3rem rgba(var(--color-pure-white),0.4);
+    /*box-shadow: 0 1rem 3rem rgba(var(--color-pure-white),0.4);*/
+    box-shadow:0 1rem 3rem hsla(
+            var(--color-tertiary-h),
+            var(--color-tertiary-s),
+            var(--color-tertiary-l),
+            0.8
+    );
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);

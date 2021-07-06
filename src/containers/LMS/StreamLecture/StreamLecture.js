@@ -2,19 +2,25 @@ import React, { Component } from "react";
 import classes from "./StreamLecture.module.css";
 import VideoPlayer from "../../../components/VideoPlayer/VideoPlayer";
 import sprite from "../../../assets/svg/sprite.svg";
-import userImg from "../../../assets/images/user.jpg";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actionCreators from "./store/actions";
 import { timeSince } from "../../../util/timeSince";
 import { required } from "../../../util/validators";
-import { linkGenerator } from "../../../util/linkGenerator";
+import { linkGenerator, parseMarkdown } from "../../../util/linkGenerator";
 import Comment from "../../../components/Comment/Comment";
 import TextInput from "../../../components/UI/Input/TextInput/TextInput";
 import openSocket from "socket.io-client";
 import { userAgent } from "../../../util/userAgent";
+import MenuDropdown from "../../../components/UI/MenuDropdown/MenuDropdown";
+import { positionMenuDropdown } from "../../../util/menuDropdown";
 
 class StreamLecture extends Component {
+  constructor(props) {
+    super(props);
+    this.deleteDropdownRef = React.createRef();
+  }
+
   state = {
     isPlaying: false,
     comment: {
@@ -23,8 +29,9 @@ class StreamLecture extends Component {
       touched: false,
       required,
     },
-    commentData: [],
+    commentId: null,
     formIsValid: true,
+    showDelete: false,
   };
 
   componentDidMount() {
@@ -32,52 +39,36 @@ class StreamLecture extends Component {
     if (userAgent()) {
       localhost = "192.168.43.135";
     }
-    localStorage.setItem("URL", window.location.pathname);
-    const _id = this.props.match.params.id;
+    // localStorage.setItem("URL", window.location.pathname);
+    const _id = this.props.location.search.split("=")[1];
+    // console.log('id',_id);
 
     if (this.props.teacherToken) {
       this.props.onLoad(_id, this.props.teacherToken, "teacher");
-      this.getComments(localhost, this.props.teacherToken, "teacher", _id);
+      this.props.onLoadComment(
+        localhost,
+        this.props.teacherToken,
+        "teacher",
+        _id
+      );
     } else if (this.props.studentToken) {
       this.props.onLoad(_id, this.props.studentToken, "student");
-      this.getComments(localhost, this.props.studentToken, "student", _id);
+      this.props.onLoadComment(
+        localhost,
+        this.props.studentToken,
+        "student",
+        _id
+      );
     }
 
     const socket = openSocket(`http://${localhost}:8080`);
     socket.on("comment", (data) => {
       if (data.action === _id) {
-        this.addComment(data.comment[0]);
+        this.props.onAddComment(data.comment[0]);
       }
     });
+    console.log("[CMD] Rendered Again");
   }
-
-  addComment = (comment) => {
-    this.setState((prevState) => {
-      const updatedCommentData = [...prevState.commentData];
-      updatedCommentData.unshift(comment);
-      return { commentData: updatedCommentData };
-    });
-  };
-
-  getComments = (localhost, token, url, videoId) => {
-    fetch(`http://${localhost}:8080/${url}/lecture/video/comment/${videoId}`, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        // console.log(resData);
-        const commentData = resData.data.reverse();
-        this.setState({ commentData });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   // componentDidUpdate(prevProps, prevState, snapshot) {
   //   if (prevState.comment.valid) {
@@ -90,6 +81,7 @@ class StreamLecture extends Component {
   //     });
   //   }
   // }
+
   commentChangeHandler = (e) => {
     const cmtElem = { ...this.state.comment };
     cmtElem.msg = e.target.value;
@@ -130,15 +122,46 @@ class StreamLecture extends Component {
 
   onLoadingVideo = (_id) => {
     if (this.props.teacherToken) {
-      this.getComments(this.props.teacherToken, "teacher", _id);
-      return this.props.onLoad(_id, this.props.teacherToken, "teacher");
+      // this.getComments(this.props.teacherToken, "teacher", _id);
+      // return this.props.onLoad(_id, this.props.teacherToken, "teacher");
     } else if (this.props.studentToken) {
-      this.getComments(this.props.studentToken, "student", _id);
-      return this.props.onLoad(_id, this.props.studentToken, "student");
+      // this.getComments(this.props.studentToken, "student", _id);
+      // return this.props.onLoad(_id, this.props.studentToken, "student");
     }
   };
 
+  deleteCommentHandler = (_id) => {
+    if (this.props.teacherToken) {
+      this.props.onDeleteComment(
+        _id,
+        this.props.teacherToken,
+        "teacher",
+        this.props.commentData
+      );
+    } else if (this.props.studentToken) {
+      this.props.onDeleteComment(
+        _id,
+        this.props.studentToken,
+        "student",
+        this.props.commentData
+      );
+    }
+    this.closeDeleteHandler();
+  };
+
+  showDeleteHandler = (e, cmtId) => {
+    this.setState({ showDelete: true, commentId: cmtId });
+    positionMenuDropdown(e, this.deleteDropdownRef);
+  };
+
+  closeDeleteHandler = () => {
+    this.deleteDropdownRef.current.style.display = "none";
+    this.setState({ showDelete: false });
+  };
+
   render() {
+    // console.log('action getComment', this.props.commentData);
+    // console.log('Rendered Again!!!');
     let localhost = "localhost";
     if (userAgent()) {
       localhost = "192.168.43.135";
@@ -146,9 +169,9 @@ class StreamLecture extends Component {
 
     let streamLink;
     if (this.props.teacherToken) {
-      streamLink = "/teacher/watch/";
+      streamLink = "/teacher/";
     } else if (this.props.studentToken) {
-      streamLink = "/student/watch/";
+      streamLink = "/student/";
     }
 
     const videoData = { ...this.props.data };
@@ -168,11 +191,16 @@ class StreamLecture extends Component {
             </div>
 
             <div className={classes.StreamContainerDesc}>
-              <p
+              <div className={classes.StreamContainerDescBox}
                 dangerouslySetInnerHTML={{
-                  __html: `${linkGenerator(videoData.description)}`,
+                  __html: `${
+                    videoData.description
+                      ? parseMarkdown(videoData.description)
+                      : null
+                  }`,
                 }}
-              ></p>
+              ></div>
+              <button className={classes.ShowMore}>Show More</button>
             </div>
             <div className={classes.CommentBox}>
               <h1 className={classes.CommentBoxHeading}>Comments</h1>
@@ -212,19 +240,40 @@ class StreamLecture extends Component {
               </div>
 
               <div className={classes.UsersCommentContainer}>
-                {this.state.commentData.map((cmtData) => (
-                  <Comment
-                    key={cmtData._id}
-                    userName={cmtData.userName}
-                    date={timeSince(cmtData.date)}
-                    userImage={`http://${localhost}:8080/${cmtData.userImage}`}
-                  >
-                    {cmtData.msg}
-                  </Comment>
+                {this.props.commentData.map((cmtData) => (
+                  <div key={cmtData._id}>
+                    <Comment
+                      // key={cmtData._id}
+                      isAdmin={cmtData.userName === this.props.userData.name}
+                      deleteBtn={(e) => {
+                        this.showDeleteHandler(e, cmtData._id);
+                      }}
+                      userName={cmtData.userName}
+                      date={timeSince(cmtData.date)}
+                      userImage={`http://${localhost}:8080/${cmtData.userImage}`}
+                    >
+                      {cmtData.msg}
+                    </Comment>
+                  </div>
                 ))}
               </div>
             </div>
           </div>
+          <MenuDropdown
+            // width="300px"
+            clicked={this.closeDeleteHandler}
+            menuDropdownRef={this.deleteDropdownRef}
+            showMenu={this.state.showDelete}
+          >
+            <button
+              onClick={() => {
+                this.deleteCommentHandler(this.state.commentId);
+              }}
+              className={classes.DeleteBtn}
+            >
+              Delete
+            </button>
+          </MenuDropdown>
         </section>
 
         <aside className={classes.StreamSidebar}>
@@ -242,24 +291,22 @@ class StreamLecture extends Component {
                       : null
                   }
                 >
-                  <Link
-                    onClick={() => {
-                      this.onLoadingVideo(data._id);
-                    }}
-                    to={streamLink + data._id}
+                  <NavLink
+                    to={streamLink + "watch?v=" + data._id}
                     className={classes.StreamSidebarContainerLink}
+                    activeClassName={classes.Active}
                   >
                     <figure className={classes.StreamSidebarContainerImg}>
                       <img
                         src={`http://${localhost}:8080/` + data.image}
-                        alt="lecture image"
+                        alt="lecture"
                       />
                     </figure>
                     <div className={classes.StreamSidebarBox}>
                       <h4>{data.title}</h4>
                       <span>{data.name}</span>
                     </div>
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -273,6 +320,7 @@ class StreamLecture extends Component {
 const mapStateToProps = (state) => {
   return {
     data: state.stream.data,
+    commentData: state.stream.comment,
     error: state.stream.error,
     teacherToken: state.auth.teacherToken,
     loading: state.stream.loading,
@@ -289,6 +337,15 @@ const mapDispatchToProps = (dispatch) => {
     },
     onPostComment: (token, url, videoId, commentData) => {
       dispatch(actionCreators.postComment(token, url, videoId, commentData));
+    },
+    onLoadComment: (localhost, token, url, videoId) => {
+      dispatch(actionCreators.loadComments(localhost, token, url, videoId));
+    },
+    onAddComment: (comment) => {
+      dispatch(actionCreators.addComment(comment));
+    },
+    onDeleteComment: (_id, token, url, commentData) => {
+      dispatch(actionCreators.deleteComment(_id, token, url, commentData));
     },
   };
 };

@@ -2,7 +2,6 @@ import sprite from "../../assets/svg/sprite.svg";
 import React from "react";
 import classes from "./ChatForm.module.css";
 import Input from "../UI/ProfileInput/ProfileInput";
-import { isPropertySignature } from "typescript";
 
 const chatForm = (props) => (
   <form onSubmit={props.onSubmit} className={classes.ChatForm}>

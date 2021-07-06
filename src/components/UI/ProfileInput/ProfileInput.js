@@ -1,7 +1,4 @@
 import React from "react";
-import Select from "../SelectDropdown/Select";
-import Option from "../SelectDropdown/Option/Option";
-
 
 const profileInput = (props) => {
   let inputElement = null;

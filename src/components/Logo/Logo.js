@@ -1,8 +1,9 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 import classes from './Logo.module.css';
 
 const logo = () => (
-    <a href="#" className={classes.Logo}>lms</a>
+    <Link to="/" className={classes.Logo}>lms</Link>
 )
 
 export default logo;
