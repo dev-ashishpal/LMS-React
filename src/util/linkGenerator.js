@@ -28,26 +28,16 @@ export const linkGenerator = (text) => {
         );
       });
     }
-    // if (replaced.match(/\*\*(.*)\*\*/gim) !== null) {
-    //   replaced.match(/\*\*(.*)\*\*/gim).forEach((element) => {
-    //     console.log(element);
-    //     replaced = replaced.replace(element, `<b>${element}</b>`);
-    //   });
-    // }
   }
   return replaced;
 };
 
 export const parseMarkdown = (text) => {
-  // console.log(text);
   const htmlText = text
     .replace(/^### (.*$)/gim, "<h3>$1</h3>")
     .replace(/^## (.*$)/gim, "<h2>$1</h2>")
     .replace(/^# (.*$)/gim, "<h1>$1</h1>")
-    // .replace(/\*\*(.*\S)\*\*/gim, "<b>$1</b>")
-    // .replace(/\*(.*\S)\*/gim, "<i>$1</i>")
     .replace(/\n$/gim, "<br />");
-  // .replace(/\[(.*?)\]\((.*?)\)/gim, "<a href='$2'>$1</a>");
 
   return linkGenerator(htmlText);
 };

@@ -3,18 +3,17 @@ import "./App.css";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actionCreators from "./store/actions/index";
-import reportWebVitals from "./reportWebVitals";
 import ProgressBar from "./components/UI/ProgressBar/ProgressBar";
 
 const Homepage = React.lazy(() => import("./containers/Homepage/Homepage"));
 const LMS = React.lazy(() => import("./containers/LMS/LMS"));
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    componentDidMount() {
+  componentDidMount() {
     // Initializing Selected Theme from LocalStorage
     const theme = localStorage.getItem("theme");
     document.body.classList.add(theme);
@@ -22,7 +21,6 @@ class App extends React.Component {
   }
 
   render() {
-
     // const URL = localStorage.getItem("URL");
     let routes = (
       <Switch>
@@ -99,8 +97,6 @@ class App extends React.Component {
     );
   }
 }
-
-// reportWebVitals(console.log)
 
 const mapStateToProps = (state) => {
   return {
