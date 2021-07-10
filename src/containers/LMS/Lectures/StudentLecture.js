@@ -21,7 +21,6 @@ class StudentLectures extends React.PureComponent {
     let subjects = [];
     let lectures = [];
     const data = { ...this.props.data };
-    // console.log(data);
     for (let key in data) {
       subjects.push(key);
       data[key].forEach((lecture) => {

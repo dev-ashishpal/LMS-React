@@ -19,6 +19,7 @@
 .env.production.local
 /.vscode
 /.idea
+/src/util/env.js
 
 npm-debug.log*
 yarn-debug.log*

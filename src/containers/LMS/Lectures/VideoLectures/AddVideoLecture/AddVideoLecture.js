@@ -11,6 +11,10 @@ import * as actionCreators from "../store/actions";
 import Select from "../../../../../components/UI/SelectDropdown/Select";
 import { required } from "../../../../../util/validators";
 import { userAgent } from "../../../../../util/userAgent";
+import {
+  REACT_APP_DEVELOPER_CLIENT_ID,
+  REACT_APP_DEVELOPER_KEY,
+} from "../../../../../util/env";
 
 class AddVideoLecture extends React.PureComponent {
   state = {
@@ -203,7 +207,7 @@ class AddVideoLecture extends React.PureComponent {
       this.props.selectedPost,
       videoData,
       this.props.data,
-      this.props.teacherToken,
+      this.props.teacherToken
     );
   };
 
@@ -233,16 +237,14 @@ class AddVideoLecture extends React.PureComponent {
           />
 
           <GooglePicker
-            clientId={
-              "547991845560-ksedd8hpat4deob8svj5dskra2pjo7ie.apps.googleusercontent.com"
-            }
-            developerKey={"AIzaSyClEar0WTg1RX60LJHeCWp7TYtJM3v84ms"}
+            clientId={REACT_APP_DEVELOPER_CLIENT_ID}
+            developerKey={REACT_APP_DEVELOPER_KEY}
             scope={["https://www.googleapis.com/auth/drive.readonly"]}
             onChange={(data) => {
               if (data.action === "picked") {
                 const downloadableLink = data.docs[0].url.replace(
                   /\/file\/d\/(.+)\/(.+)/,
-                  "/uc?export=download&id=$1",
+                  "/uc?export=download&id=$1"
                 );
                 const videoElem = { ...this.state.video };
                 videoElem.url = downloadableLink;
@@ -357,8 +359,8 @@ const mapDispatchToProps = (dispatch) => {
           selectedPost,
           videoData,
           prevData,
-          token,
-        ),
+          token
+        )
       );
     },
     onCloseModal: () => {
