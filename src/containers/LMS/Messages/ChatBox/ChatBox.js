@@ -12,7 +12,7 @@ import { emojis } from "../../../../util/emoji";
 import MenuDropdown from "../../../../components/UI/MenuDropdown/MenuDropdown";
 import { positionMenuDropdown } from "../../../../util/menuDropdown";
 import Spinner from "../../../../components/UI/Spinner/Spinner";
-import {userAgent} from "../../../../util/userAgent";
+import { userAgent } from "../../../../util/userAgent";
 
 class ChatBox extends Component {
   constructor(props) {
@@ -21,6 +21,7 @@ class ChatBox extends Component {
     this.menuGiphyDropdownRef = React.createRef();
     this.giphyContainerRef = React.createRef();
     this.messageLogRef = React.createRef();
+    this.chatContainerRef = React.createRef();
   }
   state = {
     message: {
@@ -31,7 +32,6 @@ class ChatBox extends Component {
     },
     imgFile: null,
     formIsValid: false,
-    output: [],
     showEmojiMenu: false,
     showGiphyMenu: false,
     isGifActive: false,
@@ -45,8 +45,7 @@ class ChatBox extends Component {
     }
     const socket = openSocket(`http://${localhost}:8080`);
     if (this.props.teacherToken) {
-      this.getMessages(
-          localhost,
+      this.props.onGetMessage(
         "teacher",
         this.props.location.search.split("=")[1],
         this.props.userData.name,
@@ -58,7 +57,7 @@ class ChatBox extends Component {
           data.branch === this.props.location.search.split("=")[1] &&
           data.subject === this.props.userData.name
         ) {
-          this.addMessages(data.message[0]);
+          this.props.onAddMessage(data.message[0]);
         }
       });
     } else if (this.props.studentToken) {
@@ -67,51 +66,28 @@ class ChatBox extends Component {
           data.subject === this.props.location.search.split("=")[1] &&
           data.branch === this.props.userData.branch
         ) {
-          this.addMessages(data.message[0]);
+          this.props.onAddMessage(data.message[0]);
         }
       });
-      this.getMessages(
-          localhost,
+
+      this.props.onGetMessage(
         "student",
         this.props.userData.branch,
         this.props.location.search.split("=")[1],
         this.props.studentToken
       );
     }
+    setTimeout(() => {
+      if (this.messageLogRef.current) {
+        this.messageLogRef.current.scrollIntoView();
+      }
+    }, 500);
+    console.log("remounted!!!");
   }
 
-  scrollIntoView() {
-    this.messageLogRef.current.scrollIntoView({ behavior: "smooth" });
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    this.messageLogRef.current.scrollIntoView({behavior: "smooth"});
   }
-
-  addMessages = (data) => {
-    this.setState((prevState) => {
-      const updatedOutput = [...prevState.output];
-      updatedOutput.push(data);
-      return { output: updatedOutput };
-    });
-    this.scrollIntoView();
-  };
-
-  getMessages = (localhost,url, branch, subject, token) => {
-    fetch(`http://${localhost}:8080/${url}/message/${branch}/${subject}`, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-type": "application/json",
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        this.setState({ output: resData.data });
-        this.scrollIntoView();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   onChangeImageHandler = (e) => {
     const file = e.target.files[0];
@@ -142,7 +118,6 @@ class ChatBox extends Component {
   };
 
   onChangedHandler = (e) => {
-    // console.log(e.target.value);
     const updatedMessage = { ...this.state.message };
     updatedMessage.value = e.target.value;
     updatedMessage.touched = true;
@@ -223,22 +198,17 @@ class ChatBox extends Component {
   };
 
   showGiphyDropdownHandler = (e) => {
-    // console.log("giphy opened");
     this.setState({ showGiphyMenu: true });
     positionMenuDropdown(e, this.menuGiphyDropdownRef);
     this.getGiphyGif();
-    // console.log(this.props.giphyData);
-    // this.observerHandler();
   };
 
   closeGiphyDropdownHandler = () => {
-    // console.log("giphy closed");
     this.menuGiphyDropdownRef.current.style.display = "none";
     this.setState({ showGiphyMenu: false });
   };
 
   getEmojiUniCode = (value) => {
-    // console.log(value);
     this.setState((prevState) => {
       const updatedMessage = { ...prevState.message };
       updatedMessage.value = `${prevState.message.value} ${value}`;
@@ -293,28 +263,9 @@ class ChatBox extends Component {
 
     return (
       <Fragment>
-        <Fragment>
-          {/* <header className={classes.Header}>
-          <figure className={classes.HeaderImg}>
-            <img src={imageBig} alt="user_image" />
-          </figure>
-          <div className={classes.HeaderHeading}>
-            <h4>ashish pal</h4>
-            <span>Online</span>
-          </div>
-          <div className={classes.HeaderIcon}>
-            <svg>
-              <use href={sprite + "#icon-star"}></use>
-            </svg>
-            <svg>
-              <use href={sprite + "#icon-dots-three-vertical"}></use>
-            </svg>
-          </div>
-        </header> */}
-        </Fragment>
-        <main className={classes.ChatContainer}>
+        <main className={classes.ChatContainer} ref={this.chatContainerRef}>
           <div className={classes.ChatLog}>
-            {this.state.output.map((message) => (
+            {this.props.messages.map((message) => (
               <MessageLog
                 messageLogRef={this.messageLogRef}
                 key={message._id}
@@ -327,6 +278,7 @@ class ChatBox extends Component {
               </MessageLog>
             ))}
           </div>
+          {/*<div ref={this.messageLogRef}>&nbsp;</div>*/}
         </main>
         <MenuDropdown
           clicked={this.closeEmojiDropdownHandler}
@@ -348,7 +300,6 @@ class ChatBox extends Component {
               );
             })}
           </div>
-          {/* <EmojiPicker onClick={() => {this.getEmojiUniCode()}} /> */}
         </MenuDropdown>
         <MenuDropdown
           clicked={this.closeGiphyDropdownHandler}
@@ -371,7 +322,6 @@ class ChatBox extends Component {
               </button>
             </div>
             {giphyData}
-            <div>Loading...</div>
           </div>
         </MenuDropdown>
         <ChatForm
@@ -395,6 +345,7 @@ const mapStateToProps = (state) => {
     giphyData: state.message.giphyData,
     giphyLoading: state.message.giphyLoading,
     giphyError: state.message.giphyError,
+    messages: state.message.messages,
   };
 };
 
@@ -412,6 +363,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     onGetGiphy: (url) => {
       dispatch(actionCreators.getGiphyTrending(url));
+    },
+    onGetMessage: (url, branch, subject, token) => {
+      dispatch(actionCreators.getMessage(url, branch, subject, token));
+    },
+    onAddMessage: (data) => {
+      dispatch(actionCreators.addMessage(data));
     },
   };
 };

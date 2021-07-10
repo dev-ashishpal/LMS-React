@@ -37,7 +37,7 @@ export const getClassmate = (token, branch) => {
         },
       });
       const resData = await res.json();
-      console.log(resData);
+      // console.log(resData);
       dispatch(getClassmateSuccess(resData.student));
     } catch (err) {
       console.log(err);

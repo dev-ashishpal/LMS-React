@@ -18,6 +18,12 @@
     height: calc((100vw - 10rem) * 9 / 16);
   }
 }
+@media (max-width: 470px) {
+  .Player {
+    width: calc(100vw - 5rem);
+    height: calc((100vw - 5rem) * 9 / 16);
+  }
+}
 
 .Player:fullscreen {
   max-width: none;

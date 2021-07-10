@@ -1,5 +1,5 @@
 import React from "react";
-import sprite from '../../../assets/svg/sprite.svg'
+import sprite from "../../../assets/svg/sprite.svg";
 import classes from "./PlayersControls.module.css";
 
 const playerControls = (props) => {
@@ -15,7 +15,7 @@ const playerControls = (props) => {
             name="progressBar"
             id="progress"
             className={classes.ProgressBar}
-            value={ isNaN(props.played) ? 0 :props.played * 100}
+            value={isNaN(props.played) ? 0 : props.played * 100}
             min="0"
             max="100"
             ref={props.progressBarRef}
@@ -29,11 +29,10 @@ const playerControls = (props) => {
           >
             <div className={classes.ProgressBarThumbBtn}></div>
           </div>
-          <div
-            ref={props.progressTimeRef}
-            className={classes.ProgressBarTimer}
-          >
-           <video src={props.src}>Video not supported</video> 
+          <div ref={props.progressTimeRef} className={classes.ProgressBarTimer}>
+            <video preload="auto" src={props.src}>
+              Video not supported
+            </video>
             <span>&nbsp;</span>
           </div>
           <div
@@ -44,8 +43,8 @@ const playerControls = (props) => {
             &nbsp;
           </div>
           <div
-              ref={props.progressBarFilledLoaded}
-              className={classes.ProgressBarFilledLoaded}
+            ref={props.progressBarFilledLoaded}
+            className={classes.ProgressBarFilledLoaded}
           >
             &nbsp;
           </div>

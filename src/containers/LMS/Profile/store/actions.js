@@ -12,7 +12,6 @@ export const LOAD_PROFILE_FAIL = "LOAD_PROFILE_FAIL";
 
 export const SENT_PROFILE = "SENT_PROFILE";
 
-
 export const loadProfileStart = () => {
   return {
     type: LOAD_PROFILE_START,
@@ -77,6 +76,7 @@ export const postProfile = (profileData, token, url) => {
       }
       console.log(resData.message);
       caughtError(dispatch, sentProfile, resData);
+      dispatch(loadProfile(token, url));
 
       // console.log(resData);
     } catch (err) {

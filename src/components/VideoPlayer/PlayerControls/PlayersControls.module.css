@@ -3,7 +3,7 @@
   bottom: 0;
   width: 100%;
   transition: all 0.4s;
-  background-color: transparent;
+  /*background: orangered;*/
 }
 
 .PlayerControlsContainer:hover .PlayerControls {
@@ -13,7 +13,11 @@
 .PlayerControls {
   transform: translateY(100%) translateY(-5px);
   transition: all 0.4s;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.01), rgba(0,0,0,0.4));
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.01),
+    rgba(0, 0, 0, 0.4)
+  );
 }
 
 .PlayerTime {
@@ -21,6 +25,12 @@
   padding: 10px;
   color: #fff;
   justify-content: space-between;
+}
+
+@media (max-width: 600px) {
+  .PlayerTime {
+    padding: 5px;
+  }
 }
 
 .Progress {
@@ -41,7 +51,7 @@
 
 .ProgressBar {
   -webkit-appearance: none;
-  background-color: rgba(0, 0,0, 0.2);
+  background-color: rgba(0, 0, 0, 0.2);
   width: 100%;
   height: 100%;
   border-radius: 4px;
@@ -61,6 +71,12 @@
   cursor: pointer;
   position: relative;
   z-index: 5;
+}
+
+@media (max-width: 600px) {
+  /*.ProgressBar::-webkit-slider-thumb {*/
+  /*  width: 10px;*/
+  /*}*/
 }
 
 .ProgressBarThumb {
@@ -96,7 +112,7 @@
 .ProgressBarFilledLoaded {
   width: 0;
   height: 100%;
-  background-color: rgba(255,255,255,0.6);
+  background-color: rgba(255, 255, 255, 0.6);
   position: absolute;
   border-radius: 4px;
   /*top: 1px;*/
@@ -117,6 +133,13 @@
   height: 25px;
 }
 
+@media (max-width: 600px) {
+  .PlayerOption svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
 .PlayerOptionPlay {
   width: 50px !important;
   height: 50px !important;
@@ -126,8 +149,21 @@
   transform: translateY(-3px);
 }
 
+@media (max-width: 600px) {
+  .PlayerOptionPlay {
+    width: 35px !important;
+    height: 35px !important;
+  }
+}
+
 .PlayerOptionFullscreen {
   margin-left: 25px;
+}
+
+@media (max-width: 600px) {
+ .PlayerOptionFullscreen {
+   margin-left: 5px;
+ }
 }
 
 .PlayerOptionSkip:not(:last-child) {
@@ -140,6 +176,12 @@
   cursor: pointer;
   margin-left: 10px;
   transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .VolumeSlider {
+    width: 65px;
+  }
 }
 
 .VolumeBar {
@@ -175,6 +217,12 @@
   display: none;
   color: #fff;
   /*background-color: rgba(0,0,0,0.5);*/
+}
+
+@media (max-width: 600px) {
+  .ProgressBarTimer {
+    display: none;
+  }
 }
 
 .ProgressBarTimer span {

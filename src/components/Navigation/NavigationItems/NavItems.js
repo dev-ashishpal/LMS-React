@@ -46,6 +46,7 @@ const mapStateToProps = (state) => {
   return {
     isTeacherAuthenticated: state.auth.teacherToken !== null,
     isStudentAuthenticated: state.auth.studentToken !== null,
+    newMessage: state.message.newMessage,
   };
 };
 

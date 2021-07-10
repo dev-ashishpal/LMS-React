@@ -1,10 +1,11 @@
 .UsersComment {
   display: grid;
   margin: 3rem 0;
-  grid-template-columns: 5.3rem 1fr 3rem;
+  width: 100%;
+  grid-template-columns: 5rem 1fr 3rem;
   padding-bottom: 2rem;
-  /*padding-top: 2rem;*/
 }
+
 .UsersComment:not(:last-of-type) {
   border-bottom: 1px solid var(--color-tertiary2);
 }
@@ -17,6 +18,14 @@
 }
 .UsersCommentImg {
   height: 5rem;
+  width: 5rem;
+}
+
+@media (max-width: 600px) {
+  .UsersCommentImg {
+    height: 4rem;
+    width: 4rem;
+  }
 }
 
 .UsersCommentImg img{
@@ -28,14 +37,28 @@
   display: grid;
   grid-template-rows: auto 1fr;
   grid-row-gap: 1.5rem;
-  padding: 0;
+  padding-left: 1rem;
   margin: 0;
 }
+@media (max-width: 600px) {
+  .UsersCommentDetail {
+    grid-row-gap: .5rem;
+    /*padding-left: 10px;*/
+  }
+}
+
 .UsersCommentHeading {
   display: grid;
   align-items: center;
   grid-template-columns: minmax(auto, 20rem) 1fr;
 }
+
+@media (max-width: 600px) {
+  .UsersCommentHeading {
+    align-items: start;
+  }
+}
+
 .UsersCommentHeading h4 {
   max-width: 50rem;
   font-size: 1.5rem;

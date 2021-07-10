@@ -71,7 +71,7 @@ class AddNotesLecture extends React.PureComponent {
   };
 
   selectChangeHandler = (event) => {
-    console.log("select Changed");
+    // console.log("select Changed");
     let selectedData = [];
     selectedData.push(event.target.value);
     const branchesElement = { ...this.state.branches };

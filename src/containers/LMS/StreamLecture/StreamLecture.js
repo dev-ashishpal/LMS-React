@@ -67,20 +67,8 @@ class StreamLecture extends Component {
         this.props.onAddComment(data.comment[0]);
       }
     });
-    console.log("[CMD] Rendered Again");
+    // console.log("[CMD] Rendered Again");
   }
-
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   if (prevState.comment.valid) {
-  //     this.setState((prevState) => {
-  //       return {formIsValid: !prevState.formIsValid };
-  //     });
-  //   } else {
-  //     this.setState((prevState) => {
-  //       return { formIsValid: !prevState.formIsValid };
-  //     });
-  //   }
-  // }
 
   commentChangeHandler = (e) => {
     const cmtElem = { ...this.state.comment };
@@ -120,15 +108,15 @@ class StreamLecture extends Component {
     this.setState({ comment: updatedComment });
   };
 
-  onLoadingVideo = (_id) => {
-    if (this.props.teacherToken) {
-      // this.getComments(this.props.teacherToken, "teacher", _id);
-      // return this.props.onLoad(_id, this.props.teacherToken, "teacher");
-    } else if (this.props.studentToken) {
-      // this.getComments(this.props.studentToken, "student", _id);
-      // return this.props.onLoad(_id, this.props.studentToken, "student");
-    }
-  };
+  // onLoadingVideo = (_id) => {
+  //   if (this.props.teacherToken) {
+  //     // this.getComments(this.props.teacherToken, "teacher", _id);
+  //     // return this.props.onLoad(_id, this.props.teacherToken, "teacher");
+  //   } else if (this.props.studentToken) {
+  //     // this.getComments(this.props.studentToken, "student", _id);
+  //     // return this.props.onLoad(_id, this.props.studentToken, "student");
+  //   }
+  // };
 
   deleteCommentHandler = (_id) => {
     if (this.props.teacherToken) {
@@ -160,8 +148,6 @@ class StreamLecture extends Component {
   };
 
   render() {
-    // console.log('action getComment', this.props.commentData);
-    // console.log('Rendered Again!!!');
     let localhost = "localhost";
     if (userAgent()) {
       localhost = "192.168.43.135";
@@ -200,7 +186,7 @@ class StreamLecture extends Component {
                   }`,
                 }}
               ></div>
-              <button className={classes.ShowMore}>Show More</button>
+              {/*<button className={classes.ShowMore}>Show More</button>*/}
             </div>
             <div className={classes.CommentBox}>
               <h1 className={classes.CommentBoxHeading}>Comments</h1>

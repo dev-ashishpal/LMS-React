@@ -102,7 +102,7 @@ class TeacherSignup extends Component {
   };
 
   onChangeHandler = (event, identifier) => {
-    console.log("changed");
+    // console.log("changed");
     const updatedSignupData = { ...this.state.signupData };
     const updatedSignupElement = { ...updatedSignupData[identifier] };
     updatedSignupElement.value = event.target.value;
@@ -120,18 +120,18 @@ class TeacherSignup extends Component {
   };
 
   selectChangeHandler = (event) => {
-    console.log("select Changed");
+    // console.log("select Changed");
     if (event.target.checked) {
       selectedData.push(event.target.value);
-      console.log(selectedData);
+      // console.log(selectedData);
     }
     if (!event.target.checked) {
       selectedData = selectedData.filter((data) => data !== event.target.value);
-      console.log(selectedData);
+      // console.log(selectedData);
     }
     const branchesElement = { ...this.state.branches };
     branchesElement.value = selectedData;
-    console.log(branchesElement.value.length);
+    // console.log(branchesElement.value.length);
     branchesElement.valid = branchesElement.value.length !== 0;
     branchesElement.touched = true;
     let selectFormIsValid = true;
@@ -146,7 +146,7 @@ class TeacherSignup extends Component {
       data[key] = this.state.signupData[key].value;
     }
     const updatedData = { ...data, branches: this.state.branches.value };
-    console.log(updatedData);
+    // console.log(updatedData);
     this.props.onSubmit(updatedData, selectedData);
   };
 

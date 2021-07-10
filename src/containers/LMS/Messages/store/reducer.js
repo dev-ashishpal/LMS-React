@@ -6,9 +6,19 @@ const initialState = {
   loading: false,
   error: false,
   giphyLoading: false,
+  messages: [],
   giphyData: {},
   giphyError: false,
+  newMessage: "",
 };
+
+// const addMessage = (arr, message) => {
+//   const newArr = [...arr];
+//   newArr.unshift(message);
+//   // console.log(message);
+//   console.log(newArr);
+//   return newArr;
+// };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -19,6 +29,13 @@ const reducer = (state = initialState, action) => {
     case actionTypes.GET_GIPHY_START: return updateObject(state, { giphyLoading: true });
     case actionTypes.GET_GIPHY_SUCCESS: return updateObject(state, { giphyLoading: false, giphyData: action.data });
     case actionTypes.GET_GIPHY_FAIL: return updateObject(state, { giphyLoading: false, giphyError: action.error });
+
+    case actionTypes.GET_MESSAGE_START: return updateObject(state, { loading: true });
+    case actionTypes.GET_MESSAGE_SUCCESS: return updateObject(state, { loading: false, messages: action.data });
+    case actionTypes.GET_MESSAGE_FAIL: return updateObject(state, { loading: false, error: action.error });
+
+    case actionTypes.ADD_MESSAGE: return updateObject(state, {newMessage: action.message, messages: state.messages.concat(action.message)});
+
     default: return state;
   }
 };

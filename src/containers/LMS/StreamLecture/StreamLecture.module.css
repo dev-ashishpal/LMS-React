@@ -23,10 +23,8 @@
   display: grid;
   grid-template-rows: max-content max-content;
   margin: 0 auto;
-  width: 95%;
+  width: 90%;
   margin-top: 3rem;
-  /*max-height: 94vh;*/
-  /*overflow-y: scroll;*/
 }
 .StreamContainer::-webkit-scrollbar {
   display: none;
@@ -42,7 +40,7 @@
   display: grid;
   grid-template-columns: 1fr 10rem auto;
   align-items: center;
-  padding: 1.5rem;
+  padding: 1.5rem 0;
   border-bottom: 1px solid var(--color-tertiary2);
 }
 .StreamContainerHeader h3 {
@@ -58,12 +56,11 @@
   cursor: pointer;
 }
 .StreamContainerDesc {
-  padding: 2rem 0 0 2rem;
+  padding: 2rem 0 0 0;
   border-bottom: 1px solid var(--color-tertiary2);
 }
 .StreamContainerDescBox {
   font-family: inherit;
-  /*padding-left: 1.5rem;*/
   font-size: 1.5rem;
   line-height: 1.7;
 }
@@ -76,110 +73,87 @@
 .StreamContainerDescBox h1 {
   font-size: 4rem;
   font-family: inherit;
-  /*padding: .5rem 0;*/
   color: currentColor;
   font-weight: 600;
 }
+
 
 .StreamContainerDescBox h2 {
   font-size: 3rem;
   font-family: inherit;
   color: currentColor;
-  padding: .3rem 0;
+  padding: 0.3rem 0;
   font-weight: 600;
 }
 .StreamContainerDescBox h3 {
   font-size: 2rem;
   font-family: inherit;
   color: currentColor;
-  padding: .1rem 0;
+  padding: 0.1rem 0;
   font-weight: 600;
-}
-.ShowMore {
-  font-weight: 700;
-  font-size: 1.6rem;
-  font-family: inherit;
-  color: currentColor;
-  opacity: 0.5;
-  border: none;
-  outline: none;
-  padding: 1.5rem 0;
-  cursor: pointer;
-}
-.ShowMore:hover {
-  text-decoration: underline;
 }
 
 .CommentBox {
   padding: 2rem 0;
+  /*background-color: cyan;*/
+
 }
 .CommentBox * {
   margin: 0 auto;
-  width: 95%;
+  width: 100%;
 }
 
 .CommentBoxHeading {
-  /*color: #444444;*/
   font-size: 3rem;
   font-weight: 300;
   color: var(--color-primary);
   margin: 0 auto;
-  width: 80%;
-  /*text-transform: uppercase;*/
   text-transform: capitalize;
 }
-@media (max-width: 600px) {
-  .CommentBoxHeading {
-    width: 90%;
-  }
-}
+
 .CommentBoxUser {
   margin: 0 auto;
-  width: 80%;
+  width: 100%;
   padding-top: 2rem;
   display: grid;
   grid-template-columns: auto 1fr;
 }
-/*@media (max-width: 900px) {*/
-/*  .CommentBoxUser {*/
-/*    grid-column-gap: 1rem;*/
-/*  }*/
-/*}*/
-@media (max-width: 600px) {
-  .CommentBoxUser {
-    width: 90%;
-  }
-}
+
+
 .CommentBoxUser figure {
   height: 5rem;
   width: 5rem;
 }
+
+@media (max-width: 600px) {
+  .CommentBoxUser figure {
+    height: 4rem;
+    width: 4rem;
+  }
+}
+
 .CommentBoxUser figure img {
   width: 100%;
   height: 100%;
   border-radius: 100%;
 }
 .CommentForm {
-  margin-top: 5px;
-  grid-template-rows: 1fr auto;
-  grid-row-gap: 2rem;
+  /*margin-top: 5px;*/
+  /*background: orangered;*/
+  padding-left: 1rem;
 }
+
 .CommentForm textarea {
   resize: none;
   outline: none;
   height: 10rem;
-  /*row-span: 5;*/
   font-family: inherit;
   width: 100%;
   padding: 1rem;
   background-color: var(--color-pure-white);
   color: inherit;
 }
-@media (max-width: 470px) {
-  .CommentForm textarea {
-  height: 7rem;
-  }
-}
+
 .CommentFormSubmit {
   text-align: right;
   width: 100%;
@@ -204,58 +178,23 @@
 }
 .UsersCommentContainer {
   margin: 0 auto;
-  width: 80%;
+  width: 100%;
   padding-top: 4rem;
-}
-@media (max-width: 600px) {
-  .UsersCommentContainer {
-    width: 90%;
-  }
-}
-/* .UsersComment {
-  display: grid;
-  margin: 3rem 0;
-  grid-template-columns: 5.3rem 1fr;
-  padding-bottom: 2rem;
-}
-.UsersComment:not(:last-of-type) {
-  border-bottom: 1px solid var(--color-tertiary2);
-}
-.UsersCommentImg {
-  height: 5rem;
+  /*background-color: orangered;*/
 }
 
-.UsersCommentImg img{
-  width: 100%;
-  height: 100%;
-  border-radius: 100%;
-}
-.UsersCommentDetail {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  grid-row-gap: 1.5rem;
-  padding: 0;
-  margin: 0;
-}
-.UsersCommentHeading {
-  display: grid;
-  align-items: center;
-  grid-template-columns: minmax(auto, 20rem) 1fr;
-}
-.UsersCommentHeading h4 {
-  max-width: 50rem;
-  font-size: 1.5rem;
-}
-.UsersCommentHeading span {
-  color: var(--color-tertiary3);
-}
-.UsersCommentPara {
-  margin-left: -1px;
-} */
+
 .StreamSidebar {
   /*max-height: 94vh;*/
   /*overflow: scroll;*/
 }
+
+@media (max-width: 900px) {
+  .StreamSidebar {
+    margin-bottom: 3rem;
+  }
+}
+
 .StreamSidebar::-webkit-scrollbar {
   width: 0.8rem;
   background-color: transparent;
@@ -277,8 +216,7 @@
   text-transform: uppercase;
 }
 
-.StreamSidebarContainerList
-{
+.StreamSidebarContainerList {
   display: grid;
   grid-template-rows: repeat(auto-fill, 1fr);
   grid-row-gap: 2rem;
@@ -318,11 +256,17 @@
 .StreamSidebarContainerItem a figure::before {
   content: "";
   position: absolute;
-  top:0;
+  top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0,0,0,0.4);
+  /*background-color: rgba(0,0,0,0.4);*/
+  background-color: hsla(
+    var(--color-tertiary-h),
+    var(--color-tertiary-s),
+    var(--color-tertiary-l),
+    0.7
+  );
   filter: blur(2px);
 }
 
@@ -344,7 +288,8 @@
   font-family: inherit;
   border: none;
   border-radius: 3px;
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 /*.DeleteBtnContainer {*/
 /*  width: 20rem;*/
@@ -352,7 +297,6 @@
 /*  background-color: orangered;*/
 /*  position: relative;*/
 /*}*/
-
 
 .DeleteBtn {
   padding: 1rem 2.5rem;
@@ -365,5 +309,4 @@
   font-family: inherit;
   font-weight: 500;
   font-size: 1.6rem;
-
 }

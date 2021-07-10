@@ -14,8 +14,8 @@ class GoogleDrive extends Component {
         developerKey={"AIzaSyClEar0WTg1RX60LJHeCWp7TYtJM3v84ms"}
         scope={["https://www.googleapis.com/auth/drive.readonly"]}
         onChange={(data) => this.setState({data: data})}
-        onAuthenticate={(token) => console.log("oauth token:", token)}
-        onAuthFailed={(data) => console.log("on auth failed:", data)}
+        onAuthenticate={(token) => console.log("oauth token accessed")}
+        onAuthFailed={(data) => console.log("oauth failed:")}
         multiselect={true}
         navHidden={true}
         authImmediate={false}

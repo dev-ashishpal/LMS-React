@@ -6,11 +6,10 @@ import greenTheme from "../../../assets/images/theme-green.png";
 import blueTheme from "../../../assets/images/theme-blue.png";
 
 const setting = () => {
-  localStorage.setItem('URL',window.location.pathname);
+  localStorage.setItem("URL", window.location.pathname);
   const changeThemeHandler = (theme) => {
     switch (theme) {
       case "white":
-        console.log("white mode");
         document.body.classList.add("whiteMode");
 
         document.body.classList.remove("greenMode");
@@ -20,7 +19,6 @@ const setting = () => {
         localStorage.setItem("theme", "whiteMode");
         break;
       case "black":
-        console.log("black mode");
         document.body.classList.add("blackMode");
 
         document.body.classList.remove("greenMode");
@@ -30,7 +28,6 @@ const setting = () => {
         localStorage.setItem("theme", "blackMode");
         break;
       case "green":
-        console.log("green mode");
         document.body.classList.add("greenMode");
 
         document.body.classList.remove("blackMode");
@@ -40,7 +37,6 @@ const setting = () => {
         localStorage.setItem("theme", "greenMode");
         break;
       case "blue":
-        console.log("blue mode");
         document.body.classList.add("blueMode");
 
         document.body.classList.remove("greenMode");

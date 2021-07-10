@@ -39,7 +39,6 @@ class Homepage extends React.Component {
       auth = <Redirect to="/student/dashboard" />;
     }
 
-
     return (
       <React.Fragment>
         {error ? (

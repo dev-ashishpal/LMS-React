@@ -7,6 +7,7 @@ import ChatBox from "./ChatBox/ChatBox";
 import { Route, Switch, withRouter } from "react-router";
 import * as actionCreators from "./store/actions";
 import { connect } from "react-redux";
+import {generateUniqueID} from "../../../util/generateRandomId";
 import { search } from "../../../util/search";
 
 class Messages extends Component {
@@ -26,7 +27,6 @@ class Messages extends Component {
   render() {
     const mediaQuery = window.matchMedia("(max-width: 600px)");
     if (mediaQuery.matches) {
-      // console.log("yeah its mobile mode");
     }
     let urlParam = window.location.search.split("=")[1]
       ? window.location.search.split("=")[1].replace("%", " ")
@@ -57,11 +57,14 @@ class Messages extends Component {
           </svg>
         </div>
         <section ref={this.chatListRef} className={classes.SidebarContainer}>
-          {this.props.branches.map((branch) => (
-            <ChatList url={urlParam === branch} link={branch} key={branch}>
-              {branch}
-            </ChatList>
-          ))}
+          {this.props.branches.map((branch) => {
+            // console.log(this.props.newMessage);
+            return (
+              <ChatList link={branch} key={branch}>
+                {branch}
+              </ChatList>
+            );
+          })}
         </section>
       </aside>
     );
@@ -82,7 +85,7 @@ class Messages extends Component {
                   render={() => <Empty />}
                 />
                 <Route
-                  key={Math.random()}
+                  key={window.location.search}
                   path={path + "messages/chat"}
                   render={() => {
                     return (
@@ -106,6 +109,7 @@ const mapStateToProps = (state) => {
     branches: state.message.branches,
     teacherToken: state.auth.teacherToken,
     studentToken: state.auth.studentToken,
+    newMessage: state.message.newMessage,
   };
 };
 

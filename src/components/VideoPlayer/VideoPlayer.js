@@ -114,7 +114,7 @@ class VideoPlayer extends React.Component {
 
   skipFwdHandler = () => {
     this.videoRef.current.currentTime += parseFloat(
-      this.fwdBtnRef.current.dataset.skip
+      this.fwdBtnRef.current.dataset.skip,
     );
     this.setState({ showMiddleIcon: true, middleIcon: "#icon-forward_10" });
     this.removeMiddleIcon();
@@ -122,7 +122,7 @@ class VideoPlayer extends React.Component {
 
   skipBwdHandler = () => {
     this.videoRef.current.currentTime += parseFloat(
-      this.bkwBtnRef.current.dataset.skip
+      this.bkwBtnRef.current.dataset.skip,
     );
     this.setState({ showMiddleIcon: true, middleIcon: "#icon-replay_10" });
     this.removeMiddleIcon();
@@ -183,11 +183,11 @@ class VideoPlayer extends React.Component {
       scrubMin = "0" + scrubMin;
     }
     this.progressTimeRef.current.querySelector(
-      "span"
+      "span",
     ).innerHTML = `${scrubMin}:${scrubSec}`;
     if (this.props.src) {
       this.progressTimeRef.current.querySelector(
-        "video"
+        "video",
       ).currentTime = scrubTime ? scrubTime : null;
     }
   };

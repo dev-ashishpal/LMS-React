@@ -8,6 +8,7 @@ import Layout from "../../hoc/Layout/Layout";
 import * as actionCreators from "../../store/actions/index";
 import * as actionProfile from "./Profile/store/actions";
 import { connect } from "react-redux";
+import {generateUniqueID} from "../../util/generateRandomId";
 
 const Dashboard = React.lazy(() => import("./Dashboard/Dashboard"));
 const Lectures = React.lazy(() => import("./Lectures/Lectures"));
@@ -139,7 +140,7 @@ class LMS extends Component {
           />
           {/* <Switch> */}
           <Route
-            key={Math.random().toString()}
+            key={generateUniqueID()}
             path={path + "watch"}
             render={() => (
               <Suspense
@@ -149,7 +150,7 @@ class LMS extends Component {
                   </div>
                 }
               >
-                <StreamLecture />
+                <StreamLecture key={generateUniqueID()} />
               </Suspense>
             )}
           />
