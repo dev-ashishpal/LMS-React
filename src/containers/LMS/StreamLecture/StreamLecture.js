@@ -2,21 +2,21 @@ import React, { PureComponent } from "react";
 import classes from "./StreamLecture.module.css";
 import VideoPlayer from "../../../components/VideoPlayer/VideoPlayer";
 import sprite from "../../../assets/svg/sprite.svg";
-import { withRouter, NavLink } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import * as actionCreators from "./store/actions";
-import * as actionCreatorsVideo from "../Lectures/VideoLectures/store/actions";
 import { timeSince } from "../../../util/timeSince";
 import { required } from "../../../util/validators";
 import { parseMarkdown } from "../../../util/linkGenerator";
 import Comment from "../../../components/Comment/Comment";
-import TextInput from "../../../components/UI/Input/TextInput/TextInput";
 import openSocket from "socket.io-client";
 import { userAgent } from "../../../util/userAgent";
 import MenuDropdown from "../../../components/UI/MenuDropdown/MenuDropdown";
 import { positionMenuDropdown } from "../../../util/menuDropdown";
 import ErrorModal from "../../../components/UI/ErrorModal/ErrorModal";
+import StreamSidebar from "./StreamSidebar/StreamSidebar";
+import StreamComment from "./StreamComment/StreamComment";
 
 class StreamLecture extends PureComponent {
   constructor(props) {
@@ -46,11 +46,9 @@ class StreamLecture extends PureComponent {
     // localStorage.setItem("URL", window.location.pathname);
     const _id = location.search.split("=")[1];
     if (teacherToken) {
-      // this.props.onLoadLecture(teacherToken, "/teacher/lecture/video");
       this.props.onLoad(_id, teacherToken, "teacher");
       this.props.onLoadComment(localhost, teacherToken, "teacher", _id);
     } else if (studentToken) {
-      // this.props.onLoadLecture(teacherToken, "/teacher/lecture/video");
       this.props.onLoad(_id, studentToken, "student");
       this.props.onLoadComment(localhost, studentToken, "student", _id);
     }
@@ -134,7 +132,6 @@ class StreamLecture extends PureComponent {
       studentToken,
       teacherToken,
       userData,
-      sideLecData,
     } = this.props;
 
     let commentBox;
@@ -208,38 +205,14 @@ class StreamLecture extends PureComponent {
               ></div>
             </div>
             <div className={classes.CommentBox}>
-              <h1 className={classes.CommentBoxHeading}>Comments</h1>
-              <div className={classes.CommentBoxUser}>
-                <figure>
-                  <img
-                    src={`http://${localhost}:8080/${userData.image}`}
-                    alt="user_image"
-                  />
-                </figure>
-                <form
-                  onSubmit={this.submitCommentHandler}
-                  className={classes.CommentForm}
-                >
-                  <label htmlFor="add-comment" hidden>
-                    Add New Comment
-                  </label>
-                  <TextInput
-                    label=" "
-                    type="text"
-                    inputtype="textarea"
-                    name="lectureDescription"
-                    onChange={this.commentChangeHandler}
-                    valid={this.state.comment.valid ? 1 : 0}
-                    touched={this.state.comment.touched ? 1 : 0}
-                    value={this.state.comment.msg}
-                  />
-                  <div className={classes.CommentFormSubmit}>
-                    <button type="submit" disabled={!this.state.formIsValid}>
-                      Publish
-                    </button>
-                  </div>
-                </form>
-              </div>
+              <StreamComment
+                localhost={localhost}
+                userData={userData}
+                comment={this.state.comment}
+                formIsValid={this.state.formIsValid}
+                onChange={this.commentChangeHandler}
+                onSubmit={this.submitCommentHandler}
+              />
 
               <div className={classes.UsersCommentContainer}>{commentBox}</div>
             </div>
@@ -260,42 +233,11 @@ class StreamLecture extends PureComponent {
           </MenuDropdown>
         </section>
 
-        <aside className={classes.StreamSidebar}>
-          <header className={classes.StreamSidebarHeader}>
-            <h1>Similar Lectures</h1>
-          </header>
-          <main className={classes.StreamSidebarContainer}>
-            <ul className={classes.StreamSidebarContainerList}>
-              {sideLecData.map((data) => (
-                <li
-                  key={data._id}
-                  className={
-                    data._id === videoData._id
-                      ? classes.StreamSidebarContainerItem
-                      : null
-                  }
-                >
-                  <NavLink
-                    to={streamLink + "watch?v=" + data._id}
-                    className={classes.StreamSidebarContainerLink}
-                    activeClassName={classes.Active}
-                  >
-                    <figure className={classes.StreamSidebarContainerImg}>
-                      <img
-                        src={`http://${localhost}:8080/` + data.image}
-                        alt="lecture"
-                      />
-                    </figure>
-                    <div className={classes.StreamSidebarBox}>
-                      <h4>{data.title}</h4>
-                      <span>{data.name}</span>
-                    </div>
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </main>
-        </aside>
+        <StreamSidebar
+          videoData={videoData}
+          localhost={localhost}
+          streamLink={streamLink}
+        />
       </main>
     );
   }
@@ -310,8 +252,6 @@ const mapStateToProps = (state) => {
     teacherToken: state.auth.teacherToken,
     studentToken: state.auth.studentToken,
     userData: state.profile.data,
-
-    sideLecData: state.videoLec.data,
 
     commentData: state.stream.comment,
     commentLoading: state.stream.cmtLoading,
@@ -339,9 +279,9 @@ const mapDispatchToProps = (dispatch) => {
     onDeleteComment: (_id, token, url, commentData) => {
       dispatch(actionCreators.deleteComment(_id, token, url, commentData));
     },
-    onLoadLecture: (token, url) => {
-      dispatch(actionCreatorsVideo.loadVidLec(token, url));
-    },
+    // onLoadLecture: (token, url) => {
+    //   dispatch(actionCreatorsVideo.loadVidLec(token, url));
+    // },
   };
 };
 

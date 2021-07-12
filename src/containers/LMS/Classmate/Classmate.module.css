@@ -1,11 +1,10 @@
 .Classmate {
-    max-height: calc(100vh - 6rem);
-    overflow-y: scroll;
-    padding-top: 2rem;
-    /*background-color: orangered;*/
-    background-color: var(--color-pure-white);
-    grid-column: 1/ -1;
-    width: 100%;
+  max-height: calc(100vh - 6rem);
+  overflow-y: scroll;
+  padding-top: 2rem;
+  background-color: var(--color-pure-white);
+  grid-column: 1/ -1;
+  width: 100%;
 }
 
 .Classmate::-webkit-scrollbar {
@@ -20,18 +19,26 @@
 }
 
 .ClassmateContainer {
-    /*height: 1*/
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-    display: flex;
-    padding: 2rem;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  display: flex;
+  padding: 2rem;
 }
 
 .ClassmateContainer article {
-    /*background-color: orangered;*/
-    max-width: 50rem;
-    text-align: center;
-    width: 30rem;
-    margin: 2rem 2rem;
+  max-width: 50rem;
+  text-align: center;
+  width: 30rem;
+  margin: 2rem 2rem;
+}
+
+.Error {
+  font-style: italic;
+  font-weight: 500;
+  font-size: 2rem;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
 }

@@ -20,7 +20,6 @@ class VideoLectures extends PureComponent {
   }
 
   componentDidMount() {
-
     // localStorage.setItem("URL", window.location.pathname);
     if (this.props.teacherToken) {
       this.props.onLoadLecture(
@@ -50,7 +49,7 @@ class VideoLectures extends PureComponent {
     let lecture;
     let addLectureBtn = null;
     let addLectureModal = null;
-    const {teacherToken, studentToken, loading, error, data} = this.props;
+    const { teacherToken, studentToken, loading, error, data } = this.props;
 
     if (userAgent()) {
       localhost = "192.168.43.135";
@@ -88,11 +87,7 @@ class VideoLectures extends PureComponent {
           isVideo={this.props.isVideo}
           date={data.date}
           subject={
-            teacherToken
-              ? data.branch
-              : studentToken
-              ? data.subject
-              : null
+            teacherToken ? data.branch : studentToken ? data.subject : null
           }
           link={streamLink + data._id}
           deleteHandler={() => {

@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import { advanceSearch } from "../../../util/search";
 import SearchBar from "../../../components/UI/SearchBar/SearchBar";
-import ErrorModal from "../../../components/UI/ErrorModal/ErrorModal";
 
 class Classmate extends PureComponent {
   constructor(props) {
@@ -40,12 +39,16 @@ class Classmate extends PureComponent {
         </article>
       ));
     }
+    if (error) {
+      classmates = (
+        <div className={classes.Error}>
+          Error while Fetching the Classmates. Reload!
+        </div>
+      );
+    }
 
     return (
       <div className={classes.Classmate}>
-        {error ? (
-          <ErrorModal error>Data Not Fetched. Reload Page!</ErrorModal>
-        ) : null}
         <SearchBar
           onChange={(e) => {
             advanceSearch(e, this.containerRef);

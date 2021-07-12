@@ -1,4 +1,4 @@
-import React, {PureComponent} from "react";
+import React, { PureComponent, Fragment } from "react";
 import classes from "./Dashboard.module.css";
 import * as actionCreators from "./store/actions";
 import { connect } from "react-redux";
@@ -8,7 +8,7 @@ import BarGraph from "../../../components/Graphs/BarGraph/BarGraph";
 
 class Dashboard extends PureComponent {
   componentDidMount() {
-    const {teacherToken, studentToken} = this.props;
+    const { teacherToken, studentToken } = this.props;
     // localStorage.setItem("URL", window.location.pathname);
     if (teacherToken) {
       this.props.onLoad(teacherToken, "teacher");
@@ -21,7 +21,6 @@ class Dashboard extends PureComponent {
       this.props.onLoadVideo(studentToken, "student");
       this.props.onLoadNotes(studentToken, "student");
       this.props.onLoadPaper(studentToken, "student");
-      // this.props.onStudents(this.props.studentToken, "student");
     }
   }
 
@@ -30,9 +29,14 @@ class Dashboard extends PureComponent {
     const videoData = { ...this.props.videoData };
     const paperData = { ...this.props.paperData };
     const notesData = { ...this.props.notesData };
+    let boxes = <Spinner />;
+    let videoBox = <Spinner />;
+    let notesBox = <Spinner />;
+    let paperBox = <Spinner />;
+    let studentsBox = <Spinner />;
+    let barGraph;
 
     // BOXES
-    let boxes = <Spinner />;
     if (this.props.data) {
       boxes = this.props.data.map((dt) => (
         <div className={classes.Box} key={dt.name}>
@@ -46,7 +50,6 @@ class Dashboard extends PureComponent {
     }
 
     // VIDEO DATA
-    let videoBox = <Spinner />;
     if (videoData) {
       videoBox = <DonutGraph data={videoData} />;
     }
@@ -55,7 +58,6 @@ class Dashboard extends PureComponent {
     }
 
     // NOTES DATA
-    let notesBox = <Spinner />;
     if (notesData) {
       notesBox = <DonutGraph data={notesData} />;
     }
@@ -64,7 +66,6 @@ class Dashboard extends PureComponent {
     }
 
     // PAPER DATA
-    let paperBox = <Spinner />;
     if (paperData) {
       paperBox = <DonutGraph data={paperData} />;
     }
@@ -73,7 +74,6 @@ class Dashboard extends PureComponent {
     }
 
     // STUDENTS DATA
-    let studentsBox = <Spinner />;
     if (studentsData) {
       studentsBox = <BarGraph data={studentsData} />;
     }
@@ -81,15 +81,28 @@ class Dashboard extends PureComponent {
       studentsBox = <div className={classes.Error}>Error occurred!</div>;
     }
 
+    if (this.props.teacherToken) {
+      barGraph = (
+        <Fragment>
+          <p>Total Students</p>
+          {studentsBox}
+        </Fragment>
+      );
+    } else if (this.props.studentToken) {
+      barGraph = (
+        <div className={classes.WelcomeContainer}>
+          <span className={classes.Welcome}>Welcome,</span>
+          <span className={classes.WelcomeName}>Ashish</span>
+        </div>
+      );
+    }
+
     return (
       <div className={classes.Dashboard}>
         <div className={classes.Boxes}>{boxes}</div>
 
         <div className={classes.Chart}>
-          <div className={classes.BarChart}>
-            <p>Total Students</p>
-            {studentsBox}
-          </div>
+          <div className={classes.BarChart}>{barGraph}</div>
           <div className={classes.DonutChart}>
             <div className={classes.DonutChartSingle}>
               <p>Videos</p>

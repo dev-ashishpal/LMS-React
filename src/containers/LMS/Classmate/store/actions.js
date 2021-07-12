@@ -50,7 +50,7 @@ export const getClassmate = (token, branch) => {
       }
       dispatch(getClassmateSuccess(resData.student));
     } catch (err) {
-      caughtError(dispatch, getClassmateFail, err);
+      dispatch(getClassmateFail(err));
     }
   };
 };

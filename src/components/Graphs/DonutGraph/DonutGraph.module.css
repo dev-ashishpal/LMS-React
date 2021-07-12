@@ -1,0 +1,20 @@
+.DonutContainer {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.Donut {
+  position: relative;
+  z-index: 1;
+}
+
+.Number {
+  position: absolute;
+  top: 50%;
+  left: 46%;
+  font-size: 7rem;
+  font-weight: 500;
+  transform: translate(-50%, -50%);
+  color: var(--color-black);
+}
