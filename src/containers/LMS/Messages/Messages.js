@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { PureComponent, Fragment } from "react";
 import sprite from "../../../assets/svg/sprite.svg";
 import classes from "./Messages.module.css";
 import ChatList from "../../../components/ChatList/ChatList";
@@ -7,36 +7,36 @@ import ChatBox from "./ChatBox/ChatBox";
 import { Route, Switch, withRouter } from "react-router";
 import * as actionCreators from "./store/actions";
 import { connect } from "react-redux";
-import {generateUniqueID} from "../../../util/generateRandomId";
 import { search } from "../../../util/search";
 
-class Messages extends Component {
+class Messages extends PureComponent {
   constructor(props) {
     super(props);
     this.chatListRef = React.createRef();
   }
   componentDidMount() {
+    const { teacherToken, studentToken } = this.props;
     localStorage.setItem("URL", window.location.pathname);
-    if (this.props.teacherToken) {
-      this.props.initBranches(this.props.teacherToken, "teacher");
-    } else if (this.props.studentToken) {
-      this.props.initBranches(this.props.studentToken, "student");
+    if (teacherToken) {
+      this.props.initBranches(teacherToken, "teacher");
+    } else if (studentToken) {
+      this.props.initBranches(studentToken, "student");
     }
   }
 
   render() {
     const mediaQuery = window.matchMedia("(max-width: 600px)");
-    if (mediaQuery.matches) {
-    }
+    let path;
     let urlParam = window.location.search.split("=")[1]
       ? window.location.search.split("=")[1].replace("%", " ")
       : null;
-    let path;
+
     if (this.props.teacherToken) {
       path = "/teacher/";
     } else if (this.props.studentToken) {
       path = "/student/";
     }
+
     let sidebar = (
       <aside className={classes.Sidebar}>
         <div className={classes.SearchBar}>
@@ -58,7 +58,6 @@ class Messages extends Component {
         </div>
         <section ref={this.chatListRef} className={classes.SidebarContainer}>
           {this.props.branches.map((branch) => {
-            // console.log(this.props.newMessage);
             return (
               <ChatList link={branch} key={branch}>
                 {branch}
@@ -75,7 +74,6 @@ class Messages extends Component {
     return (
       <div className={classes.Message}>
         {sidebar}
-        {/*************** Main Message *****************/}
         <main className={classes.Main}>
           <section>
             <div className={classes.MainContainer}>

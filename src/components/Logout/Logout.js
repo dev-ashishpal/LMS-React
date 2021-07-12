@@ -2,16 +2,15 @@ import React from "react";
 import classes from "./Logout.module.css";
 import Modal from "../UI/Modal/Modal";
 import SubmitButton from "../UI/SubmitBtn/SubmitBtn";
-// import * as as actionCreators from "../../store/actions/index";
-import * as actionCreators from '../../store/actions/auth';
+import * as actionCreators from "../../store/actions/auth";
 import { connect } from "react-redux";
 
 class Logout extends React.Component {
   onLogoutHandler = () => {
     this.props.onTeacherLogout();
     this.props.onStudentLogout();
-    // this.props.history.push("/");
   };
+
   render() {
     return (
       <div>
@@ -38,7 +37,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     onStudentLogout: () => {
       dispatch(actionCreators.studentLogout());
-    }
+    },
   };
 };
 

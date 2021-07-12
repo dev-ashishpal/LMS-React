@@ -72,7 +72,7 @@
   display: inline-block;
 }
 .ChatForm button {
-  background-color: #ff6932;
+  background-color: var(--color-sec);
   outline: none;
   border: none;
   display: flex;
@@ -82,4 +82,9 @@
   padding: 1rem;
   border-radius: 100%;
   cursor: pointer;
+}
+
+.ChatForm button:disabled {
+  background-color: var(--color-sec-light);
+  cursor: not-allowed;
 }

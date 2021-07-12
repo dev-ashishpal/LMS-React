@@ -1,60 +1,58 @@
-.NotificationIcon {
-  display: block;
-  position: relative;
-  /*padding-top: 8px;*/
-}
+/*.NotificationIcon {*/
+/*  display: block;*/
+/*  position: relative;*/
+/*}*/
 
-.NotificationIcon::after {
-  content: "";
-  transition: 0.2s all;
-  transform: scale(1.8, 1.5);
-}
+/*.NotificationIcon::after {*/
+/*  content: "";*/
+/*  transition: 0.2s all;*/
+/*  transform: scale(1.8, 1.5);*/
+/*}*/
 
-.NotificationIcon:hover::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  background-color: #f1f1f1;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-}
+/*.NotificationIcon:hover::after {*/
+/*  content: "";*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  left: 0;*/
+/*  z-index: -1;*/
+/*  background-color: #f1f1f1;*/
+/*  width: 100%;*/
+/*  height: 100%;*/
+/*  border-radius: 50%;*/
+/*}*/
 
-.NotificationIcon svg {
-  width: 2.5rem;
-  height: 2.5rem;
-  fill: var(--color-tertiary3);
-  cursor: pointer;
-}
+/*.NotificationIcon svg {*/
+/*  width: 2.5rem;*/
+/*  height: 2.5rem;*/
+/*  fill: var(--color-tertiary3);*/
+/*  cursor: pointer;*/
+/*}*/
 
-.MenuList {
-  list-style: none;
-  width:100%;
-  height: 100%;
-  /*background-color: orangered;*/
-  display: flex;
-  padding: .5rem 1rem;
-  flex-direction: column;
-  max-width: 40rem;
-}
+/*.MenuList {*/
+/*  list-style: none;*/
+/*  width:100%;*/
+/*  height: 100%;*/
+/*  display: flex;*/
+/*  padding: .5rem 1rem;*/
+/*  flex-direction: column;*/
+/*  max-width: 40rem;*/
+/*}*/
 
-.MenuItem {
-  font-size: 1.6rem;
-  padding: 1rem;
-  text-transform: capitalize;
-  color: var(--color-black);
-}
+/*.MenuItem {*/
+/*  font-size: 1.6rem;*/
+/*  padding: 1rem;*/
+/*  text-transform: capitalize;*/
+/*  color: var(--color-black);*/
+/*}*/
 
-.MenuItem a,
-.MenuItem a:visited,
-.MenuItem a:active,
-.MenuItem button {
-  text-decoration: none;
-  color: currentColor;
-}
+/*.MenuItem a,*/
+/*.MenuItem a:visited,*/
+/*.MenuItem a:active,*/
+/*.MenuItem button {*/
+/*  text-decoration: none;*/
+/*  color: currentColor;*/
+/*}*/
 
-.MenuItem:not(:last-of-type) {
-  border-bottom: 1px solid var(--color-tertiary2);
-}
+/*.MenuItem:not(:last-of-type) {*/
+/*  border-bottom: 1px solid var(--color-tertiary2);*/
+/*}*/

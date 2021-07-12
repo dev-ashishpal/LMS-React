@@ -19,7 +19,7 @@ export const SUBMIT_VID_LEC_FAIL = "SUBMIT_VID_LEC_FAIL";
 export const SHOW_MODAL = "SHOW_MODAL";
 export const CLOSE_MODAL = "CLOSE_MODAL";
 
-export const WATCHLIST_SUCCESS = "WATCHLIST_SUCCESS";
+// export const WATCHLIST_SUCCESS = "WATCHLIST_SUCCESS";
 
 export const showModal = () => {
   return {
@@ -30,6 +30,12 @@ export const showModal = () => {
 export const closeModal = () => {
   return {
     type: CLOSE_MODAL,
+  };
+};
+
+export const loadVidLecStart = () => {
+  return {
+    type: LOAD_VID_LEC_START,
   };
 };
 
@@ -47,9 +53,21 @@ export const loadVidLecFail = (error) => {
   };
 };
 
-export const loadVidLecStart = () => {
-  return {
-    type: LOAD_VID_LEC_START,
+export const loadVidLec = (token, url) => {
+  return async (dispatch) => {
+    dispatch(loadVidLecStart());
+    try {
+      const res = await fetch(`http://${localhost}:8080${url}`, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      const resData = await res.json();
+      dispatch(loadVidLecSuccess(resData.data));
+    } catch (err) {
+      dispatch(loadVidLecFail(err));
+    }
   };
 };
 
@@ -63,7 +81,6 @@ export const editVidLecSuccess = (editPost) => {
 export const editVidLec = (_id, data) => {
   return (dispatch) => {
     const editPost = data.find((lec) => lec._id === _id);
-    console.log(editPost);
     dispatch(editVidLecSuccess(editPost));
   };
 };
@@ -88,29 +105,9 @@ export const submitVidLecStart = () => {
   };
 };
 
-export const loadVidLec = (token, url) => {
-  return async (dispatch) => {
-    dispatch(loadVidLecStart());
-    try {
-      const res = await fetch(`http://${localhost}:8080${url}`, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
-      const resData = await res.json();
-      dispatch(loadVidLecSuccess(resData.data));
-    } catch (err) {
-      console.log(err);
-      dispatch(loadVidLecFail(err));
-    }
-  };
-};
-
 export const deleteVidLec = (_id, data, token) => {
   return async (dispatch) => {
     let ok;
-    // console.log(data);
     try {
       const res = await fetch(
         `http://${localhost}:8080/teacher/lecture/video/${_id}`,
@@ -130,7 +127,6 @@ export const deleteVidLec = (_id, data, token) => {
       }
       const updatedLectures = data.filter((lec) => lec._id !== _id);
       dispatch(loadVidLecSuccess(updatedLectures));
-      console.log(resData);
     } catch (err) {
       caughtError(dispatch, loadVidLecFail, err);
     }
@@ -148,7 +144,6 @@ export const submitVidLec = (
     let ok, editOk;
     dispatch(submitVidLecStart());
     if (editing) {
-      console.log(videoData);
       try {
         const res = await fetch(
           `http://${localhost}:8080/teacher/lecture/video/${selectedPost._id}`,
@@ -197,23 +192,21 @@ export const submitVidLec = (
         if (ok === false) {
           throw new Error(resData.message);
         }
-        // console.log(resData);
         dispatch(submitVidLecSuccess(resData.data));
         dispatch(closeModal());
       } catch (err) {
-        console.log(err.message);
         caughtError(dispatch, submitVidLecFail, err);
       }
     }
   };
 };
 
-export const watchlistSuccess = (data) => {
-  return {
-    type: WATCHLIST_SUCCESS,
-    data,
-  };
-};
+// export const watchlistSuccess = (data) => {
+//   return {
+//     type: WATCHLIST_SUCCESS,
+//     data,
+//   };
+// };
 
 // export const getWatchlist = (token) => {
 //   return dispatch => {
@@ -225,31 +218,27 @@ export const watchlistSuccess = (data) => {
 //     }).then(res => {
 //       return res.json();
 //     }).then(resData => {
-//       console.log(resData);
 //       dispatch(watchlistSuccess(resData.data));
 //     }).catch(err => {
-//       console.log(err);
 //     })
 //   }
 // }
 
-export const watchlist = (_id, token) => {
-  return (dispatch) => {
-    fetch("http://localhost:8080/student/lecture/video/add-watchlist/" + _id, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        console.log(resData);
-        dispatch(watchlistSuccess(resData.data));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-};
+// export const watchlist = (_id, token) => {
+//   return (dispatch) => {
+//     fetch("http://localhost:8080/student/lecture/video/add-watchlist/" + _id, {
+//       method: "GET",
+//       headers: {
+//         Authorization: "Bearer " + token,
+//       },
+//     })
+//       .then((res) => {
+//         return res.json();
+//       })
+//       .then((resData) => {
+//         dispatch(watchlistSuccess(resData.data));
+//       })
+//       .catch((err) => {
+//       });
+//   };
+// };

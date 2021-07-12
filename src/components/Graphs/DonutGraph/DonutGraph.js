@@ -6,18 +6,12 @@ import {
   Tooltip,
 } from "recharts";
 
-// const data = [
-//   { name: "Group A", value: 400 },
-//   { name: "Group B", value: 300 },
-//   { name: "Group C", value: 300 },
-// ];
 const COLORS = ["#00CED1", "#55c57a", "#ff6932"];
 
 class DonutGraph extends PureComponent {
   render() {
       const videoData = {...this.props.data};
       const data = Object.values(videoData);
-      // console.log('[Donut]', data);
     return (
       <PieChart width={200} height={200} onMouseEnter={this.onPieEnter}>
         <Pie

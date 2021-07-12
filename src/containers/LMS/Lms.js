@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from "react";
+import React, { PureComponent, Suspense } from "react";
 import classes from "./LMS.module.css";
 import Navigation from "../../components/Navigation/Navigation";
 import TopBar from "../../components/TopBar/TopBar";
@@ -8,7 +8,8 @@ import Layout from "../../hoc/Layout/Layout";
 import * as actionCreators from "../../store/actions/index";
 import * as actionProfile from "./Profile/store/actions";
 import { connect } from "react-redux";
-import {generateUniqueID} from "../../util/generateRandomId";
+import { generateUniqueID } from "../../util/generateRandomId";
+import ErrorModal from "../../components/UI/ErrorModal/ErrorModal";
 
 const Dashboard = React.lazy(() => import("./Dashboard/Dashboard"));
 const Lectures = React.lazy(() => import("./Lectures/Lectures"));
@@ -19,7 +20,7 @@ const Profile = React.lazy(() => import("./Profile/Profile"));
 const Setting = React.lazy(() => import("./Setting/Setting"));
 const Classmate = React.lazy(() => import("./Classmate/Classmate"));
 
-class LMS extends Component {
+class LMS extends PureComponent {
   componentDidMount() {
     if (this.props.teacherToken) {
       this.props.getBranches(this.props.teacherToken, "teacher");
@@ -32,7 +33,7 @@ class LMS extends Component {
 
   render() {
     let path;
-    // const URL = localStorage.getItem("URL");
+    let error = this.props.error;
     if (this.props.teacherToken) {
       path = "/teacher/";
     } else if (this.props.studentToken) {
@@ -40,9 +41,9 @@ class LMS extends Component {
     }
     return (
       <div className={classes.LMS}>
+        {error ? <ErrorModal error>Branches not Fetched. Reload Page!</ErrorModal> : null}
         <TopBar />
         <Navigation />
-        {/*<Backdrop/>*/}
         <Layout>
           {/****************************************/}
           <Route
@@ -138,7 +139,6 @@ class LMS extends Component {
               </Suspense>
             )}
           />
-          {/* <Switch> */}
           <Route
             key={generateUniqueID()}
             path={path + "watch"}
@@ -154,7 +154,6 @@ class LMS extends Component {
               </Suspense>
             )}
           />
-          {/* </Switch> */}
           <Route
             path={path + "profile"}
             render={() => (
@@ -184,7 +183,6 @@ class LMS extends Component {
             )}
           />
           <Switch>
-            {/*{URL ? <Redirect to={URL} /> : null }*/}
             <Redirect
               from="/teacher/lectures"
               exact
@@ -203,6 +201,7 @@ const mapStateToProps = (state) => {
     teacherToken: state.auth.teacherToken,
     studentToken: state.auth.studentToken,
     userData: state.profile.data,
+    error: state.lec.error,
   };
 };
 

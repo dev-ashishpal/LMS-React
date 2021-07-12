@@ -17,7 +17,7 @@ import messageReducer from "./containers/LMS/Messages/store/reducer";
 import dashboardReducer from "./containers/LMS/Dashboard/store/reducer";
 import classmateReducer from "./containers/LMS/Classmate/store/reducer";
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   videoLec: vidLecReducer,
@@ -36,8 +36,6 @@ const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
-
-// reportWebVitals(console.log)
 
 ReactDOM.render(
   <React.StrictMode>

@@ -30,12 +30,6 @@
   }
 }
 
-/*@media (max-width: 470px) {*/
-/*  .Boxes {*/
-/*    gap: 2rem 2rem;*/
-/*  }*/
-/*}*/
-
 .Box {
   height: 18rem;
   color: var(--color-pure-white);
@@ -107,31 +101,32 @@
   }
 }
 
-
-.LineChart {
+.BarChart {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   padding: 2rem;
   height: 30rem;
   background-color: var(--color-pure-white);
-  width: calc((100vw - 28rem) / 2);
+  width: calc((100vw - 50rem) / 2);
 }
 
 @media (max-width: 1200px) {
-  .LineChart {
+  .BarChart {
     width: calc(100vw - 12rem);
   }
 }
 
 @media (max-width: 600px) {
-  .LineChart {
+  .BarChart {
     margin: 1rem;
   }
 }
 
-.LineChart p {
+.BarChart p {
   font-size: 1.5rem;
   font-weight: 600;
+  text-align: center;
+  transform: translateX(-3rem);
   margin-left: 5rem;
 }
 
@@ -142,7 +137,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: calc((100vw) / 2);
+  width: calc((100vw + 20rem) / 2);
   align-items: center;
   gap: 1rem;
 }
@@ -169,4 +164,11 @@
   font-weight: 600;
   font-size: 1.6rem;
   padding-right: 1.5rem;
+}
+
+.Error {
+  font-size: 2rem;
+  font-weight: 500;
+  font-style: italic;
+  text-align: center;
 }

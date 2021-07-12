@@ -10,11 +10,9 @@ export const LOAD_NOTES_LEC_START = "LOAD_NOTES_LEC_START";
 export const LOAD_NOTES_LEC_SUCCESS = "LOAD_NOTES_LEC_SUCCESS";
 export const LOAD_NOTES_LEC_FAIL = "LOAD_NOTES_LEC_FAIL";
 
-export const PAGINATE_NOTES_LEC_START = "PAGINATE_NOTES_LEC_START";
-export const PAGINATE_NOTES_LEC_SUCCESS = "PAGINATE_NOTES_LEC_SUCCESS";
-export const PAGINATE_NOTES_LEC_FAIL = "PAGINATE_NOTES_LEC_FAIL";
-
-export const EDIT_NOTES_LEC_SUCCESS = "EDIT_NOTES_LEC_SUCCESS";
+// export const PAGINATE_NOTES_LEC_START = "PAGINATE_NOTES_LEC_START";
+// export const PAGINATE_NOTES_LEC_SUCCESS = "PAGINATE_NOTES_LEC_SUCCESS";
+// export const PAGINATE_NOTES_LEC_FAIL = "PAGINATE_NOTES_LEC_FAIL";
 
 export const SUBMIT_NOTES_LEC_START = "SUBMIT_NOTES_LEC_START";
 export const SUBMIT_NOTES_LEC_SUCCESS = "SUBMIT_NOTES_LEC_SUCCESS";
@@ -67,54 +65,52 @@ export const loadNotesLec = (token, url) => {
       });
       const resData = await res.json();
       dispatch(loadNotesLecSuccess(resData.data));
-      // console.log(resData);
     } catch (err) {
       dispatch(loadNotesLecFail(err));
     }
   };
 };
 
-export const paginateNotesLecStart = () => {
-  return {
-    type: PAGINATE_NOTES_LEC_START,
-  };
-};
+// export const paginateNotesLecStart = () => {
+//   return {
+//     type: PAGINATE_NOTES_LEC_START,
+//   };
+// };
 
-export const paginateNotesLecSuccess = (data) => {
-  return {
-    type: PAGINATE_NOTES_LEC_SUCCESS,
-    data,
-  };
-};
+// export const paginateNotesLecSuccess = (data) => {
+//   return {
+//     type: PAGINATE_NOTES_LEC_SUCCESS,
+//     data,
+//   };
+// };
 
-export const paginateNotesLecFail = (error) => {
-  return {
-    type: PAGINATE_NOTES_LEC_FAIL,
-    error,
-  };
-};
+// export const paginateNotesLecFail = (error) => {
+//   return {
+//     type: PAGINATE_NOTES_LEC_FAIL,
+//     error,
+//   };
+// };
 
-export const paginateNotesLec = (token, url, page) => {
-  return (dispatch) => {
-    dispatch(paginateNotesLecStart());
-    fetch(`http://${localhost}:8080${url}?page=${page}`, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        dispatch(paginateNotesLecSuccess(resData.data));
-        // console.log(resData);
-      })
-      .catch((err) => {
-        dispatch(paginateNotesLecFail(err));
-      });
-  };
-};
+// export const paginateNotesLec = (token, url, page) => {
+//   return (dispatch) => {
+//     dispatch(paginateNotesLecStart());
+//     fetch(`http://${localhost}:8080${url}?page=${page}`, {
+//       method: "GET",
+//       headers: {
+//         Authorization: "Bearer " + token,
+//       },
+//     })
+//       .then((res) => {
+//         return res.json();
+//       })
+//       .then((resData) => {
+//         dispatch(paginateNotesLecSuccess(resData.data));
+//       })
+//       .catch((err) => {
+//         dispatch(paginateNotesLecFail(err));
+//       });
+//   };
+// };
 
 export const deleteNotesLec = (_id, prevData, token) => {
   return async (dispatch) => {
@@ -127,7 +123,7 @@ export const deleteNotesLec = (_id, prevData, token) => {
           headers: {
             Authorization: "Bearer " + token,
           },
-        }
+        },
       );
       if (res.status !== 200) {
         ok = res.ok;
@@ -136,7 +132,6 @@ export const deleteNotesLec = (_id, prevData, token) => {
       if (ok === false) {
         throw new Error("Notes not Deleted!");
       }
-      console.log(resData);
       const updatedNotes = prevData.filter((bk) => bk._id !== _id);
       dispatch(loadNotesLecSuccess(updatedNotes));
     } catch (err) {
@@ -157,6 +152,13 @@ export const submitNotesLecSuccess = (data) => {
     data,
   };
 };
+
+export const submitNotesLecFail = (error) => {
+  return {
+    type: SUBMIT_NOTES_LEC_FAIL,
+    error,
+  }
+}
 
 export const submitNotesLec = (notesData, token) => {
   return async (dispatch) => {
@@ -179,7 +181,7 @@ export const submitNotesLec = (notesData, token) => {
       dispatch(submitNotesLecSuccess(resData.data));
       dispatch(closeModal());
     } catch (err) {
-      caughtError(dispatch, loadNotesLecFail, err);
+      caughtError(dispatch, submitNotesLecFail, err);
     }
   };
 };

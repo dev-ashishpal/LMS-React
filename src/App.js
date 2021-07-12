@@ -1,5 +1,4 @@
-import React, { Suspense, Fragment } from "react";
-import "./App.css";
+import React, { Suspense, Fragment, PureComponent } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actionCreators from "./store/actions/index";
@@ -8,11 +7,7 @@ import ProgressBar from "./components/UI/ProgressBar/ProgressBar";
 const Homepage = React.lazy(() => import("./containers/Homepage/Homepage"));
 const LMS = React.lazy(() => import("./containers/LMS/LMS"));
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+class App extends PureComponent {
   componentDidMount() {
     // Initializing Selected Theme from LocalStorage
     const theme = localStorage.getItem("theme");
@@ -21,6 +16,7 @@ class App extends React.Component {
   }
 
   render() {
+    const { teacherToken, studentToken } = this.props;
     // const URL = localStorage.getItem("URL");
     let routes = (
       <Switch>
@@ -37,7 +33,7 @@ class App extends React.Component {
       </Switch>
     );
 
-    if (this.props.teacherToken) {
+    if (teacherToken) {
       routes = (
         <Fragment>
           <Switch>
@@ -60,11 +56,10 @@ class App extends React.Component {
               )}
             />
           </Switch>
-          {/*{!!URL ? <Redirect to={URL} /> : null}*/}
         </Fragment>
       );
     }
-    if (this.props.studentToken) {
+    if (studentToken) {
       routes = (
         <Fragment>
           <Switch>
@@ -86,7 +81,6 @@ class App extends React.Component {
               )}
             />
           </Switch>
-          {/*{!!URL ? <Redirect to={URL} /> : null}*/}
         </Fragment>
       );
     }

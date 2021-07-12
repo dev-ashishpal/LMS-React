@@ -1,44 +1,50 @@
 import { userAgent } from "../../../../util/userAgent";
+import { caughtError } from "../../../../util/caughtError";
 
 let localhost = "localhost";
 if (userAgent()) {
   localhost = "192.168.43.135";
 }
 
-export const LOAD_VIDEO_SUCCESS = "LOAD_VIDEO_SUCCESS";
-export const LOAD_VIDEO_FAIL = "LOAD_VIDEO_FAIL";
-export const LOAD_VIDEO_START = "LOAD_VIDEO_START";
+export const GET_VIDEO_SUCCESS = "GET_VIDEO_SUCCESS";
+export const GET_VIDEO_FAIL = "GET_VIDEO_FAIL";
+export const GET_VIDEO_START = "GET_VIDEO_START";
 
-export const LOAD_COMMENT_SUCCESS = "LOAD_COMMENT_SUCCESS";
-export const LOAD_COMMENT_FAIL = "LOAD_COMMENT_FAIL";
-export const LOAD_COMMENT_START = "LOAD_COMMENT_START";
+export const GET_COMMENT_SUCCESS = "GET_COMMENT_SUCCESS";
+export const GET_COMMENT_FAIL = "GET_COMMENT_FAIL";
+export const GET_COMMENT_START = "GET_COMMENT_START";
 
 export const ADD_COMMENT = "ADD_COMMENT";
 
-export const loadVideoStart = () => {
+export const DELETE_COMMENT_START = "DELETE_COMMENT_START";
+export const DELETE_COMMENT_FAIL = "DELETE_COMMENT_FAIL";
+
+export const POST_COMMENT_START = "POST_COMMENT_START";
+export const POST_COMMENT_FAIL = "POST_COMMENT_FAIL";
+
+export const getVideoStart = () => {
   return {
-    type: LOAD_VIDEO_START,
+    type: GET_VIDEO_START,
   };
 };
 
-export const loadVideoSuccess = (data) => {
+export const getVideoSuccess = (data) => {
   return {
-    type: LOAD_VIDEO_SUCCESS,
+    type: GET_VIDEO_SUCCESS,
     data,
   };
 };
 
-export const loadVideoFail = (error) => {
+export const getVideoFail = (error) => {
   return {
-    type: LOAD_VIDEO_FAIL,
+    type: GET_VIDEO_FAIL,
     error,
   };
 };
 
-export const loadVideo = (_id, token, url) => {
+export const getVideo = (_id, token, url) => {
   return (dispatch) => {
-    dispatch(loadVideoStart());
-    // console.log('[stream]',url,_id);
+    dispatch(getVideoStart());
     fetch(`http://${localhost}:8080/${url}/lecture/video/${_id}`, {
       method: "GET",
       headers: {
@@ -49,60 +55,80 @@ export const loadVideo = (_id, token, url) => {
         return res.json();
       })
       .then((resData) => {
-        // console.log(resData);
-        dispatch(loadVideoSuccess(resData.data));
+        dispatch(getVideoSuccess(resData.data));
       })
       .catch((err) => {
-        dispatch(loadVideoFail(err));
+        dispatch(getVideoFail(err));
       });
   };
 };
 
-export const postComment = (token, url, videoId, commentData) => {
-  return (dispatch) => {
-    fetch(`http://${localhost}:8080/${url}/lecture/video/comment/${videoId}`, {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(commentData),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        // console.log(resData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+export const postCommentStart = () => {
+  return {
+    type: POST_COMMENT_START,
   };
 };
 
-export const loadCommentStart = () => {
+export const postCommentFail = (error) => {
   return {
-    type: LOAD_COMMENT_START,
-  };
-};
-
-export const loadCommentSuccess = (data) => {
-  return {
-    type: LOAD_COMMENT_SUCCESS,
-    data,
-  };
-};
-
-export const loadCommentFail = (error) => {
-  return {
-    type: LOAD_COMMENT_FAIL,
+    type: POST_COMMENT_FAIL,
     error,
   };
 };
 
-export const loadComments = (localhost, token, url, videoId) => {
+export const postComment = (token, url, videoId, commentData) => {
   return async (dispatch) => {
-    dispatch(loadCommentStart());
+    dispatch(postCommentStart());
+    try {
+      let ok;
+      const res = await fetch(
+        `http://${localhost}:8080/${url}/lecture/video/comment/${videoId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(commentData),
+        }
+      );
+      if (res.status !== 201) {
+        ok = res.ok;
+      }
+
+      const resData = await res.json();
+      if (ok === false) {
+        throw new Error(resData.message);
+      }
+    } catch (err) {
+      caughtError(dispatch, postCommentFail, err);
+    }
+  };
+};
+
+export const getCommentStart = () => {
+  return {
+    type: GET_COMMENT_START,
+  };
+};
+
+export const getCommentSuccess = (data) => {
+  return {
+    type: GET_COMMENT_SUCCESS,
+    data,
+  };
+};
+
+export const getCommentFail = (error) => {
+  return {
+    type: GET_COMMENT_FAIL,
+    error,
+  };
+};
+
+export const getComments = (localhost, token, url, videoId) => {
+  return async (dispatch) => {
+    dispatch(getCommentStart());
     try {
       const res = await fetch(
         `http://${localhost}:8080/${url}/lecture/video/comment/${videoId}`,
@@ -116,11 +142,9 @@ export const loadComments = (localhost, token, url, videoId) => {
       const resData = await res.json();
 
       const commentData = resData.data.reverse();
-      dispatch(loadCommentSuccess(commentData));
-      // this.setState({ commentData });
+      dispatch(getCommentSuccess(commentData));
     } catch (err) {
-      console.log(err);
-      dispatch(loadCommentFail(err));
+      dispatch(getCommentFail(err));
     }
   };
 };
@@ -132,9 +156,23 @@ export const addComment = (comment) => {
   };
 };
 
+export const deleteCommentStart = () => {
+  return {
+    type: DELETE_COMMENT_START,
+  };
+};
+
+export const deleteCommentFail = (error) => {
+  return {
+    type: DELETE_COMMENT_FAIL,
+    error,
+  };
+};
+
 export const deleteComment = (_id, token, url, commentData) => {
   return async (dispatch) => {
-    console.log('id of comment',_id);
+    dispatch(deleteCommentStart());
+    let ok;
     try {
       const res = await fetch(
         `http://${localhost}:8080/${url}/lecture/video/comment/${_id}`,
@@ -145,15 +183,18 @@ export const deleteComment = (_id, token, url, commentData) => {
           method: "DELETE",
         }
       );
+      if (res.status !== 200) {
+        ok = res.ok;
+      }
       const resData = await res.json();
+      if (ok === false) {
+        throw new Error(resData.message);
+      }
       let updatedComments = [...commentData];
       updatedComments = updatedComments.filter((cmt) => cmt._id !== _id);
-      console.log('updatedComments', updatedComments);
-      dispatch(loadCommentSuccess(updatedComments));
-
-      console.log(resData);
+      dispatch(getCommentSuccess(updatedComments));
     } catch (err) {
-      console.log(err);
+      caughtError(dispatch, deleteCommentFail, err);
     }
   };
 };

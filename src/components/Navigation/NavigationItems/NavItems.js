@@ -4,7 +4,6 @@ import sprite from "../../../assets/svg/sprite.svg";
 import { connect } from "react-redux";
 
 const navItems = (props) => {
-  // render() {
   let items;
   if (props.isTeacherAuthenticated) {
     items = (

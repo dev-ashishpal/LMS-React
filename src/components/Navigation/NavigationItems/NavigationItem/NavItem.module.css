@@ -102,12 +102,6 @@
 .Icon span {
 }
 
-.NavItem a svg {
-  /*width: 3.8rem;*/
-  /*height: 3.8rem;*/
-  /*fill: var(--color-tertiary3);*/
-}
-
 .NavItem a span {
   text-decoration: none;
   color: var(--color-black-dark);

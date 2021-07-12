@@ -10,8 +10,6 @@ export const LOAD_PAPER_LEC_START = "LOAD_PAPER_LEC_START";
 export const LOAD_PAPER_LEC_SUCCESS = "LOAD_PAPER_LEC_SUCCESS";
 export const LOAD_PAPER_LEC_FAIL = "LOAD_PAPER_LEC_FAIL";
 
-export const EDIT_PAPER_LEC_SUCCESS = "EDIT_PAPER_LEC_SUCCESS";
-
 export const SUBMIT_PAPER_LEC_START = "SUBMIT_PAPER_LEC_START";
 export const SUBMIT_PAPER_LEC_SUCCESS = "SUBMIT_PAPER_LEC_SUCCESS";
 export const SUBMIT_PAPER_LEC_FAIL = "SUBMIT_PAPER_LEC_FAIL";
@@ -62,13 +60,13 @@ export const loadPaperLec = (token, url) => {
         },
       });
       const resData = await res.json();
-      // console.log(resData);
       dispatch(loadPaperLecSuccess(resData.data));
     } catch (err) {
       dispatch(loadPaperLecFail(err));
     }
   };
 };
+
 
 export const deletePaperLec = (_id, prevData, token) => {
   return async (dispatch) => {
@@ -91,7 +89,6 @@ export const deletePaperLec = (_id, prevData, token) => {
         throw new Error("Paper Not Deleted!");
       }
 
-      console.log(resData);
       const updatedPaper = prevData.filter((pp) => pp._id !== _id);
       dispatch(loadPaperLecSuccess(updatedPaper));
     } catch (err) {
@@ -99,6 +96,7 @@ export const deletePaperLec = (_id, prevData, token) => {
     }
   };
 };
+
 
 export const submitPaperLecStart = () => {
   return {
@@ -113,10 +111,17 @@ export const submitPaperLecSuccess = (data) => {
   };
 };
 
+export const submitPaperLecFail = (error) => {
+  return {
+    type: SUBMIT_PAPER_LEC_FAIL,
+    error,
+  }
+}
+
 export const submitPaperLec = (paperData, token) => {
   return async (dispatch) => {
-    let ok;
     dispatch(submitPaperLecStart());
+    let ok;
     try {
       const res = await fetch(
         `http://${localhost}:8080/teacher/lecture/paper`,
@@ -138,7 +143,7 @@ export const submitPaperLec = (paperData, token) => {
       dispatch(submitPaperLecSuccess(resData.data));
       dispatch(closeModal());
     } catch (err) {
-      caughtError(dispatch, loadPaperLecFail, err);
+      caughtError(dispatch, submitPaperLecFail, err);
     }
   };
 };

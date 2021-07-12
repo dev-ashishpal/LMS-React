@@ -74,11 +74,9 @@ export const postProfile = (profileData, token, url) => {
       if (ok === false) {
         throw new Error(resData.message);
       }
-      console.log(resData.message);
       caughtError(dispatch, sentProfile, resData);
       dispatch(loadProfile(token, url));
 
-      // console.log(resData);
     } catch (err) {
       caughtError(dispatch, loadProfileFail, err);
     }

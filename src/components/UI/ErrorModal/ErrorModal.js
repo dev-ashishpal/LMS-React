@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import classes from "./ErrorModal.module.css";
 
 const errorModal = (props) => {
@@ -10,7 +10,7 @@ const errorModal = (props) => {
       {props.children}
     </div>
   );
-  return <React.Fragment>{error}</React.Fragment>;
+  return <Fragment>{error}</Fragment>;
 };
 
 export default errorModal;

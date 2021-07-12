@@ -6,7 +6,6 @@ import { userAgent } from "../../util/userAgent";
 const card = (props) => {
   const frontSideClass = [classes.CardSide, classes.CardSideFront];
   const backSideClass = [classes.CardSide, classes.CardSideBack];
-  // console.log(props.img, img);
   let localhost = "localhost";
   if (userAgent()) {
     localhost = "192.168.43.135";
@@ -54,7 +53,7 @@ const card = (props) => {
                           : classes.UnActiveColor
                         : classes.UnActiveColor
                     }
-                    rel="noreferrer nofollow"
+                    rel="noreferrer noopener"
                     href={"mailto:" + props.email}
                     target="_blank"
                   >
@@ -70,7 +69,7 @@ const card = (props) => {
                           : classes.UnActiveColor
                         : classes.UnActiveColor
                     }
-                    rel="noreferrer nofollow"
+                    rel="noreferrer noopener"
                     href={props.github}
                     target="_blank"
                   >
@@ -86,7 +85,7 @@ const card = (props) => {
                           : classes.UnActiveColor
                         : classes.UnActiveColor
                     }
-                    rel="noreferrer nofollow"
+                    rel="noreferrer noopener"
                     href={props.linkedin}
                     target="_blank"
                   >
@@ -102,7 +101,7 @@ const card = (props) => {
                           : classes.UnActiveColor
                         : classes.UnActiveColor
                     }
-                    rel="noreferrer nofollow"
+                    rel="noreferrer noopener"
                     href={props.portfolio}
                     target="_blank"
                   >

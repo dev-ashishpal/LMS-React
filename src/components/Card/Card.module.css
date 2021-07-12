@@ -14,13 +14,13 @@
   width: 100%;
   backface-visibility: hidden;
   border-radius: 3px;
-  /*box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.3);*/
-  box-shadow:0 1.5rem 3rem hsla(
-          var(--color-tertiary-h),
-          var(--color-tertiary-s),
-          var(--color-tertiary-l),
-          0.8
-  );
+  box-shadow: 0 1.5rem 3rem
+    hsla(
+      var(--color-tertiary-h),
+      var(--color-tertiary-s),
+      var(--color-tertiary-l),
+      0.6
+    );
   overflow: hidden;
 }
 
@@ -75,7 +75,6 @@
   left: 1rem;
   text-align: left;
   width: 75%;
-  /*height: 100%;*/
 }
 
 .CardHeadingSpan {
@@ -186,13 +185,13 @@
     height: auto;
     border-radius: 3px;
     background-color: white;
-    /*box-shadow: 0 1.5rem 2rem rgba(0, 0, 0, 0.3);*/
-    box-shadow:0 1.5rem 2rem hsla(
-            var(--color-tertiary-h),
-            var(--color-tertiary-s),
-            var(--color-tertiary-l),
-            0.8
-    );
+    box-shadow: 0 1.5rem 2rem
+      hsla(
+        var(--color-tertiary-h),
+        var(--color-tertiary-s),
+        var(--color-tertiary-l),
+        0.8
+      );
   }
 
   .CardSide {

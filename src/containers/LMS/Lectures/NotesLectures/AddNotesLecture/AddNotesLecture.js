@@ -1,15 +1,14 @@
-import React from "react";
+import React, { Fragment, PureComponent } from "react";
 import classes from "./AddNotesLecture.module.css";
 import TextInput from "../../../../../components/UI/Input/TextInput/TextInput";
 import FileInput from "../../../../../components/UI/Input/FileInput/FileInput";
-import Spinner from "../../../../../components/UI/Spinner/Spinner";
-import ErrorHandler from "../../../../../components/ErrorHandler/ErrorHandler";
 import * as actionCreators from "../store/actions";
 import { connect } from "react-redux";
 import Select from "../../../../../components/UI/SelectDropdown/Select";
 import { required } from "../../../../../util/validators";
+import ErrorModal from "../../../../../components/UI/ErrorModal/ErrorModal";
 
-class AddNotesLecture extends React.PureComponent {
+class AddNotesLecture extends PureComponent {
   state = {
     pdf: {
       preview: false,
@@ -71,7 +70,6 @@ class AddNotesLecture extends React.PureComponent {
   };
 
   selectChangeHandler = (event) => {
-    // console.log("select Changed");
     let selectedData = [];
     selectedData.push(event.target.value);
     const branchesElement = { ...this.state.branches };
@@ -91,54 +89,54 @@ class AddNotesLecture extends React.PureComponent {
     this.props.onSubmit(notesData, this.props.teacherToken);
   };
   render() {
+    const { error } = this.props;
+    let form = (
+      <form
+        className={classes.Form}
+        encType="multipart/form-data"
+        onSubmit={this.submitHandler}
+      >
+        {/*  Input Title */}
+        <TextInput
+          label="Title"
+          type="text"
+          inputtype="input"
+          name="paperTitle"
+          onChange={this.titleChangeHandler}
+          valid={this.state.title.valid ? 1 : 0}
+          touched={this.state.title.touched ? 1 : 0}
+        />
 
-    let form;
-    if (this.props.loading) {
-      form = <Spinner />;
-    } else if (this.props.error) {
-      form = <ErrorHandler>{this.props.error.message}</ErrorHandler>;
-    } else {
-      form = (
-        <form
-          className={classes.Form}
-          encType="multipart/form-data"
-          onSubmit={this.submitHandler}
+        {/*    Input PDF   */}
+        <FileInput
+          type="file"
+          label="book"
+          subtext="Upload the Book PDF."
+          inputtype="pdf"
+          icon={this.state.pdf.icon}
+          changed={this.previewPdf}
+          preview={this.state.pdf.preview}
+        />
+        <Select
+          data={this.state.branches.elementConfig.options}
+          changed={this.selectChangeHandler}
+          selectType="radio"
+          list={this.state.branches.value}
+        />
+        <button
+          className={classes.ModalSubmitBtn}
+          disabled={!this.state.formIsValid}
+          type="submit"
         >
-          {/*  Input Title */}
-          <TextInput
-            label="Title"
-            type="text"
-            inputtype="input"
-            name="paperTitle"
-            onChange={this.titleChangeHandler}
-            valid={this.state.title.valid ? 1 : 0}
-            touched={this.state.title.touched ? 1 : 0}
-          />
-
-          {/*    Input PDF   */}
-          <FileInput
-            type="file"
-            label="book"
-            subtext="Upload the Book PDF."
-            inputtype="pdf"
-            icon={this.state.pdf.icon}
-            changed={this.previewPdf}
-            preview={this.state.pdf.preview}
-          />
-          <Select
-            data={this.state.branches.elementConfig.options}
-            changed={this.selectChangeHandler}
-            selectType="radio"
-            list={this.state.branches.value}
-          />
-          <button className={classes.ModalSubmitBtn} disabled={!this.state.formIsValid} type="submit">
-            Upload
-          </button>
-        </form>
-      );
-    }
+          Upload
+        </button>
+      </form>
+    );
     return (
-      <React.Fragment>
+      <Fragment>
+        {error ? (
+          <ErrorModal error>Error!! Refresh and Try Again.</ErrorModal>
+        ) : null}
         <div className={classes.ModalContainer}>
           <button
             className={classes.ModalCancelBtn}
@@ -149,15 +147,14 @@ class AddNotesLecture extends React.PureComponent {
           <h1 className={classes.ModalHeading}>Add Book or Notes</h1>
           {form}
         </div>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.notesLec.loading,
-    error: state.notesLec.error,
+    error: state.notesLec.submitError,
     branches: state.lec.branches,
     teacherToken: state.auth.teacherToken,
   };

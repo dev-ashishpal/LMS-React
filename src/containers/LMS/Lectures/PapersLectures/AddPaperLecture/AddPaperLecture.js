@@ -1,15 +1,15 @@
-import React from "react";
+import React, { PureComponent, Fragment } from "react";
 import classes from "./AddPaperLecture.module.css";
 import TextInput from "../../../../../components/UI/Input/TextInput/TextInput";
 import FileInput from "../../../../../components/UI/Input/FileInput/FileInput";
 import Spinner from "../../../../../components/UI/Spinner/Spinner";
-import ErrorHandler from "../../../../../components/ErrorHandler/ErrorHandler";
 import { connect } from "react-redux";
 import * as actionCreators from "../store/actions";
 import Select from "../../../../../components/UI/SelectDropdown/Select";
 import { required } from "../../../../../util/validators";
+import ErrorModal from "../../../../../components/UI/ErrorModal/ErrorModal";
 
-class AddPaperLecture extends React.PureComponent {
+class AddPaperLecture extends PureComponent {
   state = {
     pdf: {
       preview: false,
@@ -44,9 +44,9 @@ class AddPaperLecture extends React.PureComponent {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (
-        this.state.title.valid &&
-        this.state.pdf.valid &&
-        this.state.branches.valid
+      this.state.title.valid &&
+      this.state.pdf.valid &&
+      this.state.branches.valid
     ) {
       this.setState({ formIsValid: true });
     } else {
@@ -73,13 +73,11 @@ class AddPaperLecture extends React.PureComponent {
   };
 
   selectChangeHandler = (event) => {
-    console.log("select Changed");
     let selectedData = [];
     selectedData.push(event.target.value);
 
     const branchesElement = { ...this.state.branches };
     branchesElement.value = selectedData;
-    console.log(branchesElement.value.length);
     branchesElement.valid = branchesElement.value.length !== 0;
     branchesElement.touched = true;
     this.setState({ branches: branchesElement });
@@ -95,54 +93,59 @@ class AddPaperLecture extends React.PureComponent {
     this.props.onSubmit(paperData, this.props.teacherToken);
   };
   render() {
-    let form;
-    if (this.props.loading) {
-      form = <Spinner />;
-    } else if (this.props.error) {
-      form = <ErrorHandler>{this.props.error.message}</ErrorHandler>;
-    } else {
-      form = (
-        <form
-          className={classes.Form}
-          encType="multipart/form-data"
-          onSubmit={this.submitHandler}
-        >
-          {/*  Input Title */}
-          <TextInput
-            label="Title"
-            type="text"
-            inputtype="input"
-            name="paperTitle"
-            onChange={this.titleChangeHandler}
-            valid={this.state.title.valid ? 1 : 0}
-            touched={this.state.title.touched ? 1 : 0}
-          />
+    const { loading, error } = this.props;
 
-          {/*    Input PDF   */}
-          <FileInput
-            type="file"
-            label="paper"
-            pdfIcon="#icon-file_download_done"
-            subtext="Upload the Paper PDF."
-            inputtype="pdf"
-            icon={this.state.pdf.icon}
-            changed={this.previewPdf}
-            preview={this.state.pdf.preview}
-          />
-          <Select
-            data={this.state.branches.elementConfig.options}
-            changed={this.selectChangeHandler}
-            selectType="radio"
-            list={this.state.branches.value}
-          />
-          <button className={classes.ModalSubmitBtn} disabled={!this.state.formIsValid} type="submit">
-            Upload
-          </button>
-        </form>
-      );
+    let form = (
+      <form
+        className={classes.Form}
+        encType="multipart/form-data"
+        onSubmit={this.submitHandler}
+      >
+        {/*  Input Title */}
+        <TextInput
+          label="Title"
+          type="text"
+          inputtype="input"
+          name="paperTitle"
+          onChange={this.titleChangeHandler}
+          valid={this.state.title.valid ? 1 : 0}
+          touched={this.state.title.touched ? 1 : 0}
+        />
+
+        {/*    Input PDF   */}
+        <FileInput
+          type="file"
+          label="paper"
+          pdfIcon="#icon-file_download_done"
+          subtext="Upload the Paper PDF."
+          inputtype="pdf"
+          icon={this.state.pdf.icon}
+          changed={this.previewPdf}
+          preview={this.state.pdf.preview}
+        />
+        <Select
+          data={this.state.branches.elementConfig.options}
+          changed={this.selectChangeHandler}
+          selectType="radio"
+          list={this.state.branches.value}
+        />
+        <button
+          className={classes.ModalSubmitBtn}
+          disabled={!this.state.formIsValid}
+          type="submit"
+        >
+          Upload
+        </button>
+      </form>
+    );
+    if (loading) {
+      form = <Spinner />;
     }
     return (
-      <React.Fragment>
+      <Fragment>
+        {error ? (
+          <ErrorModal error>Error!! Refresh and Try Again.</ErrorModal>
+        ) : null}
         <div className={classes.ModalContainer}>
           <button
             className={classes.ModalCancelBtn}
@@ -153,15 +156,15 @@ class AddPaperLecture extends React.PureComponent {
           <h1 className={classes.ModalHeading}>Add Previous Paper</h1>
           {form}
         </div>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.paperLec.loading,
-    error: state.paperLec.error,
+    loading: state.paperLec.submitLoading,
+    error: state.paperLec.submitError,
     branches: state.lec.branches,
     teacherToken: state.auth.teacherToken,
   };

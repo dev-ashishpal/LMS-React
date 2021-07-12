@@ -12,6 +12,6 @@
 }
 
 .Btn:disabled {
-    background-color: var(--color-primary-light);
-    cursor: not-allowed;
+  background-color: var(--color-primary-light);
+  cursor: not-allowed;
 }

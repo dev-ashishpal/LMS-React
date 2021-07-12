@@ -3,8 +3,10 @@ import { updateObject } from "./utility";
 
 const initialState = {
   data: [],
-  loading: true,
+  loading: false,
   error: null,
+  submitLoading: false,
+  submitError: null,
   show: false,
 };
 
@@ -18,12 +20,15 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SHOW_MODAL: return updateObject(state, { show: true });
     case actionTypes.CLOSE_MODAL: return updateObject(state, {show: false});
+
+    case actionTypes.LOAD_PAPER_LEC_START: return updateObject(state,{ loading: true, error: null });
     case actionTypes.LOAD_PAPER_LEC_SUCCESS: return updateObject(state, {loading: false, data: action.data});
     case actionTypes.LOAD_PAPER_LEC_FAIL: return updateObject(state, {error: action.error, loading: false});
-    case actionTypes.SUBMIT_PAPER_LEC_START: return updateObject(state, {loading: true});
-    case actionTypes.SUBMIT_PAPER_LEC_SUCCESS: return updateObject(state, {loading: false, data: insertAtBeginning(state.data,action)});
-    default:
-      return state;
+
+      case actionTypes.SUBMIT_PAPER_LEC_START: return updateObject(state, {submitLoading: false, submitError: null});
+    case actionTypes.SUBMIT_PAPER_LEC_SUCCESS: return updateObject(state, { data: insertAtBeginning(state.data,action), submitError: null});
+    case actionTypes.SUBMIT_PAPER_LEC_FAIL: return updateObject(state, {submitLoading: false, submitError: action.error});
+    default: return state;
   }
 };
 

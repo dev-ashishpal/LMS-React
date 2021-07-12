@@ -1,19 +1,23 @@
-import React from "react";
+import React, { Fragment, PureComponent } from "react";
 import classes from "./Lectures.module.css";
 import { connect } from "react-redux";
 import StudentLectureNavigation from "../../../components/LectureNavigation/StudentLectureNavigation";
 import * as actionCreators from "../../../store/actions/lecture";
 import SearchBar from "../../../components/UI/SearchBar/SearchBar";
 import Lecture from "../../../components/Lecture/Lecture";
-import {userAgent} from "../../../util/userAgent";
-class StudentLectures extends React.PureComponent {
+import { userAgent } from "../../../util/userAgent";
+import ErrorModal from "../../../components/UI/ErrorModal/ErrorModal";
+
+class StudentLectures extends PureComponent {
   componentDidMount() {
-    localStorage.setItem('URL',window.location.pathname);
+    localStorage.setItem("URL", window.location.pathname);
     this.props.onLoad(this.props.studentToken);
   }
 
   render() {
     let localhost = "localhost";
+    const { error, studentToken, branches } = this.props;
+
     if (userAgent()) {
       localhost = "192.168.43.135";
     }
@@ -34,8 +38,11 @@ class StudentLectures extends React.PureComponent {
     ];
 
     return (
-      <React.Fragment>
-        <StudentLectureNavigation branches={this.props.branches}>
+      <Fragment>
+        {error ? (
+          <ErrorModal error>Lectures not Fetched. Reload Page!</ErrorModal>
+        ) : null}
+        <StudentLectureNavigation branches={branches}>
           All Lectures
         </StudentLectureNavigation>
         <main className={videoLecturesClass.join(" ")}>
@@ -56,18 +63,8 @@ class StudentLectures extends React.PureComponent {
                         key={lec._id}
                         isVideo={true}
                         date={lec.date}
-                        subject={
-                          this.props.teacherToken
-                            ? lec.branch
-                            : this.props.studentToken
-                            ? lec.subject
-                            : null
-                        }
+                        subject={studentToken ? lec.subject : null}
                         link={"/student/watch?v=" + lec._id}
-                        addedToWl={this.props.addedToWl}
-                        addToWlHandler={() => {
-                          this.addToWlHandler(lec._id);
-                        }}
                       />
                     ))}
                   </div>
@@ -76,7 +73,7 @@ class StudentLectures extends React.PureComponent {
             })}
           </section>
         </main>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
@@ -86,6 +83,7 @@ const mapStateToProps = (state) => {
     branches: state.lec.branches,
     studentToken: state.auth.studentToken,
     data: state.lec.data,
+    error: state.lec.error,
   };
 };
 

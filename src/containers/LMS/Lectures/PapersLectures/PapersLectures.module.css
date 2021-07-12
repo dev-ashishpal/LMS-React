@@ -42,3 +42,11 @@
     justify-content: center;
   }
 }
+
+.Error {
+  font-style: italic;
+  font-weight: 500;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+}

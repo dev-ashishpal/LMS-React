@@ -1,9 +1,6 @@
 .Player {
   position: relative;
-  /*width: 100%;*/
   margin: 0 auto;
-  /*height: 56.25%;*/
-  /*height: 57rem;*/
   width: calc(65vw - 10rem);
   height: calc((65vw - 10rem) * 9 / 16);
   overflow: hidden;
@@ -70,9 +67,6 @@
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /*background-color: var(--color-primary);*/
-  /*opacity: .75;*/
-  /*border-radius: 10rem;*/
   height: 7rem;
   width: 7rem;
   display: flex;

@@ -101,7 +101,6 @@ export const studentSignup = (data) => {
         throw new Error(resData.message);
       }
       dispatch(showLogin());
-      // console.log(resData);
     } catch (err) {
       caughtError(dispatch, userAuthFail, err);
     }
@@ -112,14 +111,13 @@ export const teacherLogout = () => {
   localStorage.removeItem("teacherToken");
   localStorage.removeItem("teacherId");
   localStorage.removeItem("teacherExpirationDate");
-  localStorage.removeItem("URL");
   return {
     type: actionTypes.TEACHER_LOGOUT,
   };
 };
 
 export const studentLogout = () => {
-  // localStorage.removeItem("studentToken");
+  localStorage.removeItem("studentToken");
   localStorage.removeItem("studentId");
   localStorage.removeItem("studentExpirationDate");
   return {
@@ -191,10 +189,9 @@ export const studentLogin = (data) => {
       const resData = await res.json();
 
       if (ok === false) {
-        console.log(resData.message);
         throw new Error(resData.message);
       }
-      const expiresIn = 60 * 60; //time in seconds
+      const expiresIn = 60 * 60; /* time in seconds */
       localStorage.setItem("studentToken", resData.data.token);
       localStorage.setItem("studentId", resData.data.userId);
       localStorage.setItem(
@@ -253,10 +250,3 @@ export const authCheckState = () => {
     }
   };
 };
-
-// export const setAuthRedirectPath = (path) => {
-//   return {
-//     type: actionTypes.SET_AUTH_REDIRECT_PATH,
-//     path,
-//   };
-// };

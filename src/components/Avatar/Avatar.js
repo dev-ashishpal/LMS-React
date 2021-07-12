@@ -6,18 +6,17 @@ import { connect } from "react-redux";
 import { userAgent } from "../../util/userAgent";
 
 const avatar = (props) => {
+  const { userData, isTeacherAuthenticated } = props;
   let localhost = "localhost";
   if (userAgent()) {
     localhost = "192.168.43.135";
   }
-  let image = { ...props.userData };
+  let image = { ...userData };
 
   return (
     <figure className={classes.Avatar}>
       <NavLink
-        to={
-          props.isTeacherAuthenticated ? "/teacher/profile" : "/student/profile"
-        }
+        to={isTeacherAuthenticated ? "/teacher/profile" : "/student/profile"}
       >
         <img
           src={

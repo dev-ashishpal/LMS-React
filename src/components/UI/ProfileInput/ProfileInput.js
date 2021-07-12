@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 
 const profileInput = (props) => {
   let inputElement = null;
@@ -33,10 +33,10 @@ const profileInput = (props) => {
   }
 
   return (
-    <React.Fragment>
+    <Fragment>
       <label>{props.label}</label>
       {inputElement}
-    </React.Fragment>
+    </Fragment>
   );
 };
 

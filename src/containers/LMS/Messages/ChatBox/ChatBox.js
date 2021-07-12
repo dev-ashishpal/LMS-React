@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { PureComponent, Fragment } from "react";
 import classes from "./ChatBox.module.css";
 import ChatForm from "../../../../components/ChatForm/ChatForm";
 import { withRouter } from "react-router";
@@ -13,8 +13,9 @@ import MenuDropdown from "../../../../components/UI/MenuDropdown/MenuDropdown";
 import { positionMenuDropdown } from "../../../../util/menuDropdown";
 import Spinner from "../../../../components/UI/Spinner/Spinner";
 import { userAgent } from "../../../../util/userAgent";
+import ErrorModal from "../../../../components/UI/ErrorModal/ErrorModal";
 
-class ChatBox extends Component {
+class ChatBox extends PureComponent {
   constructor(props) {
     super(props);
     this.menuEmojiDropdownRef = React.createRef();
@@ -39,32 +40,33 @@ class ChatBox extends Component {
   };
 
   componentDidMount() {
+    const { teacherToken, studentToken, userData, location } = this.props;
     let localhost = "localhost";
     if (userAgent()) {
       localhost = "192.168.43.135";
     }
     const socket = openSocket(`http://${localhost}:8080`);
-    if (this.props.teacherToken) {
+    if (teacherToken) {
       this.props.onGetMessage(
         "teacher",
-        this.props.location.search.split("=")[1],
-        this.props.userData.name,
-        this.props.teacherToken
+        location.search.split("=")[1],
+        userData.name,
+        teacherToken
       );
 
       socket.on("message", (data) => {
         if (
-          data.branch === this.props.location.search.split("=")[1] &&
-          data.subject === this.props.userData.name
+          data.branch === location.search.split("=")[1] &&
+          data.subject === userData.name
         ) {
           this.props.onAddMessage(data.message[0]);
         }
       });
-    } else if (this.props.studentToken) {
+    } else if (studentToken) {
       socket.on("message", (data) => {
         if (
-          data.subject === this.props.location.search.split("=")[1] &&
-          data.branch === this.props.userData.branch
+          data.subject === location.search.split("=")[1] &&
+          data.branch === userData.branch
         ) {
           this.props.onAddMessage(data.message[0]);
         }
@@ -72,9 +74,9 @@ class ChatBox extends Component {
 
       this.props.onGetMessage(
         "student",
-        this.props.userData.branch,
-        this.props.location.search.split("=")[1],
-        this.props.studentToken
+        userData.branch,
+        location.search.split("=")[1],
+        studentToken
       );
     }
     setTimeout(() => {
@@ -82,38 +84,28 @@ class ChatBox extends Component {
         this.messageLogRef.current.scrollIntoView();
       }
     }, 500);
-    console.log("remounted!!!");
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    this.messageLogRef.current.scrollIntoView({behavior: "smooth"});
+    if (this.messageLogRef.current) {
+      this.messageLogRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }
 
   onChangeImageHandler = (e) => {
+    const { teacherToken, studentToken, userData, location } = this.props;
     const file = e.target.files[0];
     const data = new FormData();
     data.append("image", file);
-    data.append("userId", this.props.userData._id);
-    if (this.props.teacherToken) {
-      const branch = this.props.location.search.split("=")[1];
-      const subject = this.props.userData.name;
-      this.props.onPostingImg(
-        this.props.teacherToken,
-        "teacher",
-        branch,
-        subject,
-        data
-      );
-    } else if (this.props.studentToken) {
-      const branch = this.props.userData.branch;
-      const subject = this.props.location.search.split("=")[1];
-      this.props.onPostingImg(
-        this.props.studentToken,
-        "student",
-        branch,
-        subject,
-        data
-      );
+    data.append("userId", userData._id);
+    if (teacherToken) {
+      const branch = location.search.split("=")[1];
+      const subject = userData.name;
+      this.props.onPostingImg(teacherToken, "teacher", branch, subject, data);
+    } else if (studentToken) {
+      const branch = userData.branch;
+      const subject = location.search.split("=")[1];
+      this.props.onPostingImg(studentToken, "student", branch, subject, data);
     }
   };
 
@@ -123,31 +115,32 @@ class ChatBox extends Component {
     updatedMessage.touched = true;
     updatedMessage.valid = required(updatedMessage.value);
     this.setState({ message: updatedMessage });
+    this.setState({ formIsValid: updatedMessage.valid });
   };
 
   onSubmit = (e) => {
     e.preventDefault();
-
+    const { teacherToken, studentToken, location, userData } = this.props;
     const data = {
       msg: this.state.message.value,
       userId: this.props.userData._id,
     };
 
-    if (this.props.teacherToken) {
-      const branch = this.props.location.search.split("=")[1];
-      const subject = this.props.userData.name;
+    if (teacherToken) {
+      const branch = location.search.split("=")[1];
+      const subject = userData.name;
       this.props.onPostingMessage(
-        this.props.teacherToken,
+        teacherToken,
         "teacher",
         branch,
         subject,
         data
       );
-    } else if (this.props.studentToken) {
-      const branch = this.props.userData.branch;
-      const subject = this.props.location.search.split("=")[1];
+    } else if (studentToken) {
+      const branch = userData.branch;
+      const subject = location.search.split("=")[1];
       this.props.onPostingMessage(
-        this.props.studentToken,
+        studentToken,
         "student",
         branch,
         subject,
@@ -170,22 +163,20 @@ class ChatBox extends Component {
     this.closeGiphyDropdownHandler();
   };
 
-  observerHandler = () => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && entries[0].intersectionRatio === 1) {
-          // console.log("Is intersecting");
-        }
-      },
-      {
-        root: null,
-        rootMargins: "0px",
-        threshold: 0.4,
-      }
-    );
-    observer.observe(this.giphyContainerRef.current.lastElementChild);
-    // console.log(this.giphyContainerRef.current.lastElementChild)
-  };
+  // observerHandler = () => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       if (entries[0].isIntersecting && entries[0].intersectionRatio === 1) {
+  //       }
+  //     },
+  //     {
+  //       root: null,
+  //       rootMargins: "0px",
+  //       threshold: 0.4,
+  //     }
+  //   );
+  //   observer.observe(this.giphyContainerRef.current.lastElementChild);
+  // };
 
   showEmojiDropdownHandler = (e) => {
     this.setState({ showEmojiMenu: true });
@@ -227,58 +218,79 @@ class ChatBox extends Component {
   };
 
   render() {
-    let giphyData;
-    if (this.props.giphyLoading) {
-      giphyData = <Spinner />;
-    } else if (this.props.giphyError) {
-      giphyData = <div>it is an error.</div>;
-    } else if (this.props.giphyData.data) {
-      console.log(this.props.giphyData.data[0].title);
-      giphyData = (
-        <Fragment>
-          {this.props.giphyData.data.map((element, idx) => (
-            <img
-              onClick={() => {
-                this.onSubmitGiphy(element.images.downsized.url);
-              }}
-              className={classes.GiphySingle}
-              key={idx}
-              alt={element.title}
-              src={element.images.fixed_width_downsampled.url}
-              width={element.images.fixed_width_downsampled.width}
-              height={element.images.fixed_width_downsampled.height}
-            />
-          ))}
-        </Fragment>
-      );
-    }
-
+    let giphyEl, messageEl;
     let gifActiveClass = [classes.GifBtn];
     let stickerActiveClass = [classes.StickerBtn];
+    const {
+      giphyLoading,
+      giphyError,
+      giphyData,
+      userData,
+      messages,
+      msgLoading,
+      msgError,
+      submitError,
+    } = this.props;
+
     if (this.state.isGifActive) {
       gifActiveClass = [classes.GifBtn, classes.Active];
     } else if (this.state.isStickerActive) {
       stickerActiveClass = [classes.StickerBtn, classes.Active];
     }
 
+    if (giphyError) {
+      giphyEl = <div className={classes.Error}>Failed to Fetch GIPHY.</div>;
+    }
+    if (giphyLoading) {
+      giphyEl = <Spinner />;
+    } else if (giphyData.data) {
+      giphyEl = giphyData.data.map((element, idx) => (
+        <img
+          onClick={() => {
+            this.onSubmitGiphy(element.images.downsized.url);
+          }}
+          className={classes.GiphySingle}
+          key={idx}
+          alt={element.title}
+          src={element.images.fixed_width_downsampled.url}
+          width={element.images.fixed_width_downsampled.width}
+          height={element.images.fixed_width_downsampled.height}
+        />
+      ));
+    }
+
+    messageEl = (
+      <div className={classes.ChatLog}>
+        {messages.map((message) => (
+          <MessageLog
+            messageLogRef={this.messageLogRef}
+            key={message._id}
+            your={message.userName === userData.name}
+            username={message.userName}
+            image={message.userImage}
+            date={timeSince(message.date)}
+          >
+            {message.msg}
+          </MessageLog>
+        ))}
+      </div>
+    );
+
+    if (msgError) {
+      messageEl = (
+        <div className={classes.Error}>Error while Fetching Messages.</div>
+      );
+    } else if (msgLoading) {
+      messageEl = <Spinner />;
+    }
+
     return (
       <Fragment>
+        {submitError ? (
+          <ErrorModal error>Error!! Refresh and Try Again.</ErrorModal>
+        ) : null}
         <main className={classes.ChatContainer} ref={this.chatContainerRef}>
-          <div className={classes.ChatLog}>
-            {this.props.messages.map((message) => (
-              <MessageLog
-                messageLogRef={this.messageLogRef}
-                key={message._id}
-                your={message.userName === this.props.userData.name}
-                username={message.userName}
-                image={message.userImage}
-                date={timeSince(message.date)}
-              >
-                {message.msg}
-              </MessageLog>
-            ))}
-          </div>
-          {/*<div ref={this.messageLogRef}>&nbsp;</div>*/}
+          {messageEl}
         </main>
         <MenuDropdown
           clicked={this.closeEmojiDropdownHandler}
@@ -321,7 +333,7 @@ class ChatBox extends Component {
                 Trending Stickers
               </button>
             </div>
-            {giphyData}
+            {giphyEl}
           </div>
         </MenuDropdown>
         <ChatForm
@@ -331,6 +343,7 @@ class ChatBox extends Component {
           onChange={this.onChangedHandler}
           onSubmit={this.onSubmit}
           img={this.onChangeImageHandler}
+          formIsValid={this.state.formIsValid}
         />
       </Fragment>
     );
@@ -342,10 +355,15 @@ const mapStateToProps = (state) => {
     teacherToken: state.auth.teacherToken,
     studentToken: state.auth.studentToken,
     userData: state.profile.data,
+    // Giphy
     giphyData: state.message.giphyData,
     giphyLoading: state.message.giphyLoading,
     giphyError: state.message.giphyError,
+    // Message
     messages: state.message.messages,
+    msgLoading: state.message.msgLoading,
+    msgError: state.message.msgError,
+    submitError: state.message.submitError,
   };
 };
 

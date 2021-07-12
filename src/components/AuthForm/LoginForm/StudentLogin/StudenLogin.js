@@ -7,7 +7,6 @@ import {connect} from "react-redux";
 import * as actionCreators from '../../../../store/actions/auth';
 import {Redirect} from "react-router-dom";
 
-
 class StudentLogin extends Component {
   state = {
     loginData: {
@@ -55,7 +54,6 @@ class StudentLogin extends Component {
     updatedLoginElement.touched = true;
 
     updatedLoginData[identifier] = updatedLoginElement;
-    // console.log(updatedLoginElement);
     let formIsValid = true;
     for (let identifier in updatedLoginData) {
       formIsValid = updatedLoginData[identifier].valid && formIsValid;
@@ -110,7 +108,6 @@ class StudentLogin extends Component {
               );
             })}
             <div className={classes.SubmitBtn}>
-              {/*<button className={classes.SubmitBtn}>Submit</button>*/}
               <SubmitButton disabled={!this.state.formIsValid} />
             </div>
           </form>

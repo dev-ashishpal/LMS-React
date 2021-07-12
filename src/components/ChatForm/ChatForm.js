@@ -27,7 +27,7 @@ const chatForm = (props) => (
     <svg onClick={props.emoji} className={classes.HappyIcon}>
       <use href={sprite + "#icon-emoji-happy"}></use>
     </svg>
-    <button type="submit">
+    <button type="submit" disabled={!props.formIsValid}>
       <svg className={classes.SendIcon}>
         <use href={sprite + "#icon-paper-plane"}></use>
       </svg>

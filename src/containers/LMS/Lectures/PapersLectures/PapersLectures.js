@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PureComponent, Fragment } from "react";
 import classes from "./PapersLectures.module.css";
 import SearchBar from "../../../../components/UI/SearchBar/SearchBar";
 import Lecture from "../../../../components/Lecture/Lecture";
@@ -10,17 +10,16 @@ import img from "../../../../assets/images/paper.png";
 import { connect } from "react-redux";
 import * as actionCreators from "./store/actions";
 import SkeletonLecture from "../../../../components/Lecture/Skeleton/SkeletonLecture";
-import {userAgent} from "../../../../util/userAgent";
-import {search} from "../../../../util/search";
-import ErrorModal from "../../../../components/UI/ErrorModal/ErrorModal";
+import { userAgent } from "../../../../util/userAgent";
+import { search } from "../../../../util/search";
 
-class PapersLectures extends React.PureComponent {
+class PapersLectures extends PureComponent {
   constructor(props) {
     super(props);
     this.lectureRef = React.createRef();
   }
   componentDidMount() {
-    localStorage.setItem('URL',window.location.pathname);
+    // localStorage.setItem("URL", window.location.pathname);
     if (this.props.teacherToken) {
       this.props.onLoadLecture(
         this.props.teacherToken,
@@ -34,70 +33,58 @@ class PapersLectures extends React.PureComponent {
     }
   }
 
-  showModal = () => {
-    this.props.onShowModal();
-  };
-
-  closeModal = () => {
-    this.props.onCloseModal();
-  };
-
-  deletePaperHandler = (_id) => {
-    this.props.onDeleteLecture(_id, this.props.data, this.props.teacherToken);
-  };
-
   render() {
+    let addLectureBtn = null;
+    let addLectureModal = null;
     let localhost = "localhost";
+    let paper;
+    const { loading, error, data, teacherToken, studentToken } = this.props;
+
     if (userAgent()) {
       localhost = "192.168.43.135";
     }
-    // console.log('[paper]',this.props);
-    let paper;
-    if (this.props.loading) {
+
+    if (teacherToken) {
+      addLectureBtn = <LectureAddBtn clicked={this.props.onShowModal} />;
+      addLectureModal = (
+        <Modal clicked={this.props.onCloseModal} show={this.props.show}>
+          <AddPaperLecture closed={this.props.onCloseModal} />
+        </Modal>
+      );
+    }
+
+    if (loading) {
       paper = [1, 2].map((data) => {
         return <SkeletonLecture key={data} />;
       });
+    } else if (error) {
+      paper = (
+        <div className={classes.Error}>
+          Error while Fetching Papers. Reload!
+        </div>
+      );
     } else {
-      paper = this.props.data.map((data) => (
+      paper = data.map((dt) => (
         <Lecture
-          link={"http://" + localhost + ":8080/" + data.pdf}
-          title={data.title}
-          key={data._id}
-          date={data.date}
+          link={"http://" + localhost + ":8080/" + dt.pdf}
+          title={dt.title}
+          key={dt._id}
+          date={dt.date}
           img={img}
-          subject={
-            this.props.teacherToken
-              ? data.branch
-              : this.props.studentToken
-              ? data.subject
-              : null
-          }
+          subject={teacherToken ? dt.branch : studentToken ? dt.subject : null}
           deleteHandler={() => {
-            this.deletePaperHandler(data._id);
+            this.props.onDeleteLecture(dt._id, data, teacherToken);
           }}
         />
       ));
     }
 
-    let addLectureBtn = null;
-    let addLectureModal = null;
-    if (this.props.teacherToken) {
-      addLectureBtn = <LectureAddBtn clicked={this.showModal} />;
-      addLectureModal = (
-        <Modal clicked={this.closeModal} show={this.props.show}>
-          <AddPaperLecture closed={this.closeModal} />
-        </Modal>
-      );
-    }
-    const error = this.props.error;
-
     return (
-      <React.Fragment>
-        {error ? <ErrorModal error>{error}</ErrorModal> : null}
+      <Fragment>
         <SearchBar
-            onChange={(e) => {
-              search(e, this.lectureRef);
-            }}
+          onChange={(e) => {
+            search(e, this.lectureRef);
+          }}
         />
         <section className={classes.NotesLectures}>
           <div ref={this.lectureRef} className={classes.NotesLecturesDiv}>
@@ -106,7 +93,7 @@ class PapersLectures extends React.PureComponent {
           </div>
         </section>
         {addLectureModal}
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
@@ -124,7 +111,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLoadLecture: (token, url) => dispatch(actionCreators.loadPaperLec(token, url)),
+    onLoadLecture: (token, url) =>
+      dispatch(actionCreators.loadPaperLec(token, url)),
     onDeleteLecture: (id, prevData, token) =>
       dispatch(actionCreators.deletePaperLec(id, prevData, token)),
     onCloseModal: () => dispatch(actionCreators.closeModal()),

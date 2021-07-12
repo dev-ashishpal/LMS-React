@@ -4,7 +4,6 @@ import classes from "./TextInput.module.css";
 const textInput = (props) => {
   let input;
   const inputClass = [classes.Input];
-  // console.log("valid, touched", props.valid, props.touched);
   if (props.touched && !props.valid) {
     inputClass.push(classes.Invalid);
   }
@@ -14,12 +13,12 @@ const textInput = (props) => {
       break;
     case "textarea":
       input = (
-          <div>
-        <textarea
-          className={inputClass.join(" ")}
-          {...props}  
-          maxLength={props.maxLength}
-        />
+        <div>
+          <textarea
+            className={inputClass.join(" ")}
+            maxLength={props.maxLength}
+            {...props}
+          />
         </div>
       );
       break;

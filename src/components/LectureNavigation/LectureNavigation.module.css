@@ -1,56 +1,32 @@
 .LectureSidebar {
-    /*background-color: #f1f1f1;*/
-    background-color: var(--color-white);
+  background-color: var(--color-white);
 }
 @media screen and (max-width: 600px) {
-    .LectureSidebar {
-        grid-column: 1 / -1;
-        grid-row: 1 / -1;
-        height: 100%;
-    }
+  .LectureSidebar {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    height: 100%;
+  }
 }
 .LectureSidebar div {
-    display: grid;
-    grid-template-rows: max-content 1fr max-content;
-    justify-items: center;
+  display: grid;
+  grid-template-rows: max-content 1fr max-content;
+  justify-items: center;
 }
 
 .LectureSidebarHeading {
-    font-size: 3rem;
-    font-weight: 300;
-    color: var(--color-primary);
-    text-transform: uppercase;
-    margin-top: 4rem;
-    margin-bottom: 6rem;
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  margin-top: 4rem;
+  margin-bottom: 6rem;
 }
 
-/*.main-lecture--sidebar__fav {*/
-/*  align-self: end;*/
-/*}*/
-/*.main-lecture--sidebar__fav a {*/
-/*  text-decoration: none;*/
-/*  color: #222;*/
-/*}*/
-/*.main-lecture--sidebar__fav-btn {*/
-/*  background-color: #58dee0;*/
-/*  padding: 1rem 2rem;*/
-/*  font-weight: 600;*/
-/*  font-size: 1.6rem;*/
-/*  font-family: inherit;*/
-/*  border: none;*/
-/*  border-radius: 3px;*/
-/*  cursor: pointer;*/
-/*}*/
-/*.main-lecture--sidebar__fav-btn:hover {*/
-/*  background-color: #00ced1;*/
-/*}*/
-
-
-
 .LectureNavigation {
-    width: 100%;
-    display: grid;
-    grid-template-rows: repeat(6, max-content);
-    justify-items: center;
-    list-style: none;
+  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(6, max-content);
+  justify-items: center;
+  list-style: none;
 }

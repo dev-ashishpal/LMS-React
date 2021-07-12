@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import classes from "./Profile.module.css";
 import image from "../../../assets/images/user-big.png";
 import sprite from "../../../assets/svg/sprite.svg";
@@ -8,10 +8,10 @@ import { checkValidity } from "../../../util/validators";
 import { connect } from "react-redux";
 import * as actionCreators from "./store/actions";
 import { generateBase64FromImage } from "../../../util/imagePreview";
-import {userAgent} from "../../../util/userAgent";
+import { userAgent } from "../../../util/userAgent";
 import ErrorModal from "../../../components/UI/ErrorModal/ErrorModal";
 
-class Profile extends Component {
+class Profile extends PureComponent {
   constructor(props) {
     super(props);
     this.profileRef = React.createRef();
@@ -112,7 +112,6 @@ class Profile extends Component {
 
   componentDidMount() {
     // localStorage.setItem('URL',window.location.pathname);
-    // console.log(this.props.data);
     const updatedUserForm = { ...this.state.userForm };
     const name = { ...updatedUserForm.name };
     const email = { ...updatedUserForm.email };
@@ -131,20 +130,20 @@ class Profile extends Component {
       phone.valid = true;
     }
 
-    if(this.props.studentToken) {
-      const github = {...updatedUserForm.github};
-      const linkedin = {...updatedUserForm.linkedin};
-      const portfolio = {...updatedUserForm.portfolio};
+    if (this.props.studentToken) {
+      const github = { ...updatedUserForm.github };
+      const linkedin = { ...updatedUserForm.linkedin };
+      const portfolio = { ...updatedUserForm.portfolio };
       github.value = this.props.data.github;
       linkedin.value = this.props.data.linkedin;
       portfolio.value = this.props.data.portfolio;
-      if(github.value !== null) {
+      if (github.value !== null) {
         github.valid = true;
       }
-      if(linkedin.value !== null) {
+      if (linkedin.value !== null) {
         linkedin.valid = true;
       }
-      if(portfolio.value !== null) {
+      if (portfolio.value !== null) {
         portfolio.valid = true;
       }
       updatedUserForm.github = github;
@@ -154,8 +153,7 @@ class Profile extends Component {
     updatedUserForm.name = name;
     updatedUserForm.email = email;
     updatedUserForm.phone = phone;
-    // console.log(updatedUserForm.name);
-    this.setState({ userForm: updatedUserForm, imagePath});
+    this.setState({ userForm: updatedUserForm, imagePath });
   }
 
   changedHandler = (event, inputIdentifier) => {
@@ -183,24 +181,27 @@ class Profile extends Component {
       formIsValid = updatedUserForm[inputIdentifier].valid && formIsValid;
     }
     this.setState({ userForm: updatedUserForm, formIsValid });
-    // console.log(this.state.formIsValid);
   };
 
   submitHandler = (event) => {
+    const { userForm, imageUrl, imagePath } = this.state;
+    const { teacherToken, studentToken } = this.props;
+
     event.preventDefault();
     const formData = new FormData();
-    for (let name in this.state.userForm) {
-      formData.append(`${name}`, this.state.userForm[name].value);
+    for (let name in userForm) {
+      formData.append(`${name}`, userForm[name].value);
     }
-    formData.append("image", this.state.imageUrl);
-    formData.append("imagePath", this.state.imagePath);
-    // console.log(formData);
-    if (this.props.teacherToken) {
-      this.props.onSubmit(formData, this.props.teacherToken, "teacher");
-    } else if (this.props.studentToken) {
-      this.props.onSubmit(formData, this.props.studentToken, "student");
+    formData.append("image", imageUrl);
+    formData.append("imagePath", imagePath);
+
+    if (teacherToken) {
+      this.props.onSubmit(formData, teacherToken, "teacher");
+    } else if (studentToken) {
+      this.props.onSubmit(formData, studentToken, "student");
     }
   };
+
   addImageHandler = (e) => {
     const imageUrl = e.target.files;
     generateBase64FromImage(imageUrl[0])
@@ -217,37 +218,31 @@ class Profile extends Component {
   };
 
   render() {
+    const { userForm, userImage, imagePath, formIsValid } = this.state;
+    const { teacherToken, error, sent } = this.props;
     let localhost = "localhost";
     if (userAgent()) {
       localhost = "192.168.43.135";
     }
 
     const formElementArr = [];
-    for (let key in this.state.userForm) {
-      if (this.props.teacherToken) {
-        if (key === "github" || key === "linkedin" || key === "portfolio") {
+    for (let key in userForm) {
+      if (teacherToken) {
+        if (key === "github" || key === "linkedin" || key === "portfolio")
           continue;
-        }
       }
-
-      formElementArr.push({
-        id: key,
-        config: this.state.userForm[key],
-      });
+      formElementArr.push({ id: key, config: userForm[key] });
     }
 
     let profileImage;
-    if (this.state.userImage !== null) {
-      profileImage = this.state.userImage;
-    } else if (this.state.imagePath !== null) {
-      profileImage = "http://" + localhost + ":8080/" + this.state.imagePath;
+    if (userImage !== null) {
+      profileImage = userImage;
+    } else if (imagePath !== null) {
+      profileImage = "http://" + localhost + ":8080/" + imagePath;
     } else {
       profileImage = image;
     }
 
-    let error = this.props.error;
-    let sent = this.props.sent;
-    // console.log(sent);
     return (
       <section className={classes.Profile}>
         {error ? <ErrorModal error>{error}</ErrorModal> : null}
@@ -276,8 +271,8 @@ class Profile extends Component {
         </div>
         <div className={classes.ProfileMain} ref={this.profileMainRef}>
           <div className={classes.ProfileMainHeader}>
-            <h3>{this.state.userForm.name.value}</h3>
-            <p>{this.state.userForm.email.value}</p>
+            <h3>{userForm.name.value}</h3>
+            <p>{userForm.email.value}</p>
           </div>
           <div className={classes.ProfileMainAbout}>
             <h2>About</h2>
@@ -292,7 +287,6 @@ class Profile extends Component {
                 ) {
                   formClasses.push(classes.Invalid);
                 }
-                // console.log('here:',element.config.elementConfig);
                 return (
                   <div key={element.id} className={formClasses.join(" ")}>
                     <Input
@@ -308,7 +302,7 @@ class Profile extends Component {
                 );
               })}
               <div className={classes.SubmitBtn}>
-                <SubmitButton disabled={!this.state.formIsValid} />
+                <SubmitButton disabled={!formIsValid} />
               </div>
             </form>
           </div>
@@ -330,7 +324,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // onLoad: (token) => {dispatch(actionCreators.loadProfile(token))},
     onSubmit: (profileData, token, url) => {
       dispatch(actionCreators.postProfile(profileData, token, url));
     },

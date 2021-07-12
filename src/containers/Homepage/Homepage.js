@@ -1,18 +1,15 @@
-import React from "react";
+import React, {PureComponent, Fragment} from "react";
 import hero from "../../assets/images/bg.jpg";
 import classes from "./Homepage.module.css";
 import Modal from "../../components/UI/Modal/Modal";
-// import Logo from "../../components/Logo/Logo";
 import AuthForm from "../../components/AuthForm/AuthForm";
 import { Redirect } from "react-router-dom";
-// import MenuDropdown from "../../components/UI/MenuDropdown/MenuDropdown";
-// import { positionMenuDropdown } from "../../util/menuDropdown";
 import HomepageNavigation from "../../components/HomepageNavigation/HomepageNavigation";
 import { connect } from "react-redux";
 import * as actionCreators from "../../store/actions/index";
 import ErrorModal from "../../components/UI/ErrorModal/ErrorModal";
 
-class Homepage extends React.Component {
+class Homepage extends PureComponent {
   constructor(props) {
     super(props);
     this.menuDropdownRef = React.createRef();
@@ -40,7 +37,7 @@ class Homepage extends React.Component {
     }
 
     return (
-      <React.Fragment>
+      <Fragment>
         {error ? (
           <ErrorModal error>{error}</ErrorModal>
         ) : null}
@@ -78,7 +75,7 @@ class Homepage extends React.Component {
             />
           </Modal>
         </div>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }

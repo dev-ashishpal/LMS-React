@@ -1,9 +1,7 @@
 .NotesLectures {
   overflow-y: scroll;
   max-height: calc(100vh - 6rem);
-  /*margin-bottom: 10px;*/
   position: relative;
-  /*background-color: orangered;*/
 }
 
 @media (max-width: 600px) {
@@ -42,4 +40,12 @@
     justify-items: center;
     grid-template-columns: 1fr;
   }
+}
+
+.Error {
+  font-style: italic;
+  font-weight: 500;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
 }

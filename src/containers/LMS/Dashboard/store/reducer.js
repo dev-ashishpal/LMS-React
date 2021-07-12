@@ -21,6 +21,10 @@ const initialState = {
   notificationData: [],
   notificationLoading: false,
   notificationError: null,
+  //STUDENT
+  studentsData: [],
+  studentsLoading: false,
+  studentsError: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -44,6 +48,10 @@ const reducer = (state = initialState, action) => {
         case actionTypes.DASHBOARD_NOTIFICATION_START :  return updateObject(state, {notificationLoading: true});
         case actionTypes.DASHBOARD_NOTIFICATION_SUCCESS: return updateObject(state, {notificationLoading: false, notificationData: action.data, notificationError: null});
         case actionTypes.DASHBOARD_NOTIFICATION_FAIL:    return updateObject(state, {notificationLoading: false, notificationError: action.error});
+        // STUDENTS
+        case actionTypes.DASHBOARD_STUDENTS_START :  return updateObject(state, {studentsLoading: true});
+        case actionTypes.DASHBOARD_STUDENTS_SUCCESS: return updateObject(state, {studentsLoading: false, studentsData: action.data, studentsError: null});
+        case actionTypes.DASHBOARD_STUDENTS_FAIL:    return updateObject(state, {studentsLoading: false, studentsError: action.error});
         default: return state;
     }
 }

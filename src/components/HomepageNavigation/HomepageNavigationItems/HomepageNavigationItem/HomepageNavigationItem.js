@@ -1,14 +1,12 @@
 import classes from "./HomepageNavigationItem.module.css";
-import React from "react";
+import React, {Fragment} from "react";
 
 const homepageNavigationItem = (props) => {
-    return (
-        <React.Fragment>
-            <li className={classes.NavigationItem}>
-                {props.children}
-            </li>
-        </React.Fragment>
-    )
-}
+  return (
+    <Fragment>
+      <li className={classes.NavigationItem}>{props.children}</li>
+    </Fragment>
+  );
+};
 
 export default homepageNavigationItem;

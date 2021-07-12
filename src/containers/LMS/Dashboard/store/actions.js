@@ -25,6 +25,10 @@ export const DASHBOARD_NOTIFICATION_START = "DASHBOARD_NOTIFICATION_START";
 export const DASHBOARD_NOTIFICATION_SUCCESS = "DASHBOARD_NOTIFICATION_SUCCESS";
 export const DASHBOARD_NOTIFICATION_FAIL = "DASHBOARD_NOTIFICATION_FAIL";
 
+export const DASHBOARD_STUDENTS_START = "DASHBOARD_STUDENTS_START";
+export const DASHBOARD_STUDENTS_SUCCESS = "DASHBOARD_STUDENTS_SUCCESS";
+export const DASHBOARD_STUDENTS_FAIL = "DASHBOARD_STUDENTS_FAIL";
+
 export const dashboardDataStart = () => {
   return {
     type: DASHBOARD_DATA_START,
@@ -61,7 +65,6 @@ export const dashboardData = (token, url) => {
         dispatch(dashboardDataSuccess(resData.data));
       })
       .catch((err) => {
-        console.log(err);
         dispatch(dashboardDataFail(err));
       });
   };
@@ -88,7 +91,7 @@ export const dashboardVideoDataFail = (error) => {
 };
 
 export const dashboardVideoData = (token, url) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(dashboardVideoDataStart());
     fetch(`http://${localhost}:8080/${url}/dashboard-video`, {
       headers: {
@@ -100,11 +103,9 @@ export const dashboardVideoData = (token, url) => {
         return res.json();
       })
       .then((resData) => {
-        // console.log('[Actions]',resData.data);
         dispatch(dashboardVideoDataSuccess(resData.data));
       })
       .catch((err) => {
-        console.log(err);
         dispatch(dashboardVideoDataFail(err));
       });
   };
@@ -131,25 +132,23 @@ export const dashboardNotesDataFail = (error) => {
 };
 
 export const dashboardNotesData = (token, url) => {
-  return (dispatch) => {
-    dispatch(dashboardNotesDataStart());
-    fetch(`http://${localhost}:8080/${url}/dashboard-book`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-      method: "GET",
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        // console.log('[Actions]',resData.data);
-        dispatch(dashboardNotesDataSuccess(resData.data));
-      })
-      .catch((err) => {
-        console.log(err);
-        dispatch(dashboardNotesDataFail(err));
-      });
+  return async (dispatch) => {
+    try {
+      dispatch(dashboardNotesDataStart());
+      const res = await fetch(
+        `http://${localhost}:8080/${url}/dashboard-book`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+          method: "GET",
+        }
+      );
+      const resData = await res.json();
+      dispatch(dashboardNotesDataSuccess(resData.data));
+    } catch (err) {
+      dispatch(dashboardNotesDataFail(err));
+    }
   };
 };
 
@@ -174,25 +173,23 @@ export const dashboardPaperDataFail = (error) => {
 };
 
 export const dashboardPaperData = (token, url) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(dashboardPaperDataStart());
-    fetch(`http://${localhost}:8080/${url}/dashboard-paper`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-      method: "GET",
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        // console.log('[Actions]',resData.data);
-        dispatch(dashboardPaperDataSuccess(resData.data));
-      })
-      .catch((err) => {
-        console.log(err);
-        dispatch(dashboardPaperDataFail(err));
-      });
+    try {
+      const res = await fetch(
+        `http://${localhost}:8080/${url}/dashboard-paper`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+          method: "GET",
+        }
+      );
+      const resData = await res.json();
+      dispatch(dashboardPaperDataSuccess(resData.data));
+    } catch (err) {
+      dispatch(dashboardPaperDataFail(err));
+    }
   };
 };
 
@@ -219,7 +216,6 @@ export const dashboardNotificationFail = (error) => {
 export const dashboardNotification = (branch, token) => {
   return (dispatch) => {
     dispatch(dashboardNotificationStart());
-    // console.log("action.js BRANCH", branch);
     fetch(`http://${localhost}:8080/student/dashboard-notification/` + branch, {
       method: "GET",
       headers: {
@@ -230,11 +226,50 @@ export const dashboardNotification = (branch, token) => {
         return res.json();
       })
       .then((resData) => {
-        // console.log(resData.notification);
         dispatch(dashboardNotificationSuccess(resData.notification));
       })
       .catch((err) => {
         dispatch(dashboardNotificationFail(err));
       });
+  };
+};
+
+export const dashboardStudentsStart = () => {
+  return {
+    type: DASHBOARD_STUDENTS_START,
+  };
+};
+
+export const dashboardStudentsSuccess = (data) => {
+  return {
+    type: DASHBOARD_STUDENTS_SUCCESS,
+    data,
+  };
+};
+
+export const dashboardStudentsFail = (error) => {
+  return {
+    type: DASHBOARD_STUDENTS_FAIL,
+    error,
+  };
+};
+
+export const dashboardStudents = (token, url) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://${localhost}:8080/${url}/dashboard-students`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      const resData = await res.json();
+      dispatch(dashboardStudentsSuccess(resData.data));
+    } catch (err) {
+      dispatch(dashboardStudentsFail(err));
+    }
   };
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PureComponent } from "react";
 import classes from "./VideoLectures.module.css";
 import SearchBar from "../../../../components/UI/SearchBar/SearchBar";
 import Lecture from "../../../../components/Lecture/Lecture";
@@ -6,165 +6,107 @@ import LectureAddBtn from "../../../../components/LectureAddBtn/LectureAddBtn";
 import Modal from "../../../../components/UI/Modal/Modal";
 import AddVideoLecture from "./AddVideoLecture/AddVideoLecture";
 import SkeletonLecture from "../../../../components/Lecture/Skeleton/SkeletonLecture";
-import ErrorHandler from "../../../../components/ErrorHandler/ErrorHandler";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import * as actionCreators from "./store/actions";
-import ErrorModal from "../../../../components/UI/ErrorModal/ErrorModal";
 import { userAgent } from "../../../../util/userAgent";
 import { search } from "../../../../util/search";
 
-class VideoLectures extends React.PureComponent {
+class VideoLectures extends PureComponent {
   constructor(props) {
     super(props);
     this.lectureRef = React.createRef();
     this.loadingRef = React.createRef();
   }
 
-  state = {
-    isIntersecting: false,
-  };
-
   componentDidMount() {
-    localStorage.setItem("URL", window.location.pathname);
+
+    // localStorage.setItem("URL", window.location.pathname);
     if (this.props.teacherToken) {
       this.props.onLoadLecture(
         this.props.teacherToken,
-        "/teacher/lecture/video",
+        "/teacher/lecture/video"
       );
     } else if (this.props.studentToken) {
       this.props.onLoadLecture(
         this.props.studentToken,
-        "/student/lecture/video" + this.props.location.search,
+        "/student/lecture/video" + this.props.location.search
       );
     }
-    // console.log(this.state.isIntersecting);
-    this.observerHandler();
   }
-
-  componentDidUpdate() {
-    // this.observerHandler();
-  }
-
-  observerHandler = () => {
-    const callback = (entries) => {
-      if (entries[0].isIntersecting && entries[0].intersectionRatio === 1) {
-        // console.log("Is intersecting");
-      }
-    };
-    const options = {
-      root: null,
-      rootMargins: "-10px",
-      threshold: 1,
-    };
-
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.loadingRef.current);
-    // console.log(this.loadingRef.current);
-  };
-
-  openedAddLectureModal = () => {
-    this.props.onShowModal();
-  };
-
-  closedAddLectureModal = () => {
-    this.props.onCloseModal();
-  };
 
   deleteLectureHandler = (_id) => {
     this.props.onDeleteLecture(_id, this.props.data, this.props.teacherToken);
   };
 
   editLectureHandler = (_id) => {
-    this.openedAddLectureModal();
+    this.props.onShowModal();
     this.props.onEditLecture(_id, this.props.data);
-  };
-
-  addToWlHandler = (_id) => {
-    this.props.onAddToWl(_id, this.props.studentToken);
-  };
-
-  onSearchHandler = (e) => {
-    // console.log(e.target.value);
-    const searchTitle = e.target.value;
-    console.log(searchTitle.toUpperCase());
   };
 
   render() {
     let localhost = "localhost";
+    let streamLink;
+    let lecture;
+    let addLectureBtn = null;
+    let addLectureModal = null;
+    const {teacherToken, studentToken, loading, error, data} = this.props;
+
     if (userAgent()) {
       localhost = "192.168.43.135";
     }
-    //////
-    let streamLink;
-    if (this.props.teacherToken) {
+
+    if (teacherToken) {
       streamLink = "/teacher/watch?v=";
-    } else if (this.props.studentToken) {
+      addLectureBtn = <LectureAddBtn clicked={this.props.onShowModal} />;
+      addLectureModal = (
+        <Modal clicked={this.props.onCloseModal} show={this.props.show}>
+          <AddVideoLecture closed={this.props.onCloseModal} />
+        </Modal>
+      );
+    } else if (studentToken) {
       streamLink = "/student/watch?v=";
     }
-    //////
-    let lecture;
-    if (this.props.loading) {
+
+    if (loading) {
       lecture = [1, 2].map((data) => {
         return <SkeletonLecture key={data} />;
       });
-    } else if (this.props.error) {
-      lecture = <ErrorHandler>{this.props.error.message}</ErrorHandler>;
-    } else {
-      lecture = this.props.data.map((data) => {
-        this.props.watchlist.forEach((wl) => {
-          if (wl._id === data._id) {
-            console.log("ids match");
-          }
-        });
-
-        return (
-          <Lecture
-            src={data.video}
-            img={"http://" + localhost + ":8080/" + data.image}
-            title={data.title}
-            key={data._id}
-            isVideo={this.props.isVideo}
-            date={data.date}
-            subject={
-              this.props.teacherToken
-                ? data.branch
-                : this.props.studentToken
-                ? data.subject
-                : null
-            }
-            link={streamLink + data._id}
-            addedToWl={this.props.addedToWl}
-            deleteHandler={() => {
-              this.deleteLectureHandler(data._id);
-            }}
-            editHandler={() => {
-              this.editLectureHandler(data._id);
-            }}
-            addToWlHandler={() => {
-              this.addToWlHandler(data._id);
-            }}
-          />
-        );
-      });
-    }
-
-    let addLectureBtn = null;
-    let addLectureModal = null;
-    if (this.props.teacherToken) {
-      addLectureBtn = <LectureAddBtn clicked={this.openedAddLectureModal} />;
-      addLectureModal = (
-        <Modal clicked={this.closedAddLectureModal} show={this.props.show}>
-          <AddVideoLecture closed={this.closedAddLectureModal} />
-        </Modal>
+    } else if (error) {
+      lecture = (
+        <div className={classes.Error}>
+          Error while Fetching Video Lectures. Reload!
+        </div>
       );
+    } else {
+      lecture = data.map((data) => (
+        <Lecture
+          src={data.video}
+          img={"http://" + localhost + ":8080/" + data.image}
+          title={data.title}
+          key={data._id}
+          isVideo={this.props.isVideo}
+          date={data.date}
+          subject={
+            teacherToken
+              ? data.branch
+              : studentToken
+              ? data.subject
+              : null
+          }
+          link={streamLink + data._id}
+          deleteHandler={() => {
+            this.deleteLectureHandler(data._id);
+          }}
+          editHandler={() => {
+            this.editLectureHandler(data._id);
+          }}
+        />
+      ));
     }
-
-    let error = this.props.error;
 
     return (
       <React.Fragment>
-        {error ? <ErrorModal error>{error}</ErrorModal> : null}
         <section ref={this.videoContainerRef} className={classes.VideoLectures}>
           <SearchBar
             onChange={(e) => {
@@ -194,7 +136,6 @@ const mapStateToProps = (state) => {
     isVideo: state.videoLec.isVideo,
     teacherToken: state.auth.teacherToken,
     studentToken: state.auth.studentToken,
-    watchlist: state.videoLec.watchlist,
   };
 };
 
@@ -215,13 +156,9 @@ const mapDispatchToProps = (dispatch) => {
     onCloseModal: () => {
       dispatch(actionCreators.closeModal());
     },
-    onAddToWl: (_id, token) => {
-      dispatch(actionCreators.watchlist(_id, token));
-    },
-    // onGetWatchlist:(token) => {dispatch(actionCreators.getWatchlist(token))}
   };
 };
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(withRouter(VideoLectures));

@@ -1,9 +1,4 @@
-.SearchFilter {
-  /*height: 400px;*/
-}
-
 .Selected {
-  /*background-color: #eee;*/
   background-color: var(--color-tertiary1);
   padding: 1px 1rem;
   font-size: 1.6rem;

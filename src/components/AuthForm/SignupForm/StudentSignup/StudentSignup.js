@@ -4,8 +4,8 @@ import Input from "../../../UI/ProfileInput/ProfileInput";
 import SubmitButton from "../../../UI/SubmitBtn/SubmitBtn";
 import Select from "../../../UI/SelectDropdown/Select";
 import { checkValidity } from "../../../../util/validators";
-import {connect} from "react-redux";
-import * as actionCreators from '../../../../store/actions/index';
+import { connect } from "react-redux";
+import * as actionCreators from "../../../../store/actions/index";
 
 class StudentSignup extends Component {
   state = {
@@ -115,7 +115,6 @@ class StudentSignup extends Component {
   };
 
   onChangeHandler = (event, identifier) => {
-    console.log("changed");
     const updatedSignupData = { ...this.state.signupData };
     const updatedSignupElement = { ...updatedSignupData[identifier] };
     updatedSignupElement.value = event.target.value;
@@ -133,13 +132,11 @@ class StudentSignup extends Component {
   };
 
   selectChangeHandler = (event) => {
-    console.log("select Changed");
     let selectedData = [];
     selectedData.push(event.target.value);
 
     const branchesElement = { ...this.state.branches };
     branchesElement.value = selectedData;
-    console.log(branchesElement.value.length);
     branchesElement.valid = branchesElement.value.length !== 0;
     branchesElement.touched = true;
     let selectFormIsValid = true;
@@ -154,14 +151,14 @@ class StudentSignup extends Component {
       data[key] = this.state.signupData[key].value;
     }
     const updatedData = { ...data, branch: this.state.branches.value[0] };
-    console.log(updatedData);
     this.props.onSubmit(updatedData);
   };
 
   render() {
+    const { signupData, branches, formIsValid, selectFormIsValid } = this.state;
     const data = [];
-    for (let key in this.state.signupData) {
-      data.push({ config: this.state.signupData[key], id: key });
+    for (let key in signupData) {
+      data.push({ config: signupData[key], id: key });
     }
 
     return (
@@ -170,10 +167,10 @@ class StudentSignup extends Component {
         <div>
           <form className={classes.Form} onSubmit={this.submitHandler}>
             <Select
-              data={this.state.branches.elementConfig.options}
+              data={branches.elementConfig.options}
               changed={this.selectChangeHandler}
               selectType="radio"
-              list={this.state.branches.value}
+              list={branches.value}
             />
             {data.map((signupData) => {
               const signupClasses = [classes.TextInput];
@@ -199,11 +196,7 @@ class StudentSignup extends Component {
             })}
 
             <div className={classes.SubmitBtn}>
-              <SubmitButton
-                disabled={
-                  !this.state.formIsValid || !this.state.selectFormIsValid
-                }
-              />
+              <SubmitButton disabled={!formIsValid || !selectFormIsValid} />
             </div>
           </form>
         </div>
@@ -214,8 +207,10 @@ class StudentSignup extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSubmit: (data) => {dispatch(actionCreators.studentSignup(data))}
-  }
-}
+    onSubmit: (data) => {
+      dispatch(actionCreators.studentSignup(data));
+    },
+  };
+};
 
 export default connect(null, mapDispatchToProps)(StudentSignup);

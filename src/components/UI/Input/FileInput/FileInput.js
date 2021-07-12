@@ -21,15 +21,20 @@ const fileInput = (props) => {
       <p className={classes.SubText}>{props.subtext}</p>
       <div className={classes.InputContainer}>
         <div className={classes.InputBox}>
-          <input type={props.type} name={props.label} onChange={props.changed} accept={props.accept} />
+          <input
+            type={props.type}
+            name={props.label}
+            onChange={props.changed}
+            accept={props.accept}
+          />
           <svg className={classes.InputIcon}>
             <use href={sprite + props.icon}></use>
           </svg>
         </div>
 
-        {props.preview ?
+        {props.preview ? (
           <figure className={classes.InputPreview}>{preview}</figure>
-         : null}
+        ) : null}
       </div>
     </div>
   );

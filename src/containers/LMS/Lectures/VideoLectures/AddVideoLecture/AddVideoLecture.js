@@ -1,11 +1,10 @@
-import React from "react";
+import React, { PureComponent, Fragment } from "react";
 import classes from "./AddVideoLecture.module.css";
 import TextInput from "../../../../../components/UI/Input/TextInput/TextInput";
 import FileInput from "../../../../../components/UI/Input/FileInput/FileInput";
 import GooglePicker from "react-google-picker";
 import Spinner from "../../../../../components/UI/Spinner/Spinner";
 import { generateBase64FromImage } from "../../../../../util/imagePreview";
-import ErrorHandler from "../../../../../components/ErrorHandler/ErrorHandler";
 import { connect } from "react-redux";
 import * as actionCreators from "../store/actions";
 import Select from "../../../../../components/UI/SelectDropdown/Select";
@@ -15,8 +14,9 @@ import {
   REACT_APP_DEVELOPER_CLIENT_ID,
   REACT_APP_DEVELOPER_KEY,
 } from "../../../../../util/env";
+import ErrorModal from "../../../../../components/UI/ErrorModal/ErrorModal";
 
-class AddVideoLecture extends React.PureComponent {
+class AddVideoLecture extends PureComponent {
   state = {
     image: {
       preview: false,
@@ -70,7 +70,6 @@ class AddVideoLecture extends React.PureComponent {
       localhost = "192.168.43.135";
     }
     if (this.props.editing && this.props.selectedPost) {
-      console.log(this.props.selectedPost.image);
       const branchElem = { ...this.state.branches };
 
       const branch = [];
@@ -155,7 +154,6 @@ class AddVideoLecture extends React.PureComponent {
     titleElem.name = e.target.value;
     titleElem.touched = true;
     titleElem.valid = titleElem.required(e.target.value);
-    // console.log(titleElem.valid);
     this.setState({ title: titleElem });
   };
   descriptionChangeHandler = (e) => {
@@ -183,7 +181,6 @@ class AddVideoLecture extends React.PureComponent {
 
     const branchesElement = { ...this.state.branches };
     branchesElement.value = selectedData;
-    // console.log(branchesElement.value.length);
     branchesElement.valid = branchesElement.value.length !== 0;
     branchesElement.touched = true;
     this.setState({ branches: branchesElement });
@@ -195,13 +192,11 @@ class AddVideoLecture extends React.PureComponent {
     const videoData = new FormData();
     videoData.append("image", this.state.image.file);
     videoData.append("video", this.state.video.url);
-    // videoData.append("video", 'https://drive.google.com/uc?export=download&id=1gTc0-GUAkeSSqXvMfk7QHsY04tmbLEcz');
     videoData.append("title", this.state.title.name);
     videoData.append("description", this.state.description.name);
     videoData.append("branch", this.state.branches.value);
     videoData.append("imagePath", this.state.image.path);
 
-    // console.log(videoData);
     this.props.onSubmit(
       this.props.editing,
       this.props.selectedPost,
@@ -213,11 +208,10 @@ class AddVideoLecture extends React.PureComponent {
 
   render() {
     let form;
+    const {error, loading} = this.props;
 
-    if (this.props.loading) {
+    if (loading) {
       form = <Spinner />;
-    } else if (this.props.error) {
-      form = <ErrorHandler>{this.props.error.message}</ErrorHandler>;
     } else {
       form = (
         <form
@@ -253,7 +247,6 @@ class AddVideoLecture extends React.PureComponent {
                 this.setState({
                   video: videoElem,
                 });
-                // console.log(downloadableLink);
                 this.previewVideo();
               }
             }}
@@ -268,7 +261,7 @@ class AddVideoLecture extends React.PureComponent {
             <FileInput
               type="button"
               label="video"
-              subtext=" Add Video from Google Drive or Dropbox."
+              subtext=" Add Video from Google Drive."
               src={this.state.video.url}
               inputtype="video"
               icon={this.state.video.icon}
@@ -322,7 +315,10 @@ class AddVideoLecture extends React.PureComponent {
       );
     }
     return (
-      <React.Fragment>
+      <Fragment>
+        {error ? (
+          <ErrorModal error>Error!! Refresh and Try Again.</ErrorModal>
+        ) : null}
         <div className={classes.ModalContainer}>
           <button
             className={classes.ModalCancelBtn}
@@ -333,7 +329,7 @@ class AddVideoLecture extends React.PureComponent {
           <h1 className={classes.ModalHeading}>Add Video Lecture</h1>
           {form}
         </div>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
@@ -344,7 +340,7 @@ const mapStateToProps = (state) => {
     selectedPost: state.videoLec.editPost,
     data: state.videoLec.data,
     loading: state.videoLec.loading,
-    error: state.videoLec.error,
+    error: state.videoLec.addVidError,
     teacherToken: state.auth.teacherToken,
     branches: state.lec.branches,
   };
@@ -352,6 +348,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onCloseModal: () => {
+      dispatch(actionCreators.closeModal());
+    },
     onSubmit: (editing, selectedPost, videoData, prevData, token) => {
       dispatch(
         actionCreators.submitVidLec(
@@ -362,9 +361,6 @@ const mapDispatchToProps = (dispatch) => {
           token
         )
       );
-    },
-    onCloseModal: () => {
-      dispatch(actionCreators.closeModal());
     },
   };
 };

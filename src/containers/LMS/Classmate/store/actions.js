@@ -1,4 +1,5 @@
 import { userAgent } from "../../../../util/userAgent";
+import { caughtError } from "../../../../util/caughtError";
 
 let localhost = "localhost";
 if (userAgent()) {
@@ -29,19 +30,27 @@ export const getClassmateFail = (error) => {
 
 export const getClassmate = (token, branch) => {
   return async (dispatch) => {
+    let ok;
     dispatch(getClassmateStart());
     try {
-      const res = await fetch(`http://${localhost}:8080/student/classmate/${branch}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const res = await fetch(
+        `http://${localhost}:8080/student/classmate/${branch}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      if (res.status !== 200) {
+        ok = res.ok;
+      }
       const resData = await res.json();
-      // console.log(resData);
+      if (ok === false) {
+        throw new Error(resData.message);
+      }
       dispatch(getClassmateSuccess(resData.student));
     } catch (err) {
-      console.log(err);
-      dispatch(getClassmateFail(err));
+      caughtError(dispatch, getClassmateFail, err);
     }
   };
 };

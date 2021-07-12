@@ -1,64 +1,56 @@
 .Header {
-    display: grid;
-    grid-row-gap: 0;
-    grid-column-gap: 1rem;
-    grid-template-columns: repeat(2, max-content) 1fr max-content;
-    align-items: center;
-    padding: 1rem 1rem 1rem 0.5rem;
-    background-color: #fff;
-    border-radius: 3px;
-    /*box-shadow: 0 8px 6px -6px rgba(68, 68, 68, 0.15);*/
-    box-shadow:0 8px 6px -6px hsla(
-            var(--color-tertiary-h),
-            var(--color-tertiary-s),
-            var(--color-tertiary-l),
-            0.4
-    );
+  display: grid;
+  grid-row-gap: 0;
+  grid-column-gap: 1rem;
+  grid-template-columns: repeat(2, max-content) 1fr max-content;
+  align-items: center;
+  padding: 1rem 1rem 1rem 0.5rem;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 8px 6px -6px hsla(var(--color-tertiary-h), var(--color-tertiary-s), var(--color-tertiary-l), 0.4);
 }
 .HeaderImg {
-    padding-left: 2rem;
-    transform: translateY(0.2rem);
+  padding-left: 2rem;
+  transform: translateY(0.2rem);
 }
 .HeaderImg img {
-    width: 7rem;
-    height: 7rem;
-    border-radius: 100%;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 100%;
 }
 .HeaderHeading h4 {
-    text-transform: capitalize;
-    font-size: 3rem;
-    font-weight: 300;
-    color: var(--color-primary);
+  text-transform: capitalize;
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--color-primary);
 }
 .HeaderHeading span {
-    color: #babac0;
+  color: #babac0;
 }
 .HeaderIcon {
-    grid-column: 4 / 5;
-    display: flex;
-    justify-content: space-between;
-    width: 7rem;
-    align-items: center;
-    padding-right: 1rem;
+  grid-column: 4 / 5;
+  display: flex;
+  justify-content: space-between;
+  width: 7rem;
+  align-items: center;
+  padding-right: 1rem;
 }
 .HeaderIcon svg {
-    width: 2.5rem;
-    height: 2.5rem;
-    fill: currentColor;
-    cursor: pointer;
+  width: 2.5rem;
+  height: 2.5rem;
+  fill: currentColor;
+  cursor: pointer;
 }
 
 .ChatContainer {
-    max-height: calc(100vh - 35rem);
-    overflow-y: scroll;
-
+  max-height: calc(100vh - 35rem);
+  overflow-y: scroll;
 }
 .ChatContainer::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 .ChatLog {
-    display: flex;
-    /*height: calc(100vh - 35rem);*/
-    flex-direction: column;
-    justify-content: flex-end;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }

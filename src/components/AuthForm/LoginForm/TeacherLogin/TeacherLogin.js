@@ -2,12 +2,10 @@ import React, { Component, Fragment } from "react";
 import classes from "./TeacherLogin.module.css";
 import Input from "../../../UI/ProfileInput/ProfileInput";
 import SubmitButton from "../../../UI/SubmitBtn/SubmitBtn";
-import {checkValidity} from "../../../../util/validators";
-import * as actionCreators from '../../../../store/actions/index';
-import {Redirect} from 'react-router-dom';
-import {connect} from "react-redux";
-
-// import { email, required, length } from "../../../util/validators";
+import { checkValidity } from "../../../../util/validators";
+import * as actionCreators from "../../../../store/actions/index";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 class TeacherLogin extends Component {
   state = {
@@ -44,7 +42,6 @@ class TeacherLogin extends Component {
     formIsValid: false,
   };
 
-
   onChangeHandler = (event, identifier) => {
     const updatedLoginData = { ...this.state.loginData };
     const updatedLoginElement = { ...updatedLoginData[identifier] };
@@ -57,7 +54,6 @@ class TeacherLogin extends Component {
     updatedLoginElement.touched = true;
 
     updatedLoginData[identifier] = updatedLoginElement;
-    // console.log(updatedLoginElement);
     let formIsValid = true;
     for (let identifier in updatedLoginData) {
       formIsValid = updatedLoginData[identifier].valid && formIsValid;
@@ -80,8 +76,8 @@ class TeacherLogin extends Component {
       data.push({ config: this.state.loginData[key], id: key });
     }
     let authRedirect;
-    if(this.props.isTeacherAuthenticated) {
-      authRedirect = (<Redirect to="/teacher/dashboard" />)
+    if (this.props.isTeacherAuthenticated) {
+      authRedirect = <Redirect to="/teacher/dashboard" />;
     }
     return (
       <Fragment>
@@ -112,7 +108,6 @@ class TeacherLogin extends Component {
               );
             })}
             <div className={classes.SubmitBtn}>
-              {/*<button className={classes.SubmitBtn}>Submit</button>*/}
               <SubmitButton disabled={!this.state.formIsValid} />
             </div>
           </form>
@@ -122,16 +117,18 @@ class TeacherLogin extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isTeacherAuthenticated: state.auth.teacherToken !== null,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSubmit: (data) => {dispatch(actionCreators.teacherLogin(data))}
-  }
-}
+    onSubmit: (data) => {
+      dispatch(actionCreators.teacherLogin(data));
+    },
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TeacherLogin);

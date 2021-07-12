@@ -13,15 +13,14 @@ const comment = (props) => (
         <span>{props.date}</span>
       </div>
       <div className={classes.UsersCommentPara}>
-        <p>
-          {props.children}
-        </p>
+        <p>{props.children}</p>
       </div>
     </div>
-      {props.isAdmin ? <svg onClick={props.deleteBtn}>
-          <use href={sprite + "#icon-dots-three-horizontal"}></use>
-      </svg> : null}
-
+    {props.isAdmin ? (
+      <svg onClick={props.deleteBtn}>
+        <use href={sprite + "#icon-dots-three-horizontal"}></use>
+      </svg>
+    ) : null}
   </article>
 );
 

@@ -14,6 +14,7 @@
 html {
   font-size: 62.5%;
 }
+
 @media screen and (max-width: 1200px) {
   html {
     font-size: 60%;
@@ -38,7 +39,6 @@ body {
   font-size: 1.4rem;
   font-family: "Open Sans", sans-serif;
   font-weight: 400;
-  /*color: #444444;*/
   color: var(--color-black);
   background-color: var(--color-pure-white);
 }
@@ -62,7 +62,6 @@ body {
   --color-sec-dark: hsl(16, 100%, 50%);
 
   /* ----------  TERTIARY COLORS  ------------ */
-  /*--color-tertiary1: #eee;*/
   --color-tertiary1: hsl(0, 0%, 93%);
   --color-tertiary2: hsl(240, 5%, 74%);
   --color-tertiary3: hsl(0, 0%, 50%);
@@ -102,7 +101,6 @@ body {
   --color-sec-dark: hsl(16, 100%, 50%);
 
   /* ----------  TERTIARY COLORS  ------------ */
-  /*--color-tertiary1: #e1e1e1;*/
   --color-tertiary1: hsl(0, 0%, 93%);
   --color-tertiary2: hsl(240, 5%, 74%);
   --color-tertiary3: hsl(0, 0%, 50%);
@@ -178,12 +176,6 @@ body {
   --color-sec-dark: hsl(16, 100%, 50%);
 
   /* ----------  TERTIARY COLORS  ------------ */
-
-  /*--color-tertiary1: #666666;*/
-  /*--color-tertiary2: #7f7f7f;*/
-  /*--color-tertiary3: #babac0;*/
-  /*--color-tertiary4: #e1e1e1;*/
-
   --color-tertiary1: hsl(0, 0%, 40%);
   --color-tertiary2: hsl(0, 0%, 50%);
   --color-tertiary3: hsl(240, 5%, 74%);

@@ -3,7 +3,6 @@ import classes from "./Message.module.css";
 import imageBig from "../../assets/images/user.png";
 import sprite from "../../assets/svg/sprite.svg";
 import MessageLog from "./MessageLog/MessageLog";
-// import image from "../../assets/images/user1.jpg";
 
 const message = () => {
   return (
@@ -26,12 +25,11 @@ const message = () => {
         </div>
       </header>
 
-        <main className={classes.ChatContainer}>
-            <div className={classes.ChatLog}>
-                <MessageLog/>
-
-            </div>
-        </main>
+      <main className={classes.ChatContainer}>
+        <div className={classes.ChatLog}>
+          <MessageLog />
+        </div>
+      </main>
     </Fragment>
   );
 };

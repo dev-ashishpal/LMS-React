@@ -1,5 +1,4 @@
 .LectureContainer {
-  /*background-color: #fff;*/
   background-color: var(--color-pure-white);
 }
 
@@ -39,7 +38,6 @@
   transition: background-color 0.2s;
 }
 
-
 .VideoLecturesDiv {
   background-color: var(--color-pure-white);
   margin: 3rem 0;
@@ -48,9 +46,7 @@
   grid-column-gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
   padding: 0 2rem;
-  /*background-color: orangered;*/
 }
-
 
 @media (max-width: 470px) {
   .VideoLecturesDiv {
@@ -66,9 +62,3 @@
   font-weight: 300;
   text-transform: capitalize;
 }
-
-/*@media screen and (max-width: 600px) {*/
-/*  .main-lecture--container {*/
-/*    display: none;*/
-/*  }*/
-/*}*/

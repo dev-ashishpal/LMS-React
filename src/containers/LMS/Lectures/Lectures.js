@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, Fragment, PureComponent } from "react";
 import classes from "./Lectures.module.css";
 import ProgressBar from "../../../components/UI/ProgressBar/ProgressBar";
 import { Route, withRouter } from "react-router-dom";
@@ -11,7 +11,7 @@ const PapersLectures = React.lazy(() =>
   import("./PapersLectures/PapersLectures")
 );
 
-class Lectures extends React.PureComponent {
+class Lectures extends PureComponent {
   state = {
     show: false,
   };
@@ -26,21 +26,22 @@ class Lectures extends React.PureComponent {
 
   render() {
     let path;
-    if (this.props.teacherToken) {
+    const {teacherToken, studentToken} = this.props;
+
+    if (teacherToken) {
       path = "/teacher/";
-    } else if (this.props.studentToken) {
+    } else if (studentToken) {
       path = "/student/";
     }
     return (
-      <React.Fragment>
+      <Fragment>
         <LectureNavigation>
-          {this.props.studentToken
+          {studentToken
             ? this.props.location.search.split("=")[1]
             : "All Lecture"}
         </LectureNavigation>
         <main className={classes.LectureContainer}>
           <section>
-            {/*<Switch>*/}
             <Route
               path={path + "lectures/videos"}
               render={() => (
@@ -66,11 +67,9 @@ class Lectures extends React.PureComponent {
                 </Suspense>
               )}
             />
-            
-            {/*</Switch>*/}
           </section>
         </main>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }

@@ -3,7 +3,6 @@
   bottom: 0;
   width: 100%;
   transition: all 0.4s;
-  /*background: orangered;*/
 }
 
 .PlayerControlsContainer:hover .PlayerControls {
@@ -73,12 +72,6 @@
   z-index: 5;
 }
 
-@media (max-width: 600px) {
-  /*.ProgressBar::-webkit-slider-thumb {*/
-  /*  width: 10px;*/
-  /*}*/
-}
-
 .ProgressBarThumb {
   display: none;
   height: 15px;
@@ -104,7 +97,6 @@
   background-color: var(--color-primary-dark);
   position: absolute;
   border-radius: 4px;
-  /*top: 1px;*/
   left: 0;
   z-index: 10;
 }
@@ -115,7 +107,6 @@
   background-color: rgba(255, 255, 255, 0.6);
   position: absolute;
   border-radius: 4px;
-  /*top: 1px;*/
   left: 0;
 }
 
@@ -161,9 +152,9 @@
 }
 
 @media (max-width: 600px) {
- .PlayerOptionFullscreen {
-   margin-left: 5px;
- }
+  .PlayerOptionFullscreen {
+    margin-left: 5px;
+  }
 }
 
 .PlayerOptionSkip:not(:last-child) {
@@ -216,7 +207,6 @@
   width: 180px;
   display: none;
   color: #fff;
-  /*background-color: rgba(0,0,0,0.5);*/
 }
 
 @media (max-width: 600px) {
@@ -226,10 +216,8 @@
 }
 
 .ProgressBarTimer span {
-  /*height: 30px;*/
   display: block;
   text-align: center;
-  /*width: 50px;*/
 }
 
 .ProgressBarTimer video {
