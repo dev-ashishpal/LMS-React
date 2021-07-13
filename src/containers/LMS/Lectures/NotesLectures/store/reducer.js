@@ -8,8 +8,6 @@ const initialState = {
   error: null,
 
   submitError: null,
-  // paginateLoading: true,
-  // paginateError: null,
 };
 
 const insertAtBeginning = (array, action) => {
@@ -30,10 +28,6 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SUBMIT_NOTES_LEC_START: return updateObject(state, { submitError: null, });
     case actionTypes.SUBMIT_NOTES_LEC_SUCCESS: return updateObject(state, { submitError: null, data: insertAtBeginning(state.data, action), });
     case actionTypes.SUBMIT_NOTES_LEC_FAIL: return updateObject(state, {submitError: action.error});
-
-    //  case actionTypes.PAGINATE_NOTES_LEC_START: return updateObject(state, {paginateLoading: true, paginateError: false});
-    //  case actionTypes.PAGINATE_NOTES_LEC_SUCCESS: return updateObject(state, {data: state.data.concat(action.data), paginateLoading: false, paginateError: null});
-    //  case actionTypes.PAGINATE_NOTES_LEC_FAIL: return updateObject(state, {error: action.error, paginateLoading: false});
 
     default: return state;
   }

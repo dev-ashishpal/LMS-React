@@ -4,6 +4,9 @@ import sprite from "../../../assets/svg/sprite.svg";
 
 const searchBar = (props) => (
   <section className={classes.SearchBar}>
+    <header className={classes.HiddenElement}>
+      <h1>Search Bar</h1>
+    </header>
     <form>
       <label htmlFor="lecture--search-bar" hidden>
         Search Bar for lectures

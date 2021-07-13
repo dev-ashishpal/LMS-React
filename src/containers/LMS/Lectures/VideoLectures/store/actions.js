@@ -19,8 +19,6 @@ export const SUBMIT_VID_LEC_FAIL = "SUBMIT_VID_LEC_FAIL";
 export const SHOW_MODAL = "SHOW_MODAL";
 export const CLOSE_MODAL = "CLOSE_MODAL";
 
-// export const WATCHLIST_SUCCESS = "WATCHLIST_SUCCESS";
-
 export const showModal = () => {
   return {
     type: SHOW_MODAL,
@@ -200,45 +198,3 @@ export const submitVidLec = (
     }
   };
 };
-
-// export const watchlistSuccess = (data) => {
-//   return {
-//     type: WATCHLIST_SUCCESS,
-//     data,
-//   };
-// };
-
-// export const getWatchlist = (token) => {
-//   return dispatch => {
-//     fetch('http://localhost:8080/student/lecture/video/watchlist', {
-//       method: "GET",
-//       headers: {
-//         Authorization: "Bearer " + token,
-//       },
-//     }).then(res => {
-//       return res.json();
-//     }).then(resData => {
-//       dispatch(watchlistSuccess(resData.data));
-//     }).catch(err => {
-//     })
-//   }
-// }
-
-// export const watchlist = (_id, token) => {
-//   return (dispatch) => {
-//     fetch("http://localhost:8080/student/lecture/video/add-watchlist/" + _id, {
-//       method: "GET",
-//       headers: {
-//         Authorization: "Bearer " + token,
-//       },
-//     })
-//       .then((res) => {
-//         return res.json();
-//       })
-//       .then((resData) => {
-//         dispatch(watchlistSuccess(resData.data));
-//       })
-//       .catch((err) => {
-//       });
-//   };
-// };

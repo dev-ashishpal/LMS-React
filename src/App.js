@@ -18,20 +18,25 @@ class App extends PureComponent {
   render() {
     const { teacherToken, studentToken } = this.props;
     // const URL = localStorage.getItem("URL");
-    let routes = (
-      <Switch>
-        <Route
-          path="/"
-          exact
-          render={() => (
-            <Suspense fallback={<ProgressBar />}>
-              <Homepage />
-            </Suspense>
-          )}
-        />
-        <Redirect to="/" />
-      </Switch>
-    );
+    let routes;
+    // let teacher = localStorage.getItem("teacherToken");
+    // let student = localStorage.getItem("studentToken");
+    // if (!teacher && !student) {
+      routes = (
+        <Switch>
+          <Route
+            path="/"
+            exact
+            render={() => (
+              <Suspense fallback={<ProgressBar />}>
+                <Homepage />
+              </Suspense>
+            )}
+          />
+          <Redirect to="/" />
+        </Switch>
+      );
+    // }
 
     if (teacherToken) {
       routes = (

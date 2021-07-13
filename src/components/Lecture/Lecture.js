@@ -29,31 +29,7 @@ const lecture = (props) => {
     </button>
   );
   if (props.studentToken) {
-    if (props.addedToWl) {
-      deleteIcon = null;
-      // deleteIcon = (<button
-      //     title="Remove From WatchList"
-      //     className={classes.IconBtn}
-      //     type="button"
-      //     onClick={props.removeFromWlHandler}
-      // >
-      //   <svg>
-      //     <use href={sprite + "#icon-favorite"}></use>
-      //   </svg>
-      // </button>);
-    } else {
-      // deleteIcon = (<button
-      //     title="Add to WatchList"
-      //     className={classes.IconBtn}
-      //     type="button"
-      //     onClick={props.addToWlHandler}
-      // >
-      //   <svg>
-      //     <use href={sprite + "#icon-favorite_outline"}></use>
-      //   </svg>
-      // </button>);
-      deleteIcon = null;
-    }
+    deleteIcon = null;
   }
   if (!props.isVideo || props.studentToken) {
     editIcon = null;

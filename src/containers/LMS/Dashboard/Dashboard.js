@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from "react";
 import classes from "./Dashboard.module.css";
 import * as actionCreators from "./store/actions";
+// import * as actionProfileCreators from '../Profile/store/actions';
 import { connect } from "react-redux";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import DonutGraph from "../../../components/Graphs/DonutGraph/DonutGraph";
@@ -21,6 +22,7 @@ class Dashboard extends PureComponent {
       this.props.onLoadVideo(studentToken, "student");
       this.props.onLoadNotes(studentToken, "student");
       this.props.onLoadPaper(studentToken, "student");
+      // this.props.onGetProfile(studentToken, "student");
     }
   }
 
@@ -39,10 +41,12 @@ class Dashboard extends PureComponent {
     // BOXES
     if (this.props.data) {
       boxes = this.props.data.map((dt) => (
-        <div className={classes.Box} key={dt.name}>
-          <h1>{dt.count}</h1>
-          <span>{dt.name}</span>
-        </div>
+          <div className={classes.Box} key={dt.name}>
+            <header>
+              <span>{dt.count}</span>
+              <h2>{dt.name}</h2>
+            </header>
+          </div>
       ));
     }
     if (this.props.error) {
@@ -89,21 +93,35 @@ class Dashboard extends PureComponent {
         </Fragment>
       );
     } else if (this.props.studentToken) {
+      let user = { ...this.props.userData };
       barGraph = (
         <div className={classes.WelcomeContainer}>
           <span className={classes.Welcome}>Welcome,</span>
-          <span className={classes.WelcomeName}>Ashish</span>
+          <span className={classes.WelcomeName}>{user.name}</span>
         </div>
       );
     }
 
     return (
       <div className={classes.Dashboard}>
-        <div className={classes.Boxes}>{boxes}</div>
+        <section className={classes.Boxes}>
+          <header className={classes.HiddenElement}>
+            <h1>Number of lectures Data in Boxes.</h1>
+          </header>
+          {boxes}
+        </section>
 
         <div className={classes.Chart}>
-          <div className={classes.BarChart}>{barGraph}</div>
-          <div className={classes.DonutChart}>
+          <section className={classes.BarChart}>
+            <header className={classes.HiddenElement}>
+              <h1>Bar Graph of Students</h1>
+            </header>
+            {barGraph}
+          </section>
+          <section className={classes.DonutChart}>
+            <header className={classes.HiddenElement}>
+              <h1>Donut Chart for Lectures on specific Subjects / Branches.</h1>
+            </header>
             <div className={classes.DonutChartSingle}>
               <p>Videos</p>
               {videoBox}
@@ -116,7 +134,7 @@ class Dashboard extends PureComponent {
               <p>Papers</p>
               {paperBox}
             </div>
-          </div>
+          </section>
         </div>
       </div>
     );
@@ -127,7 +145,7 @@ const mapStateToProps = (state) => {
   return {
     teacherToken: state.auth.teacherToken,
     studentToken: state.auth.studentToken,
-    branch: state.profile.data,
+    userData: state.profile.data,
     data: state.dashboard.data,
     error: state.dashboard.error,
     videoData: state.dashboard.videoData,
@@ -161,6 +179,9 @@ const mapDispatchToProps = (dispatch) => {
     onStudents: (token, url) => {
       dispatch(actionCreators.dashboardStudents(token, url));
     },
+    // onGetProfile: (token, url) => {
+    //   dispatch(actionProfileCreators.loadProfile(token, url));
+    // },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

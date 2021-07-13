@@ -50,6 +50,7 @@ export const loadProfile = (token, url) => {
       });
       const resData = await res.json();
       dispatch(loadProfileSuccess(resData.data));
+      console.log(resData.data);
     } catch (err) {
       dispatch(loadProfileFail(err));
     }

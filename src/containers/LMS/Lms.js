@@ -41,11 +41,12 @@ class LMS extends PureComponent {
     }
     return (
       <div className={classes.LMS}>
-        {error ? <ErrorModal error>Branches not Fetched. Reload Page!</ErrorModal> : null}
+        {error ? (
+          <ErrorModal error>Branches not Fetched. Reload Page!</ErrorModal>
+        ) : null}
         <TopBar />
         <Navigation />
         <Layout>
-          {/****************************************/}
           <Route
             path={path + "dashboard"}
             exact

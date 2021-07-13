@@ -6,6 +6,9 @@ const Navigation = () => {
   return (
     <React.Fragment>
       <aside className={classes.Sidebar}>
+        <header className={classes.HiddenElement}>
+          <h1>SideBar Navigation</h1>
+        </header>
         <ul>
           <NavItems />
         </ul>

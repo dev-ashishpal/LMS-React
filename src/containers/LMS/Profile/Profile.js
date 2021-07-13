@@ -112,6 +112,7 @@ class Profile extends PureComponent {
 
   componentDidMount() {
     // localStorage.setItem('URL',window.location.pathname);
+
     const updatedUserForm = { ...this.state.userForm };
     const name = { ...updatedUserForm.name };
     const email = { ...updatedUserForm.email };
@@ -327,6 +328,9 @@ const mapDispatchToProps = (dispatch) => {
     onSubmit: (profileData, token, url) => {
       dispatch(actionCreators.postProfile(profileData, token, url));
     },
+    // onGetProfile: (token, url) => {
+    //   dispatch(actionCreators.loadProfile(token, url))
+    // }
   };
 };
 

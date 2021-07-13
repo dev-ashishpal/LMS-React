@@ -46,32 +46,35 @@ class StudentLectures extends PureComponent {
           All Lectures
         </StudentLectureNavigation>
         <main className={videoLecturesClass.join(" ")}>
-          <section>
+          <div>
             <SearchBar />
-
-            {subjects.map((subject) => {
-              const lecture = lectures.filter((lec) => lec.subject === subject);
-              return (
-                <div key={subject}>
-                  <h1 className={classes.StudentLectureHeading}>{subject}</h1>
-                  <div className={classes.VideoLecturesDiv}>
-                    {lecture.map((lec) => (
-                      <Lecture
-                        src={lec.video}
-                        img={"http://" + localhost + ":8080/" + lec.image}
-                        title={lec.title}
-                        key={lec._id}
-                        isVideo={true}
-                        date={lec.date}
-                        subject={studentToken ? lec.subject : null}
-                        link={"/student/watch?v=" + lec._id}
-                      />
-                    ))}
+            <section>
+              {subjects.map((subject) => {
+                const lecture = lectures.filter(
+                  (lec) => lec.subject === subject
+                );
+                return (
+                  <div key={subject}>
+                    <h1 className={classes.StudentLectureHeading}>{subject}</h1>
+                    <div className={classes.VideoLecturesDiv}>
+                      {lecture.map((lec) => (
+                        <Lecture
+                          src={lec.video}
+                          img={"http://" + localhost + ":8080/" + lec.image}
+                          title={lec.title}
+                          key={lec._id}
+                          isVideo={true}
+                          date={lec.date}
+                          subject={studentToken ? lec.subject : null}
+                          link={"/student/watch?v=" + lec._id}
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </section>
+                );
+              })}
+            </section>
+          </div>
         </main>
       </Fragment>
     );

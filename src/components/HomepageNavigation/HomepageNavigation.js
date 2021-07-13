@@ -9,7 +9,10 @@ const homepageNavigation = (props) => {
       <div className={classes.Logo}>
         <Logo />
       </div>
-      <NavItems showLoginHandler={props.showLoginHandler} showSignupHandler={props.showSignupHandler} />
+      <NavItems
+        showLoginHandler={props.showLoginHandler}
+        showSignupHandler={props.showSignupHandler}
+      />
     </nav>
   );
 };

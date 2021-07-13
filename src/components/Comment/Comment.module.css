@@ -47,23 +47,24 @@
   }
 }
 
-.UsersCommentHeading {
+.UsersCommentHeader {
   display: grid;
   align-items: center;
   grid-template-columns: minmax(auto, 20rem) 1fr;
 }
 
 @media (max-width: 600px) {
-  .UsersCommentHeading {
+  .UsersCommentHeader {
     align-items: start;
   }
 }
 
-.UsersCommentHeading h4 {
+.UsersCommentHeading {
   max-width: 50rem;
   font-size: 1.5rem;
+  font-weight: 700;
 }
-.UsersCommentHeading span {
+.UsersCommentHeader span {
   color: var(--color-tertiary3);
 }
 .UsersCommentPara {

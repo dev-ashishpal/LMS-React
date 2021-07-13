@@ -55,6 +55,9 @@ class Classmate extends PureComponent {
           }}
         />
         <div className={classes.ClassmateContainer} ref={this.containerRef}>
+          <header className={classes.HiddenElement}>
+            <h1>Classmate Page</h1>
+          </header>
           {classmates}
         </div>
       </div>

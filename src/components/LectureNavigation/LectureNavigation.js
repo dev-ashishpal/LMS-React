@@ -9,6 +9,9 @@ const lectureNavigation = (props) => {
   if (props.teacherToken) {
     navigation = (
       <nav className={classes.LectureNavigation}>
+        <header className={classes.HiddenElement}>
+          <h1>Lecture Navigation (Video/Notes/Papers)</h1>
+        </header>
         <LectureNavigationItem link={"/teacher/lectures/videos"}>
           Video Lecture
         </LectureNavigationItem>
@@ -23,6 +26,9 @@ const lectureNavigation = (props) => {
   } else if (props.studentToken) {
     navigation = (
       <nav className={classes.LectureNavigation}>
+        <header className={classes.HiddenElement}>
+          <h1>Lecture Navigation (Video/Notes/Papers)</h1>
+        </header>
         <LectureNavigationItem
           link={"/student/lectures/videos" + props.location.search}
         >

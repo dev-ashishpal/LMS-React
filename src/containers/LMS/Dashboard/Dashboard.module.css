@@ -77,13 +77,16 @@
   background-color: var(--color-tertiary4);
 }
 
-.Box h1 {
+.Box header span {
   font-weight: 300;
   font-size: 7rem;
+  display: block;
+  text-align: center;
 }
 
-.Box span {
+.Box header h1 {
   font-size: 1.6rem;
+  font-weight: 400;
 }
 
 .Chart {
@@ -206,4 +209,16 @@
     opacity: 1;
     transform: translateX(0px);
   }
+}
+
+.HiddenElement {
+  border: 0;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }

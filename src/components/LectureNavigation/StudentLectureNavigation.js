@@ -6,9 +6,15 @@ import { connect } from "react-redux";
 const studentLectureNavigation = (props) => {
   return (
     <aside className={classes.LectureSidebar}>
+      <header className={classes.HiddenElement}>
+        <h1>Lecture Sidebar</h1>
+      </header>
       <div>
-        <h2 className={classes.LectureSidebarHeading}>{props.children}</h2>
+        <p className={classes.LectureSidebarHeading}>{props.children}</p>
         <nav className={classes.LectureNavigation}>
+          <header className={classes.HiddenElement}>
+            <h1>Lecture Sidebar Navigation List</h1>
+          </header>
           {props.branches.map((branch) => (
             <LectureNavigationItem key={branch} link={"/student/lectures/videos?subject=" + branch}>
                 {branch}

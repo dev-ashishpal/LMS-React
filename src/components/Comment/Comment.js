@@ -3,13 +3,13 @@ import classes from "./Comment.module.css";
 import sprite from "../../assets/svg/sprite.svg";
 
 const comment = (props) => (
-  <article className={classes.UsersComment}>
+  <div className={classes.UsersComment}>
     <figure className={classes.UsersCommentImg}>
       <img src={props.userImage} alt="user_image" />
     </figure>
     <div className={classes.UsersCommentDetail}>
-      <div className={classes.UsersCommentHeading}>
-        <h4>{props.userName}</h4>
+      <div className={classes.UsersCommentHeader}>
+        <p className={classes.UsersCommentHeading}>{props.userName}</p>
         <span>{props.date}</span>
       </div>
       <div className={classes.UsersCommentPara}>
@@ -21,7 +21,7 @@ const comment = (props) => (
         <use href={sprite + "#icon-dots-three-horizontal"}></use>
       </svg>
     ) : null}
-  </article>
+  </div>
 );
 
 export default comment;

@@ -192,7 +192,10 @@ class StreamLecture extends PureComponent {
               </span>
             </div>
 
-            <div className={classes.StreamContainerDesc}>
+            <section className={classes.StreamContainerDesc}>
+              <header className={classes.HiddenElement}>
+                <h1>Description</h1>
+              </header>
               <div
                 className={classes.StreamContainerDescBox}
                 dangerouslySetInnerHTML={{
@@ -203,7 +206,7 @@ class StreamLecture extends PureComponent {
                   }`,
                 }}
               ></div>
-            </div>
+            </section>
             <div className={classes.CommentBox}>
               <StreamComment
                 localhost={localhost}

@@ -163,21 +163,6 @@ class ChatBox extends PureComponent {
     this.closeGiphyDropdownHandler();
   };
 
-  // observerHandler = () => {
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       if (entries[0].isIntersecting && entries[0].intersectionRatio === 1) {
-  //       }
-  //     },
-  //     {
-  //       root: null,
-  //       rootMargins: "0px",
-  //       threshold: 0.4,
-  //     }
-  //   );
-  //   observer.observe(this.giphyContainerRef.current.lastElementChild);
-  // };
-
   showEmojiDropdownHandler = (e) => {
     this.setState({ showEmojiMenu: true });
     positionMenuDropdown(e, this.menuEmojiDropdownRef);

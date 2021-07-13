@@ -31,39 +31,7 @@ class NotesLectures extends PureComponent {
         "/student/lecture/book" + this.props.location.search
       );
     }
-    // this.observerHandler();
   }
-
-  // observerHandler = () => {
-  //   let page = 1;
-  //   const callback = (entries) => {
-  //     if (entries[0].isIntersecting && entries[0].intersectionRatio === 1) {
-  //       page = page + 1;
-  //       if (this.props.teacherToken) {
-  //         this.props.onPaginateLecture(
-  //           this.props.teacherToken,
-  //           "/teacher/lecture/book",
-  //           page
-  //         );
-  //       } else if (this.props.studentToken) {
-  //         this.props.onPaginateLecture(
-  //           this.props.studentToken,
-  //           "/student/lecture/book" + this.props.location.search,
-  //           page
-  //         );
-  //       }
-  //     }
-  //   };
-  //   const options = {
-  //     root: null,
-  //     rootMargins: "-10px",
-  //     threshold: 1,
-  //   };
-
-  //   const observer = new IntersectionObserver(callback, options);
-  //   observer.observe(this.loadingRef.current);
-  // };
-
 
   render() {
     const { data, error, loading, teacherToken, studentToken } = this.props;
@@ -120,7 +88,6 @@ class NotesLectures extends PureComponent {
             {notes}
           </div>
           <div ref={this.loadingRef}>&nbsp;</div>
-          {/* {paginateLoading} */}
         </section>
         {addLectureModal}
       </React.Fragment>
@@ -132,7 +99,6 @@ const mapStateToProps = (state) => {
   return {
     data: state.notesLec.data,
     loading: state.notesLec.loading,
-    // paginateLoading: state.notesLec.paginateLoading,
     error: state.notesLec.error,
     show: state.notesLec.show,
     teacherToken: state.auth.teacherToken,
@@ -145,9 +111,6 @@ const mapDispatchToProps = (dispatch) => {
     onLoadLecture: (token, url, page) => {
       dispatch(actionCreators.loadNotesLec(token, url, page));
     },
-    // onPaginateLecture: (token, url, page) => {
-    //   dispatch(actionCreators.paginateNotesLec(token, url, page));
-    // },
     onDeleteLecture: (_id, prevData, token) => {
       dispatch(actionCreators.deleteNotesLec(_id, prevData, token));
     },

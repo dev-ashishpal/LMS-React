@@ -36,7 +36,7 @@ const card = (props) => {
         </h1>
         <div className={classes.CardPara}>
           <p className={classes.Roll}>Roll</p>
-          <h2 className={classes.RollValue}>{props.roll}</h2>
+          <p className={classes.RollValue}>{props.roll}</p>
         </div>
       </div>
       <div className={backSideClass.join(" ")}>
