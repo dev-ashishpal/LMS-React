@@ -50,7 +50,6 @@ export const loadProfile = (token, url) => {
       });
       const resData = await res.json();
       dispatch(loadProfileSuccess(resData.data));
-      console.log(resData.data);
     } catch (err) {
       dispatch(loadProfileFail(err));
     }
@@ -77,7 +76,6 @@ export const postProfile = (profileData, token, url) => {
       }
       caughtError(dispatch, sentProfile, resData);
       dispatch(loadProfile(token, url));
-
     } catch (err) {
       caughtError(dispatch, loadProfileFail, err);
     }

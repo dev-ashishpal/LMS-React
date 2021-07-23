@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import classes from "./DonutGraph.module.css";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
+import PropTypes from "prop-types";
 
 const COLORS = ["#00CED1", "#55c57a", "#ff6932"];
 
@@ -41,5 +42,9 @@ class DonutGraph extends PureComponent {
     );
   }
 }
+
+DonutGraph.propTypes = {
+  data: PropTypes.object,
+};
 
 export default DonutGraph;

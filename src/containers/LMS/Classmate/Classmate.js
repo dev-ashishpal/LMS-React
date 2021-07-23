@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import { advanceSearch } from "../../../util/search";
 import SearchBar from "../../../components/UI/SearchBar/SearchBar";
+import PropTypes from "prop-types";
 
 class Classmate extends PureComponent {
   constructor(props) {
@@ -30,7 +31,7 @@ class Classmate extends PureComponent {
           <Card
             img={classmate.image}
             name={classmate.name}
-            roll={classmate.roll}
+            roll={+classmate.roll} // "+" for converting to number
             email={classmate.email}
             github={classmate.github}
             linkedin={classmate.linkedin}
@@ -79,6 +80,14 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreators.getClassmate(token, branch));
     },
   };
+};
+
+Classmate.propTypes = {
+  studentToken: PropTypes.string,
+  error: PropTypes.string,
+  classmates: PropTypes.array,
+  data: PropTypes.object,
+  onGetClassmates: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Classmate);

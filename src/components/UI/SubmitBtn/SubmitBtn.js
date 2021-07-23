@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./SubmitBtn.module.css";
+import PropTypes from "prop-types";
 
 const submitButton = (props) => (
   <button
@@ -10,5 +11,10 @@ const submitButton = (props) => (
     Submit
   </button>
 );
+
+submitButton.propTypes = {
+  disabled: PropTypes.bool,
+  clicked: PropTypes.func,
+};
 
 export default submitButton;

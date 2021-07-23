@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import DonutGraph from "../../../components/Graphs/DonutGraph/DonutGraph";
 import BarGraph from "../../../components/Graphs/BarGraph/BarGraph";
+import PropTypes from "prop-types";
 
 class Dashboard extends PureComponent {
   componentDidMount() {
@@ -41,12 +42,12 @@ class Dashboard extends PureComponent {
     // BOXES
     if (this.props.data) {
       boxes = this.props.data.map((dt) => (
-          <div className={classes.Box} key={dt.name}>
-            <header>
-              <span>{dt.count}</span>
-              <h2>{dt.name}</h2>
-            </header>
-          </div>
+        <div className={classes.Box} key={dt.name}>
+          <header>
+            <span>{dt.count}</span>
+            <h2>{dt.name}</h2>
+          </header>
+        </div>
       ));
     }
     if (this.props.error) {
@@ -184,4 +185,28 @@ const mapDispatchToProps = (dispatch) => {
     // },
   };
 };
+
+Dashboard.propTypes = {
+  teacherToken: PropTypes.string,
+  studentToken: PropTypes.string,
+  userData: PropTypes.object,
+  data: PropTypes.array,
+  error: PropTypes.string,
+  videoData: PropTypes.array,
+  videoError: PropTypes.string,
+  paperData: PropTypes.array,
+  paperError: PropTypes.string,
+  notesData: PropTypes.array,
+  notesError: PropTypes.string,
+  studentData: PropTypes.array,
+  studentError: PropTypes.string,
+
+  onLoad: PropTypes.func,
+  onStudents: PropTypes.func,
+  onNotification: PropTypes.func,
+  onLoadPaper: PropTypes.func,
+  onLoadNotes: PropTypes.func,
+  onLoadVideo: PropTypes.func,
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

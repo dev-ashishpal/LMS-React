@@ -3,6 +3,7 @@ import classes from "./MessageLog.module.css";
 import { gifGenerator } from "../../../util/linkGenerator";
 import userImage from "../../../assets/images/user.png";
 import { userAgent } from "../../../util/userAgent";
+import PropTypes from "prop-types";
 
 const messageLog = (props) => {
   let userClass = classes.ChatUser2;
@@ -35,6 +36,13 @@ const messageLog = (props) => {
       </p>
     </div>
   );
+};
+
+messageLog.propTypes = {
+  date: PropTypes.string,
+  username: PropTypes.string,
+  image: PropTypes.string,
+  your: PropTypes.bool,
 };
 
 export default messageLog;

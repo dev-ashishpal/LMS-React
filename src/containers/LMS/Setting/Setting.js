@@ -106,19 +106,6 @@ const setting = () => {
             <p>Blue Theme</p>
           </div>
         </div>
-        {/* <h1 className={classes.Heading}>Notification</h1>
-        <div className={classes.NotificationContainer}>
-          this is notification
-        </div> */}
-        {/* <h1 className={classes.Heading}>Delete account</h1>
-        <p className={classes.Paragraph}>
-          By deleting your account all the data like messages, lectures and
-          other information will be lost. Click on the Delete button if you want
-          to completely remove your account
-        </p>
-        <div className={classes.DeleteBtn}>
-          <button>Delete Account</button>
-        </div> */}
       </div>
     </div>
   );

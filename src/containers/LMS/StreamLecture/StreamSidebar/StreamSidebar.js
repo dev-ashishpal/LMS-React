@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import classes from "../StreamLecture.module.css";
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
+import streamComment from "../StreamComment/StreamComment";
 
 const streamSidebar = (props) => {
   const { sideLecData, videoData, streamLink, localhost } = props;
@@ -50,4 +52,12 @@ const mapStateToProps = (state) => {
     sideLecData: state.videoLec.data,
   };
 };
+
+streamComment.propTypes = {
+  sideLecData: PropTypes.array,
+  videoData: PropTypes.object,
+  streamLink: PropTypes.oneOf(["/teacher/", "/student/"]),
+  localhost: PropTypes.string,
+};
+
 export default connect(mapStateToProps)(streamSidebar);

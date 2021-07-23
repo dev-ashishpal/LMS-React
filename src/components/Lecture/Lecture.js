@@ -4,6 +4,7 @@ import sprite from "../../assets/svg/sprite.svg";
 import { Link } from "react-router-dom";
 import { timeSince } from "../../util/timeSince";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 const lecture = (props) => {
   const iconClass = [classes.IconContainer, classes.IconEdit];
@@ -65,6 +66,24 @@ const mapStateToProps = (state) => {
     teacherToken: state.auth.teacherToken,
     studentToken: state.auth.studentToken,
   };
+};
+
+lecture.propTypes = {
+  data: PropTypes.array,
+  error: PropTypes.string,
+  loading: PropTypes.bool,
+  show: PropTypes.bool,
+  isVideo: PropTypes.bool,
+  teacherToken: PropTypes.string,
+  studentToken: PropTypes.string,
+  link: PropTypes.string,
+  img: PropTypes.string,
+  title: PropTypes.string,
+  subject: PropTypes.string,
+  date: PropTypes.string,
+
+  editHandler: PropTypes.func,
+  deleteHandler: PropTypes.func,
 };
 
 export default connect(mapStateToProps)(lecture);

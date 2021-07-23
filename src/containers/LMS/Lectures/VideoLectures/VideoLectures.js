@@ -11,6 +11,7 @@ import { withRouter } from "react-router-dom";
 import * as actionCreators from "./store/actions";
 import { userAgent } from "../../../../util/userAgent";
 import { search } from "../../../../util/search";
+import PropTypes from "prop-types";
 
 class VideoLectures extends PureComponent {
   constructor(props) {
@@ -20,7 +21,6 @@ class VideoLectures extends PureComponent {
   }
 
   componentDidMount() {
-    // localStorage.setItem("URL", window.location.pathname);
     if (this.props.teacherToken) {
       this.props.onLoadLecture(
         this.props.teacherToken,
@@ -102,7 +102,7 @@ class VideoLectures extends PureComponent {
 
     return (
       <React.Fragment>
-        <section ref={this.videoContainerRef} className={classes.VideoLectures}>
+        <section className={classes.VideoLectures}>
           <SearchBar
             onChange={(e) => {
               search(e, this.lectureRef);
@@ -125,8 +125,6 @@ const mapStateToProps = (state) => {
     data: state.videoLec.data,
     error: state.videoLec.error,
     loading: state.videoLec.loading,
-    editing: state.videoLec.editing,
-    editPost: state.videoLec.editPost,
     show: state.videoLec.show,
     isVideo: state.videoLec.isVideo,
     teacherToken: state.auth.teacherToken,
@@ -153,6 +151,24 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
+
+VideoLectures.propTypes = {
+  data: PropTypes.array,
+  error: PropTypes.string,
+  loading: PropTypes.bool,
+  show: PropTypes.bool,
+  isVideo: PropTypes.bool,
+  teacherToken: PropTypes.string,
+  studentToken: PropTypes.string,
+  location: PropTypes.object,
+
+  onLoadLecture: PropTypes.func,
+  onDeleteLecture: PropTypes.func,
+  onEditLecture: PropTypes.func,
+  onShowModal: PropTypes.func,
+  onCloseModal: PropTypes.func,
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

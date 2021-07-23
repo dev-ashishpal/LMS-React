@@ -4,6 +4,7 @@ import ProgressBar from "../../../components/UI/ProgressBar/ProgressBar";
 import { Route, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import LectureNavigation from "../../../components/LectureNavigation/LectureNavigation";
+import PropTypes from "prop-types";
 
 const VideoLectures = React.lazy(() => import("./VideoLectures/VideoLectures"));
 const NotesLectures = React.lazy(() => import("./NotesLectures/NotesLectures"));
@@ -26,7 +27,7 @@ class Lectures extends PureComponent {
 
   render() {
     let path;
-    const {teacherToken, studentToken} = this.props;
+    const { teacherToken, studentToken } = this.props;
 
     if (teacherToken) {
       path = "/teacher/";
@@ -80,4 +81,11 @@ const mapStateToProps = (state) => {
     studentToken: state.auth.studentToken,
   };
 };
+
+Lectures.propTypes = {
+  studentToken: PropTypes.string,
+  teacherToken: PropTypes.string,
+  location: PropTypes.object,
+};
+
 export default connect(mapStateToProps)(withRouter(Lectures));

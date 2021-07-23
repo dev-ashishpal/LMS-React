@@ -4,6 +4,7 @@ import TeacherLogin from "./LoginForm/TeacherLogin/TeacherLogin";
 import TeacherSignup from "./SignupForm/TeacherSignup/TeacherSignup";
 import StudentLogin from "./LoginForm/StudentLogin/StudenLogin";
 import StudentSignup from "./SignupForm/StudentSignup/StudentSignup";
+import PropTypes from "prop-types";
 
 const authForm = (props) => {
   let login, signup;
@@ -45,6 +46,14 @@ const authForm = (props) => {
       ) : null}
     </div>
   );
+};
+
+authForm.propTypes = {
+  studentHandler: PropTypes.func,
+  closed: PropTypes.func,
+  student: PropTypes.bool,
+  showLogin: PropTypes.bool,
+  showSignup: PropTypes.bool,
 };
 
 export default authForm;

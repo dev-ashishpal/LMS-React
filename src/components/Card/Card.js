@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./Card.module.css";
 import img from "../../assets/images/user-300.png";
 import { userAgent } from "../../util/userAgent";
+import PropTypes from "prop-types";
 
 const card = (props) => {
   const frontSideClass = [classes.CardSide, classes.CardSideFront];
@@ -11,7 +12,7 @@ const card = (props) => {
     localhost = "192.168.43.135";
   }
   return (
-    <div className={classes.Card}>
+    <article className={classes.Card}>
       <div className={frontSideClass.join(" ")}>
         <div className={classes.CardPictureContainer}>
           <div
@@ -36,7 +37,9 @@ const card = (props) => {
         </h1>
         <div className={classes.CardPara}>
           <p className={classes.Roll}>Roll</p>
-          <p className={classes.RollValue}>{props.roll}</p>
+          <p data-label="roll" className={classes.RollValue}>
+            {props.roll}
+          </p>
         </div>
       </div>
       <div className={backSideClass.join(" ")}>
@@ -113,8 +116,18 @@ const card = (props) => {
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
+};
+
+card.propTypes = {
+  img: PropTypes.string,
+  name: PropTypes.string,
+  roll: PropTypes.number,
+  email: PropTypes.string,
+  github: PropTypes.string,
+  linkedin: PropTypes.string,
+  portfolio: PropTypes.string,
 };
 
 export default card;

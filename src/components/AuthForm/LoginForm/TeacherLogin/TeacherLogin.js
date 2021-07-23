@@ -6,6 +6,7 @@ import { checkValidity } from "../../../../util/validators";
 import * as actionCreators from "../../../../store/actions/index";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 class TeacherLogin extends Component {
   state = {
@@ -129,6 +130,11 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreators.teacherLogin(data));
     },
   };
+};
+
+TeacherLogin.propTypes = {
+  isTeacherAuthenticated: PropTypes.bool,
+  onSubmit: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TeacherLogin);

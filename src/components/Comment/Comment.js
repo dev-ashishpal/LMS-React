@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./Comment.module.css";
 import sprite from "../../assets/svg/sprite.svg";
+import PropTypes from "prop-types";
 
 const comment = (props) => (
   <div className={classes.UsersComment}>
@@ -23,5 +24,14 @@ const comment = (props) => (
     ) : null}
   </div>
 );
+
+comment.propTypes = {
+  userImage: PropTypes.string,
+  userName: PropTypes.string,
+  date: PropTypes.string,
+  isAdmin: PropTypes.bool,
+
+  deleteBtn: PropTypes.func,
+};
 
 export default comment;

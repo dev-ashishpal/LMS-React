@@ -8,6 +8,7 @@ import * as actionCreators from "../store/actions";
 import Select from "../../../../../components/UI/SelectDropdown/Select";
 import { required } from "../../../../../util/validators";
 import ErrorModal from "../../../../../components/UI/ErrorModal/ErrorModal";
+import PropTypes from "prop-types";
 
 class AddPaperLecture extends PureComponent {
   state = {
@@ -175,6 +176,15 @@ const mapDispatchToProps = (dispatch) => {
     onSubmit: (paperData, token) =>
       dispatch(actionCreators.submitPaperLec(paperData, token)),
   };
+};
+
+AddPaperLecture.propTypes = {
+  loading: PropTypes.bool,
+  error: PropTypes.string,
+  branches: PropTypes.array,
+  teacherToken: PropTypes.string,
+
+  onSubmit: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddPaperLecture);

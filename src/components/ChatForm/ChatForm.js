@@ -2,6 +2,7 @@ import sprite from "../../assets/svg/sprite.svg";
 import React from "react";
 import classes from "./ChatForm.module.css";
 import Input from "../UI/ProfileInput/ProfileInput";
+import PropTypes from "prop-types";
 
 const chatForm = (props) => (
   <form onSubmit={props.onSubmit} className={classes.ChatForm}>
@@ -34,5 +35,16 @@ const chatForm = (props) => (
     </button>
   </form>
 );
+
+chatForm.propTypes = {
+  value: PropTypes.string,
+  formIsValid: PropTypes.bool,
+
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
+  emoji: PropTypes.func,
+  img: PropTypes.func,
+  giphy: PropTypes.func,
+};
 
 export default chatForm;

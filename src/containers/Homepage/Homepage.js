@@ -1,4 +1,4 @@
-import React, {PureComponent, Fragment} from "react";
+import React, { PureComponent, Fragment } from "react";
 import hero from "../../assets/images/bg.jpg";
 import classes from "./Homepage.module.css";
 import Modal from "../../components/UI/Modal/Modal";
@@ -8,6 +8,7 @@ import HomepageNavigation from "../../components/HomepageNavigation/HomepageNavi
 import { connect } from "react-redux";
 import * as actionCreators from "../../store/actions/index";
 import ErrorModal from "../../components/UI/ErrorModal/ErrorModal";
+import PropTypes from "prop-types";
 
 class Homepage extends PureComponent {
   constructor(props) {
@@ -38,9 +39,7 @@ class Homepage extends PureComponent {
 
     return (
       <Fragment>
-        {error ? (
-          <ErrorModal error>{error}</ErrorModal>
-        ) : null}
+        {error ? <ErrorModal error>{error}</ErrorModal> : null}
 
         {auth}
         <div
@@ -103,6 +102,18 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreators.closeModal());
     },
   };
+};
+
+Homepage.propTypes = {
+  isTeacherAuthenticated: PropTypes.bool,
+  isStudentAuthenticated: PropTypes.bool,
+  show: PropTypes.bool,
+  showLogin: PropTypes.bool,
+  showSignup: PropTypes.bool,
+  error: PropTypes.string,
+  onShowLogin: PropTypes.func,
+  onShowSignup: PropTypes.func,
+  onCloseModal: PropTypes.func,
 };
 
 export default connect(mapPropsToState, mapDispatchToProps)(Homepage);

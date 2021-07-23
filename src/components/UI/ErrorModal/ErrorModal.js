@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import classes from "./ErrorModal.module.css";
+import PropTypes from "prop-types";
 
 const errorModal = (props) => {
   let error = (
@@ -11,6 +12,10 @@ const errorModal = (props) => {
     </div>
   );
   return <Fragment>{error}</Fragment>;
+};
+
+errorModal.propTypes = {
+  error: PropTypes.string,
 };
 
 export default errorModal;

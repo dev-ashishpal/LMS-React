@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./ChatList.module.css";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 const chatList = (props) => {
   let path;
@@ -44,6 +45,12 @@ const mapStateToProps = (state) => {
     teacherToken: state.auth.teacherToken,
     studentToken: state.auth.studentToken,
   };
+};
+
+chatList.propTypes = {
+  teacherToken: PropTypes.string,
+  studentToken: PropTypes.string,
+  link: PropTypes.string,
 };
 
 export default connect(mapStateToProps)(chatList);

@@ -12,6 +12,7 @@ import { withRouter } from "react-router-dom";
 import SkeletonLecture from "../../../../components/Lecture/Skeleton/SkeletonLecture";
 import { userAgent } from "../../../../util/userAgent";
 import { search } from "../../../../util/search";
+import PropTypes from "prop-types";
 
 class NotesLectures extends PureComponent {
   constructor(props) {
@@ -121,6 +122,21 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreators.showModal());
     },
   };
+};
+
+NotesLectures.propTypes = {
+  data: PropTypes.array,
+  error: PropTypes.string,
+  loading: PropTypes.bool,
+  show: PropTypes.bool,
+  teacherToken: PropTypes.string,
+  studentToken: PropTypes.string,
+  location: PropTypes.object,
+
+  onLoadLecture: PropTypes.func,
+  onDeleteLecture: PropTypes.func,
+  onShowModal: PropTypes.func,
+  onCloseModal: PropTypes.func,
 };
 
 export default connect(

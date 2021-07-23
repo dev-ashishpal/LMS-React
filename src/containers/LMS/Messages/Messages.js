@@ -4,10 +4,11 @@ import classes from "./Messages.module.css";
 import ChatList from "../../../components/ChatList/ChatList";
 import Empty from "./Empty/Empty";
 import ChatBox from "./ChatBox/ChatBox";
-import { Route, Switch, withRouter } from "react-router";
+import { Route, Switch, withRouter } from "react-router-dom";
 import * as actionCreators from "./store/actions";
 import { connect } from "react-redux";
 import { search } from "../../../util/search";
+import PropTypes from "prop-types";
 
 class Messages extends PureComponent {
   constructor(props) {
@@ -107,7 +108,6 @@ const mapStateToProps = (state) => {
     branches: state.message.branches,
     teacherToken: state.auth.teacherToken,
     studentToken: state.auth.studentToken,
-    newMessage: state.message.newMessage,
   };
 };
 
@@ -117,6 +117,14 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreators.loadBranches(token, url));
     },
   };
+};
+
+Messages.propTypes = {
+  branches: PropTypes.array,
+  teacherToken: PropTypes.string,
+  studentToken: PropTypes.string,
+
+  initBranches: PropTypes.func,
 };
 
 export default connect(

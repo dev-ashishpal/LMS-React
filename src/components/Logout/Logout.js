@@ -4,6 +4,7 @@ import Modal from "../UI/Modal/Modal";
 import SubmitButton from "../UI/SubmitBtn/SubmitBtn";
 import * as actionCreators from "../../store/actions/auth";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 class Logout extends React.Component {
   onLogoutHandler = () => {
@@ -39,6 +40,14 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreators.studentLogout());
     },
   };
+};
+
+Logout.propTypes = {
+  show: PropTypes.bool,
+
+  clicked: PropTypes.func,
+  onTeacherLogout: PropTypes.func,
+  onStudentLogout: PropTypes.func,
 };
 
 export default connect(null, mapDispatchToProps)(Logout);

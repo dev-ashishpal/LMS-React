@@ -3,10 +3,10 @@ import classes from "./Lectures.module.css";
 import { connect } from "react-redux";
 import StudentLectureNavigation from "../../../components/LectureNavigation/StudentLectureNavigation";
 import * as actionCreators from "../../../store/actions/lecture";
-import SearchBar from "../../../components/UI/SearchBar/SearchBar";
 import Lecture from "../../../components/Lecture/Lecture";
 import { userAgent } from "../../../util/userAgent";
 import ErrorModal from "../../../components/UI/ErrorModal/ErrorModal";
+import PropTypes from "prop-types";
 
 class StudentLectures extends PureComponent {
   componentDidMount() {
@@ -47,7 +47,6 @@ class StudentLectures extends PureComponent {
         </StudentLectureNavigation>
         <main className={videoLecturesClass.join(" ")}>
           <div>
-            <SearchBar />
             <section>
               {subjects.map((subject) => {
                 const lecture = lectures.filter(
@@ -96,6 +95,15 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreators.studentVideos(token));
     },
   };
+};
+
+StudentLectures.propTypes = {
+  branches: PropTypes.array,
+  studentToken: PropTypes.string,
+  data: PropTypes.object,
+  error: PropTypes.string,
+
+  onLoad: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StudentLectures);

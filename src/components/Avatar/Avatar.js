@@ -4,6 +4,7 @@ import classes from "./Avatar.module.css";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { userAgent } from "../../util/userAgent";
+import PropTypes from "prop-types";
 
 const avatar = (props) => {
   const { userData, isTeacherAuthenticated } = props;
@@ -37,6 +38,12 @@ const mapStateToProps = (state) => {
     isStudentAuthenticated: state.auth.studentToken !== null,
     userData: state.profile.data,
   };
+};
+
+avatar.propTypes = {
+  isTeacherAuthenticated: PropTypes.bool,
+  isStudentAuthenticated: PropTypes.bool,
+  userData: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(avatar);

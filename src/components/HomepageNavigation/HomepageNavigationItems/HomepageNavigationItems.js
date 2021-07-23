@@ -1,6 +1,7 @@
 import classes from "./HomepageNavigationItems.module.css";
 import React from "react";
 import NavItem from "./HomepageNavigationItem/HomepageNavigationItem";
+import PropTypes from "prop-types";
 
 const homepageNavigationItems = (props) => {
   return (
@@ -23,4 +24,10 @@ const homepageNavigationItems = (props) => {
     </ul>
   );
 };
+
+homepageNavigationItems.propTypes = {
+  showLoginHandler: PropTypes.func,
+  showSignupHandler: PropTypes.func,
+};
+
 export default homepageNavigationItems;

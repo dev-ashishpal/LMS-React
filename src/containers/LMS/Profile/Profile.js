@@ -10,6 +10,7 @@ import * as actionCreators from "./store/actions";
 import { generateBase64FromImage } from "../../../util/imagePreview";
 import { userAgent } from "../../../util/userAgent";
 import ErrorModal from "../../../components/UI/ErrorModal/ErrorModal";
+import PropTypes from "prop-types";
 
 class Profile extends PureComponent {
   constructor(props) {
@@ -332,6 +333,16 @@ const mapDispatchToProps = (dispatch) => {
     //   dispatch(actionCreators.loadProfile(token, url))
     // }
   };
+};
+
+Profile.propTypes = {
+  teacherToken: PropTypes.string,
+  studentToken: PropTypes.string,
+  data: PropTypes.object,
+  error: PropTypes.string,
+  sent: PropTypes.string,
+
+  onSubmit: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

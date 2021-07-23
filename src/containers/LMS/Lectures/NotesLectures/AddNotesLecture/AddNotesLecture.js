@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import Select from "../../../../../components/UI/SelectDropdown/Select";
 import { required } from "../../../../../util/validators";
 import ErrorModal from "../../../../../components/UI/ErrorModal/ErrorModal";
+import PropTypes from "prop-types";
 
 class AddNotesLecture extends PureComponent {
   state = {
@@ -166,6 +167,14 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreators.submitNotesLec(notesData, token));
     },
   };
+};
+
+AddNotesLecture.propTypes = {
+  error: PropTypes.string,
+  branches: PropTypes.array,
+  teacherToken: PropTypes.string,
+
+  onSubmit: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddNotesLecture);

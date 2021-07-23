@@ -15,6 +15,7 @@ import {
   REACT_APP_DEVELOPER_KEY,
 } from "../../../../../util/env";
 import ErrorModal from "../../../../../components/UI/ErrorModal/ErrorModal";
+import PropTypes from "prop-types";
 
 class AddVideoLecture extends PureComponent {
   state = {
@@ -363,6 +364,19 @@ const mapDispatchToProps = (dispatch) => {
       );
     },
   };
+};
+
+AddVideoLecture.propTypes = {
+  editing: PropTypes.bool,
+  selectedPost: PropTypes.object,
+  data: PropTypes.array,
+  loading: PropTypes.bool,
+  error: PropTypes.string,
+  teacherToken: PropTypes.string,
+  branches: PropTypes.array,
+
+  onCloseModal: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddVideoLecture);

@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./SearchBar.module.css";
 import sprite from "../../../assets/svg/sprite.svg";
+import PropTypes from "prop-types";
 
 const searchBar = (props) => (
   <section className={classes.SearchBar}>
@@ -26,5 +27,9 @@ const searchBar = (props) => (
     </form>
   </section>
 );
+
+searchBar.propTypes = {
+  onChange: PropTypes.func,
+};
 
 export default searchBar;

@@ -1,8 +1,9 @@
 import React from "react";
 import classes from "./NavItem.module.css";
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
-const NavItem = (props) => {
+const navItem = (props) => {
   return (
     <li className={classes.NavItem}>
       <NavLink activeClassName={classes.active} to={props.link}>
@@ -10,9 +11,6 @@ const NavItem = (props) => {
           <svg>
             <use href={props.icon}></use>
           </svg>
-          {props.messages ? (
-            <span className={classes.NewMessage}>&nbsp;</span>
-          ) : null}
         </div>
         <span>{props.children}</span>
       </NavLink>
@@ -20,4 +18,9 @@ const NavItem = (props) => {
   );
 };
 
-export default NavItem;
+navItem.propTypes = {
+  link: PropTypes.string,
+  icon: PropTypes.string,
+};
+
+export default navItem;

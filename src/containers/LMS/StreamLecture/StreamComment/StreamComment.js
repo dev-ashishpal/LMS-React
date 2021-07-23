@@ -1,10 +1,17 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import classes from "../StreamLecture.module.css";
 import TextInput from "../../../../components/UI/Input/TextInput/TextInput";
-
+import PropTypes from "prop-types";
 
 const streamComment = (props) => {
-  const {localhost, userData,comment, formIsValid, onChange, onSubmit} = props;
+  const {
+    localhost,
+    userData,
+    comment,
+    formIsValid,
+    onChange,
+    onSubmit,
+  } = props;
   return (
     <Fragment>
       <h1 className={classes.CommentBoxHeading}>Comments</h1>
@@ -15,10 +22,7 @@ const streamComment = (props) => {
             alt="your profile Pic"
           />
         </figure>
-        <form
-          onSubmit={onSubmit}
-          className={classes.CommentForm}
-        >
+        <form onSubmit={onSubmit} className={classes.CommentForm}>
           <label htmlFor="add-comment" hidden>
             Add New Comment
           </label>
@@ -40,7 +44,17 @@ const streamComment = (props) => {
         </form>
       </div>
     </Fragment>
-  )
-}
+  );
+};
+
+streamComment.propTypes = {
+  formIsValid: PropTypes.bool,
+  comment: PropTypes.object,
+  userData: PropTypes.object,
+  localhost: PropTypes.string,
+
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+};
 
 export default streamComment;

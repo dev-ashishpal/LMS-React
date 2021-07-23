@@ -3,7 +3,7 @@ import { updateObject } from "../utility";
 
 const initialState = {
   branches: [],
-  data: [],
+  data: {},
   error: null,
   loading: false,
 };

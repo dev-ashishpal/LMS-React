@@ -2,6 +2,7 @@ import React from "react";
 import NavItem from "./NavigationItem/NavItem";
 import sprite from "../../../assets/svg/sprite.svg";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 const navItems = (props) => {
   let items;
@@ -45,8 +46,12 @@ const mapStateToProps = (state) => {
   return {
     isTeacherAuthenticated: state.auth.teacherToken !== null,
     isStudentAuthenticated: state.auth.studentToken !== null,
-    newMessage: state.message.newMessage,
   };
+};
+
+navItems.propTypes = {
+  isTeacherAuthenticated: PropTypes.bool,
+  isStudentAuthenticated: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(navItems);

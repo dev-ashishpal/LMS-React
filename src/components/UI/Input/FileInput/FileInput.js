@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./FileInput.module.css";
 import sprite from "../../../../assets/svg/sprite.svg";
 import img from "../../../../assets/images/maths3.jpg";
+import PropTypes from "prop-types";
 
 const fileInput = (props) => {
   let preview;
@@ -38,6 +39,20 @@ const fileInput = (props) => {
       </div>
     </div>
   );
+};
+
+fileInput.propTypes = {
+  inputtype: PropTypes.oneOf(["image", "video", "pdf"]),
+  src: PropTypes.string,
+  alt: PropTypes.string,
+  subtext: PropTypes.string,
+  type: PropTypes.string,
+  label: PropTypes.string,
+  accept: PropTypes.oneOf(["image/*"]),
+  preview: PropTypes.bool,
+  icon: PropTypes.string,
+
+  changed: PropTypes.func,
 };
 
 export default fileInput;

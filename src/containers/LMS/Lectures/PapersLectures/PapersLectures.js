@@ -12,6 +12,7 @@ import * as actionCreators from "./store/actions";
 import SkeletonLecture from "../../../../components/Lecture/Skeleton/SkeletonLecture";
 import { userAgent } from "../../../../util/userAgent";
 import { search } from "../../../../util/search";
+import PropTypes from "prop-types";
 
 class PapersLectures extends PureComponent {
   constructor(props) {
@@ -118,6 +119,21 @@ const mapDispatchToProps = (dispatch) => {
     onCloseModal: () => dispatch(actionCreators.closeModal()),
     onShowModal: () => dispatch(actionCreators.showModal()),
   };
+};
+
+PapersLectures.propTypes = {
+  data: PropTypes.array,
+  error: PropTypes.string,
+  loading: PropTypes.bool,
+  show: PropTypes.bool,
+  teacherToken: PropTypes.string,
+  studentToken: PropTypes.string,
+  location: PropTypes.object,
+
+  onLoadLecture: PropTypes.func,
+  onDeleteLecture: PropTypes.func,
+  onShowModal: PropTypes.func,
+  onCloseModal: PropTypes.func,
 };
 
 export default connect(

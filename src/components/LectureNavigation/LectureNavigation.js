@@ -3,6 +3,7 @@ import classes from "./LectureNavigation.module.css";
 import LectureNavigationItem from "./LectureNavigationItem/LectureNavigationItem";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const lectureNavigation = (props) => {
   let navigation;
@@ -63,6 +64,12 @@ const mapStateToProps = (state) => {
     teacherToken: state.auth.teacherToken,
     studentToken: state.auth.studentToken,
   };
+};
+
+lectureNavigation.propTypes = {
+  studentToken: PropTypes.string,
+  teacherToken: PropTypes.string,
+  location: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(withRouter(lectureNavigation));

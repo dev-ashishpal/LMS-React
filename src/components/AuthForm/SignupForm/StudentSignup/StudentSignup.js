@@ -6,6 +6,7 @@ import Select from "../../../UI/SelectDropdown/Select";
 import { checkValidity } from "../../../../util/validators";
 import { connect } from "react-redux";
 import * as actionCreators from "../../../../store/actions/index";
+import PropTypes from "prop-types";
 
 class StudentSignup extends Component {
   state = {
@@ -211,6 +212,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreators.studentSignup(data));
     },
   };
+};
+
+StudentSignup.propTypes = {
+  onSubmit: PropTypes.func,
 };
 
 export default connect(null, mapDispatchToProps)(StudentSignup);

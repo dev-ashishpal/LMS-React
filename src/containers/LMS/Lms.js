@@ -10,6 +10,7 @@ import * as actionProfile from "./Profile/store/actions";
 import { connect } from "react-redux";
 import { generateUniqueID } from "../../util/generateRandomId";
 import ErrorModal from "../../components/UI/ErrorModal/ErrorModal";
+import PropTypes from "prop-types";
 
 const Dashboard = React.lazy(() => import("./Dashboard/Dashboard"));
 const Lectures = React.lazy(() => import("./Lectures/Lectures"));
@@ -201,7 +202,6 @@ const mapStateToProps = (state) => {
   return {
     teacherToken: state.auth.teacherToken,
     studentToken: state.auth.studentToken,
-    userData: state.profile.data,
     error: state.lec.error,
   };
 };
@@ -215,6 +215,14 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionProfile.loadProfile(token, url));
     },
   };
+};
+
+LMS.propTypes = {
+  teacherToken: PropTypes.string,
+  studentToken: PropTypes.string,
+  error: PropTypes.string,
+  getBranches: PropTypes.func,
+  onProfileLoad: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LMS);

@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./Select.module.css";
 import Option from "./Option/Option";
+import PropTypes from "prop-types";
 
 class Select extends React.Component {
   state = {
@@ -54,5 +55,13 @@ class Select extends React.Component {
     );
   }
 }
+
+Select.propTypes = {
+  selectType: PropTypes.oneOf(['radio','checkbox']),
+  data: PropTypes.array,
+  list: PropTypes.array,
+
+  changed: PropTypes.func,
+};
 
 export default Select;

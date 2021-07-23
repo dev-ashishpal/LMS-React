@@ -17,6 +17,7 @@ import { positionMenuDropdown } from "../../../util/menuDropdown";
 import ErrorModal from "../../../components/UI/ErrorModal/ErrorModal";
 import StreamSidebar from "./StreamSidebar/StreamSidebar";
 import StreamComment from "./StreamComment/StreamComment";
+import PropTypes from "prop-types";
 
 class StreamLecture extends PureComponent {
   constructor(props) {
@@ -286,6 +287,30 @@ const mapDispatchToProps = (dispatch) => {
     //   dispatch(actionCreatorsVideo.loadVidLec(token, url));
     // },
   };
+};
+
+StreamLecture.propTypes = {
+  data: PropTypes.object,
+  loading: PropTypes.bool,
+  error: PropTypes.string,
+
+  teacherToken: PropTypes.string,
+  studentToken: PropTypes.string,
+  userData: PropTypes.object,
+
+  commentData: PropTypes.array,
+  commentLoading: PropTypes.bool,
+  commentError: PropTypes.string,
+
+  submitCmtError: PropTypes.string,
+  deleteCmtError: PropTypes.string,
+  location: PropTypes.object,
+
+  onLoad: PropTypes.func,
+  onPostComment: PropTypes.func,
+  onLoadComment: PropTypes.func,
+  onAddComment: PropTypes.func,
+  onDeleteComment: PropTypes.func,
 };
 
 export default connect(

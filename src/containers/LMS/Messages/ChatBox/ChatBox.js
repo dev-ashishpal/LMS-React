@@ -14,6 +14,7 @@ import { positionMenuDropdown } from "../../../../util/menuDropdown";
 import Spinner from "../../../../components/UI/Spinner/Spinner";
 import { userAgent } from "../../../../util/userAgent";
 import ErrorModal from "../../../../components/UI/ErrorModal/ErrorModal";
+import PropTypes from "prop-types";
 
 class ChatBox extends PureComponent {
   constructor(props) {
@@ -159,7 +160,7 @@ class ChatBox extends PureComponent {
   onSubmitGiphy = (msg) => {
     const updatedMessage = { ...this.state.message };
     updatedMessage.value = msg;
-    this.setState({ message: updatedMessage });
+    this.setState({ message: updatedMessage, formIsValid: true });
     this.closeGiphyDropdownHandler();
   };
 
@@ -188,7 +189,7 @@ class ChatBox extends PureComponent {
     this.setState((prevState) => {
       const updatedMessage = { ...prevState.message };
       updatedMessage.value = `${prevState.message.value} ${value}`;
-      return { message: updatedMessage };
+      return { message: updatedMessage, formIsValid: true };
     });
   };
 
@@ -374,6 +375,29 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreators.addMessage(data));
     },
   };
+};
+
+ChatBox.propTypes = {
+  teacherToken: PropTypes.string,
+  studentToken: PropTypes.string,
+  userData: PropTypes.object,
+
+  giphyData: PropTypes.object,
+  giphyLoading: PropTypes.bool,
+  giphyError: PropTypes.string,
+
+  messages: PropTypes.array,
+  msgLoading: PropTypes.bool,
+  msgError: PropTypes.string,
+  submitError: PropTypes.string,
+
+  location: PropTypes.object,
+
+  onPostingMessage: PropTypes.func,
+  onPostingImg: PropTypes.func,
+  onGetGiphy: PropTypes.func,
+  onGetMessage: PropTypes.func,
+  onAddMessage: PropTypes.func,
 };
 
 export default connect(
